@@ -1,4 +1,4 @@
-package br.unb.cic.corretor.gui;
+package log;
 
 /**
  * Classe que é utilizada para armazenar as constantes que serão chamadas no
@@ -7,5 +7,9 @@ package br.unb.cic.corretor.gui;
  *
  */
 public class Constantes {
+    
+    public static final String ET_DIR = "Diret\u00f3rio Inv\u00e1lido!";
+    public static final String E_DIR = "O diret\u00f3rio informado n\u00e3o " +
+            "\u00e9 v\u00e1lido,\n pois n\u00e3o cont\u00e9m os .pas!";
 
 }
