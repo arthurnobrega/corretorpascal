@@ -1,4 +1,4 @@
-package br.unb.cic.corretor.gui;
+package src;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,9 +1,12 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import log.TestaCorrecao;
+import log.Constantes;
 
 /**
  *
@@ -35,6 +38,7 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("FileChooser.detailsViewButtonToolTipText", "Detalhes");
         UIManager.put("FileChooser.listViewButtonToolTipText", "Lista");
         UIManager.put("FileChooser.upFolderToolTipText", "Um nível acima");
+        UIManager.put("FileChooser.newFolderToolTipText", "Criar nova pasta");
     }
     
     /** This method is called from within the constructor to
@@ -90,7 +94,7 @@ public class Principal extends javax.swing.JFrame {
         barraMenu.add(menuArquivo);
 
         menuFerramentas.setText("Ferramentas");
-        itemEntradas.setText("Editar Entradas");
+        itemEntradas.setText("Entradas e Gabaritos");
         itemEntradas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemEntradasActionPerformed(evt);
@@ -100,18 +104,36 @@ public class Principal extends javax.swing.JFrame {
         menuFerramentas.add(itemEntradas);
 
         itemAnotacoes.setText("Anota\u00e7\u00f5es");
+        itemAnotacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAnotacoesActionPerformed(evt);
+            }
+        });
+
         menuFerramentas.add(itemAnotacoes);
 
-        itemRelatorio.setText("Gerar Relat\u00f3rio de Anota\u00e7\u00f5es");
+        itemRelatorio.setText("Relat\u00f3rio de Anota\u00e7\u00f5es");
         menuFerramentas.add(itemRelatorio);
 
         barraMenu.add(menuFerramentas);
 
         menuAjuda.setText("Ajuda");
         itemAjuda.setText("Conte\u00fados de Ajuda");
+        itemAjuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAjudaActionPerformed(evt);
+            }
+        });
+
         menuAjuda.add(itemAjuda);
 
         itemSobre.setText("Sobre");
+        itemSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSobreActionPerformed(evt);
+            }
+        });
+
         menuAjuda.add(itemSobre);
 
         barraMenu.add(menuAjuda);
@@ -131,6 +153,21 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
+        Ajuda ajuda = new Ajuda(this, true);
+        ajuda.setVisible(true);
+    }//GEN-LAST:event_itemAjudaActionPerformed
+
+    private void itemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSobreActionPerformed
+        Sobre sobre = new Sobre(this, true);
+        sobre.setVisible(true);
+    }//GEN-LAST:event_itemSobreActionPerformed
+
+    private void itemAnotacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnotacoesActionPerformed
+        Anotacoes anot = new Anotacoes(this, true);
+        anot.setVisible(true);
+    }//GEN-LAST:event_itemAnotacoesActionPerformed
+
     private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -145,6 +182,12 @@ public class Principal extends javax.swing.JFrame {
         fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
         File diretorio = fc.getSelectedFile();
+        try {
+            TestaCorrecao tc = new TestaCorrecao(diretorio);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_itemNovaActionPerformed
 
     private void itemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSairActionPerformed
@@ -152,7 +195,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSairActionPerformed
 
     private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
-// TODO adicione seu código de manipulação aqui:
+        Entradas ent = new Entradas(this, true);
+        ent.setVisible(true);
     }//GEN-LAST:event_itemEntradasActionPerformed
     
     /**

@@ -42,7 +42,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemEntradas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Editar Entradas"/>
+                <Property name="text" type="java.lang.String" value="Entradas e Gabaritos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemEntradasActionPerformed"/>
@@ -52,10 +52,13 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Anota&#xe7;&#xf5;es"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAnotacoesActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemRelatorio">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Gerar Relat&#xf3;rio de Anota&#xe7;&#xf5;es"/>
+                <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Anota&#xe7;&#xf5;es"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -69,11 +72,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Conte&#xfa;dos de Ajuda"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAjudaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSobre">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sobre"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSobreActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
