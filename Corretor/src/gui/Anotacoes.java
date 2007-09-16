@@ -45,7 +45,6 @@ public class Anotacoes extends javax.swing.JDialog {
         jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
-        jTextArea1.setText("O diret\u00f3rio informado n\u00e3o \u00e9 v\u00e1lido, pois n\u00e3o cont\u00e9m os .pas!");
         jTextArea1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea1);
 
