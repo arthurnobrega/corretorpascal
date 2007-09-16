@@ -184,6 +184,9 @@ public class Principal extends javax.swing.JFrame {
         File diretorio = fc.getSelectedFile();
         try {
             TestaCorrecao tc = new TestaCorrecao(diretorio);
+            this.getContentPane().setVisible(false);
+            this.setContentPane(new PainelLista());
+            this.getContentPane().setVisible(true);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);

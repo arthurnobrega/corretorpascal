@@ -74,7 +74,6 @@
             <Property name="columns" type="int" value="20"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="O diret&#xf3;rio informado n&#xe3;o &#xe9; v&#xe1;lido, pois n&#xe3;o cont&#xe9;m os .pas!"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>
