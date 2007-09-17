@@ -26,8 +26,10 @@ public class TestaCorrecao {
         this.diretorio = diretorio;
         testarPas();
         Correcao cor = new Correcao(diretorio);
+        
         try {
             cor.criarDiretorios();
+            cor.compilarFontes();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

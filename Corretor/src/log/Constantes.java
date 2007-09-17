@@ -11,5 +11,7 @@ public class Constantes {
     public static final String ET_DIR = "Diret\u00f3rio Inv\u00e1lido!";
     public static final String E_DIR = "O diret\u00f3rio informado n\u00e3o " +
             "\u00e9 v\u00e1lido,\n pois n\u00e3o cont\u00e9m os .pas!";
+    
+    public static final String E_COMPILACAO = "ERRO DE COMPILAÇÃO";
 
 }

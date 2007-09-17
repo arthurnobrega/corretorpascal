@@ -11,6 +11,8 @@ package src;
 
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JOptionPane;
+import log.Constantes;
 
 /**
  *
@@ -53,13 +55,27 @@ public class Correcao {
             if (arq.substring(tamarq - 4, tamarq).equals(".pas")) {
                 aluno = arq.substring(0, tamarq - 4);
                 
-                Runtime.getRuntime().exec("fpc " + arq);
+                Executador ex = new Executador("fpc " + diretorio.getAbsolutePath() 
+                    + "/" + aluno + "/" + arq);
+                
+                criarArquivoRelatorio(aluno, ex.getValorSaida());
                 
                 if (new File(diretorio.getAbsolutePath() + "/" + aluno).mkdir()) {
                     String texto = Arquivos.getTextoArquivo(diretorio.getAbsolutePath() + "/" + arq);
                     Arquivos.salvarArquivo(diretorio.getAbsolutePath() + "/" + aluno + "/" + arq, texto);
                 }
             }
+        }
+    }
+    
+    private void criarArquivoRelatorio(String aluno, int valorSaida) {
+        try {
+            if (valorSaida != 0) {
+                Arquivos.salvarArquivo(diretorio.getAbsolutePath() +
+                        "/" + aluno + "/relatorio.txt", Constantes.E_COMPILACAO);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
     
