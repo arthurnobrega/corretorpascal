@@ -29,7 +29,7 @@ public class Anotacoes extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtAnotacoes = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Anota\u00e7\u00f5es");
@@ -42,11 +42,11 @@ public class Anotacoes extends javax.swing.JDialog {
 
         jButton2.setText("Salvar");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtAnotacoes.setColumns(20);
+        txtAnotacoes.setLineWrap(true);
+        txtAnotacoes.setRows(5);
+        txtAnotacoes.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtAnotacoes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,7 +95,7 @@ public class Anotacoes extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtAnotacoes;
     // End of variables declaration//GEN-END:variables
     
 }
