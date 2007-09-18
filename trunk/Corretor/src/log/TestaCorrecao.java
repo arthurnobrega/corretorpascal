@@ -11,7 +11,9 @@ package log;
 
 import java.io.File;
 import java.io.IOException;
+import src.Arquivos;
 import src.Correcao;
+import src.GerenciaPas;
 
 /**
  *
@@ -24,7 +26,12 @@ public class TestaCorrecao {
     /** Creates a new instance of TestaCorrecao */
     public TestaCorrecao(File diretorio) throws IOException {
         this.diretorio = diretorio;
-        testarPas();
+        
+        GerenciaPas gp = new GerenciaPas(diretorio);
+        if (gp.procurarPas().size() == 0) {
+            throw new IOException();
+        }
+        
         Correcao cor = new Correcao(diretorio);
         
         try {
@@ -34,21 +41,4 @@ public class TestaCorrecao {
             ex.printStackTrace();
         }
     }
-    
-    private void testarPas() throws IOException {
-        String[] arquivos = diretorio.list();
-        boolean achou = false;
-        for (String arq : arquivos) {
-            int tamarq = arq.length();
-            if (arq.substring(tamarq - 4, tamarq).equals(".pas")) {
-                achou = true;
-                break;
-            }
-        }
-        
-        if (!achou) {
-            throw new IOException();
-        }
-    }
-    
 }
