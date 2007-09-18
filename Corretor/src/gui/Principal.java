@@ -2,11 +2,17 @@ package gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.ListModel;
 import javax.swing.UIManager;
+import javax.swing.event.ListDataListener;
 import log.TestaCorrecao;
 import log.Constantes;
+import log.TestaImportacao;
 
 /**
  *
@@ -173,7 +179,13 @@ public class Principal extends javax.swing.JFrame {
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
-        File diretorio = fc.getSelectedFile();
+        diretorio = fc.getSelectedFile();
+        try {
+            importarCorrecao();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_itemImportarActionPerformed
 
     private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
@@ -181,12 +193,12 @@ public class Principal extends javax.swing.JFrame {
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
-        File diretorio = fc.getSelectedFile();
+        diretorio = fc.getSelectedFile();
         try {
+            //final BarraProgresso p = new BarraProgresso(this, true);
+            p.setVisible(true);
             TestaCorrecao tc = new TestaCorrecao(diretorio);
-            this.getContentPane().setVisible(false);
-            this.setContentPane(new PainelLista());
-            this.getContentPane().setVisible(true);
+            importarCorrecao();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
@@ -202,6 +214,16 @@ public class Principal extends javax.swing.JFrame {
         ent.setVisible(true);
     }//GEN-LAST:event_itemEntradasActionPerformed
     
+    private void importarCorrecao() throws IOException {
+        TestaImportacao ti = new TestaImportacao(diretorio);
+        pastasAlunos = ti.getListaAlunos();
+        this.getContentPane().setVisible(false);
+        pl = new PainelLista();
+        this.setContentPane(pl);
+        pl.getListaAlunos().setListData(ti.getVetorAlunos());
+        this.getContentPane().setVisible(true);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -213,6 +235,9 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     
+    File diretorio = null;
+    ArrayList<File> pastasAlunos = null;
+    private PainelLista pl = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemAjuda;

@@ -11,6 +11,7 @@ package src;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import log.Constantes;
 
@@ -28,51 +29,37 @@ public class Correcao {
     }
     
     public void criarDiretorios() throws IOException {
-        String[] arquivos = diretorio.list();
+        GerenciaPas gp = new GerenciaPas(diretorio);
         
-        for (String arq : arquivos) {
-            int tamarq = arq.length();
-            String aluno = new String();
+        ArrayList<File> listaAlunos = gp.procurarPas();
+        
+        for (File fonteAluno : listaAlunos) {
+            String aluno = fonteAluno.getName().substring(0, fonteAluno.getName().length() - 4);
             
-            if (arq.substring(tamarq - 4, tamarq).equals(".pas")) {
-                aluno = arq.substring(0, tamarq - 4);
-                
-                if (new File(diretorio.getAbsolutePath() + "/" + aluno).mkdir()) {
-                    String texto = Arquivos.getTextoArquivo(diretorio.getAbsolutePath() + "/" + arq);
-                    Arquivos.salvarArquivo(diretorio.getAbsolutePath() + "/" + aluno + "/" + arq, texto);
-                }
+            if (new File(diretorio.getAbsolutePath() + "/" + aluno).mkdir()) {
+                String texto = Arquivos.getTextoArquivo(fonteAluno.getAbsolutePath());
+                Arquivos.salvarArquivo(fonteAluno.getParent() + "/" + aluno + "/" + fonteAluno.getName(), texto);
             }
         }
     }
     
     public void compilarFontes() throws IOException {
-        String[] arquivos = diretorio.list();
+        GerenciaPas gp = new GerenciaPas(diretorio);
         
-        for (String arq : arquivos) {
-            int tamarq = arq.length();
-            String aluno = new String();
-            
-            if (arq.substring(tamarq - 4, tamarq).equals(".pas")) {
-                aluno = arq.substring(0, tamarq - 4);
-                
-                Executador ex = new Executador("fpc " + diretorio.getAbsolutePath() 
-                    + "/" + aluno + "/" + arq);
-                
-                criarArquivoRelatorio(aluno, ex.getValorSaida());
-                
-                if (new File(diretorio.getAbsolutePath() + "/" + aluno).mkdir()) {
-                    String texto = Arquivos.getTextoArquivo(diretorio.getAbsolutePath() + "/" + arq);
-                    Arquivos.salvarArquivo(diretorio.getAbsolutePath() + "/" + aluno + "/" + arq, texto);
-                }
-            }
+        ArrayList<File> pastasAlunos = gp.procurarPastasPas();
+        
+        for (File pastaAluno : pastasAlunos) {
+            Executador ex = new Executador("fpc " + pastaAluno.getAbsolutePath() + "/" 
+                    + pastaAluno.getName() + ".pas");
+            criarArquivoRelatorio(pastaAluno, ex.getValorSaida());
         }
     }
     
-    private void criarArquivoRelatorio(String aluno, int valorSaida) {
+    private void criarArquivoRelatorio(File pastaAluno, int valorSaida) {
         try {
             if (valorSaida != 0) {
-                Arquivos.salvarArquivo(diretorio.getAbsolutePath() +
-                        "/" + aluno + "/relatorio.txt", Constantes.E_COMPILACAO);
+                Arquivos.salvarArquivo(pastaAluno.getAbsolutePath() + 
+                        "/relatorio.txt", Constantes.E_COMPILACAO);
             }
         } catch (IOException ex) {
             ex.printStackTrace();

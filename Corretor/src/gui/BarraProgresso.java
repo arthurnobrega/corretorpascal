@@ -1,7 +1,7 @@
 /*
- * Ajuda.java
+ * BarraProgresso.java
  *
- * Created on 15 de Setembro de 2007, 22:06
+ * Created on 18 de Setembro de 2007, 00:52
  */
 
 package gui;
@@ -10,12 +10,14 @@ package gui;
  *
  * @author  UltraXP
  */
-public class Ajuda extends javax.swing.JDialog {
+public class BarraProgresso extends javax.swing.JDialog {
     
-    /** Creates new form Ajuda */
-    public Ajuda(java.awt.Frame parent, boolean modal) {
+    /** Creates new form BarraProgresso */
+    public BarraProgresso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        barraProgresso.setString("Carregando...");
+        barraProgresso.setIndeterminate(true);
         Janelas.alinharContainer(this);
     }
     
@@ -26,45 +28,25 @@ public class Ajuda extends javax.swing.JDialog {
      */
     // <editor-fold defaultstate="collapsed" desc=" Código Gerado ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jLabel1 = new javax.swing.JLabel();
+        barraProgresso = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Conte\u00fados de Ajuda");
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Em constru\u00e7\u00e3o...");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(barraProgresso, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Ajuda(new javax.swing.JFrame(), true).setVisible(true);
-            }
-        });
-    }
-    
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar barraProgresso;
     // Fim da declaração de variáveis//GEN-END:variables
     
 }
