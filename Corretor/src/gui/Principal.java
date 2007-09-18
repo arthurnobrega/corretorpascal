@@ -13,6 +13,7 @@ import javax.swing.event.ListDataListener;
 import log.TestaCorrecao;
 import log.Constantes;
 import log.TestaImportacao;
+import src.ThreadBarra;
 
 /**
  *
@@ -195,9 +196,9 @@ public class Principal extends javax.swing.JFrame {
         Janelas.alinharContainer(fc);
         diretorio = fc.getSelectedFile();
         try {
-            //final BarraProgresso p = new BarraProgresso(this, true);
-            p.setVisible(true);
-            TestaCorrecao tc = new TestaCorrecao(diretorio);
+            ThreadBarra tb = new ThreadBarra(this);
+            tb.start();
+            TestaCorrecao tc = new TestaCorrecao(diretorio, tb);
             importarCorrecao();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
