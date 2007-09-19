@@ -29,12 +29,12 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void inicializarJFileChooser() {
-        UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
+        UIManager.put("FileChooser.openDialogTitleText", "Nova Correï¿½ï¿½o");
         UIManager.put("FileChooser.acceptAllFileFilterText", "Todos os arquivos");
         
-        UIManager.put("FileChooser.openButtonToolTipText", "Abrir diretório selecionado");
+        UIManager.put("FileChooser.openButtonToolTipText", "Abrir diretï¿½rio selecionado");
         UIManager.put("FileChooser.openButtonText", "Abrir");
-        UIManager.put("FileChooser.cancelButtonToolTipText", "Cancelar diálogo");
+        UIManager.put("FileChooser.cancelButtonToolTipText", "Cancelar diï¿½logo");
         UIManager.put("FileChooser.cancelButtonText", "Cancelar");
         
         UIManager.put("FileChooser.lookInLabelText", "Examinar:");
@@ -43,7 +43,7 @@ public class Principal extends javax.swing.JFrame {
         
         UIManager.put("FileChooser.detailsViewButtonToolTipText", "Detalhes");
         UIManager.put("FileChooser.listViewButtonToolTipText", "Lista");
-        UIManager.put("FileChooser.upFolderToolTipText", "Um nível acima");
+        UIManager.put("FileChooser.upFolderToolTipText", "Um nï¿½vel acima");
         UIManager.put("FileChooser.newFolderToolTipText", "Criar nova pasta");
     }
     

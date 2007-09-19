@@ -12,11 +12,15 @@ public class Executador {
         try {
             String osName = System.getProperty("os.name");
             String[] cmd = new String[3];
-            if(osName.equals("Windows NT") || osName.equals("Windows XP")) {
+            if (osName.equals("Windows NT") || osName.equals("Windows XP")) {
                 cmd[0] = "cmd.exe";
                 cmd[1] = "/C";
                 cmd[2] = args;
-            } else if( osName.equals("Windows 95")) {
+            } else if (osName.equals("Linux")) {
+                cmd[0] = "konsole";
+                cmd[1] = "";
+                cmd[2] = args;
+            } else if (osName.equals("Windows 95")) {
                 cmd[0] = "command.com";
                 cmd[1] = "/C";
                 cmd[2] = args;
@@ -31,7 +35,7 @@ public class Executador {
             StreamGobbler errorGobbler = new 
                 StreamGobbler(proc.getErrorStream(), "ERROR");            
 
-            // alguma saída?
+            // alguma saï¿½da?
             StreamGobbler outputGobbler = new 
                 StreamGobbler(proc.getInputStream(), "OUTPUT");
 

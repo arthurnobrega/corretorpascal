@@ -38,18 +38,12 @@ public class Correcao extends Thread {
         ArrayList<File> pastasAlunos = null;
 
         int nroAlunos = listaAlunos.size();
-        Thread thread = new Thread(barraProgresso);
-        thread.start();
         try {
             for (int i = 0; i <= listaAlunos.size() - 1; i++) {
                 criarDiretorio(listaAlunos.get(i));
                 pastasAlunos = gp.procurarPastasPas();
                 compilarFonte(pastasAlunos.get(i));
-                setarValorBarra( ( (i + 1) / nroAlunos) * 100 );
-            }
-            synchronized(this) {  
-                this.notify();
-            }  
+            } 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
