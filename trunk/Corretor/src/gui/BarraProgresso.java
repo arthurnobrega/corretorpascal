@@ -12,7 +12,7 @@ import javax.swing.JProgressBar;
  *
  * @author  UltraXP
  */
-public class BarraProgresso extends javax.swing.JDialog {
+public class BarraProgresso extends javax.swing.JDialog implements Runnable {
     
     /** Creates new form BarraProgresso */
     public BarraProgresso(java.awt.Frame parent, boolean modal) {
@@ -47,6 +47,15 @@ public class BarraProgresso extends javax.swing.JDialog {
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void run() {
+        this.setVisible(true);
+        try {
+            this.wait();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
     
     public JProgressBar getBarraProgresso() {
         return barraProgresso;

@@ -16,7 +16,6 @@ import javax.swing.JProgressBar;
 import src.Arquivos;
 import src.Correcao;
 import src.GerenciaPas;
-import src.ThreadBarra;
 
 /**
  *
@@ -24,20 +23,15 @@ import src.ThreadBarra;
  */
 public class TestaCorrecao {
     
-    File diretorio = null;
-    ThreadBarra tb = null;
-    
     /** Creates a new instance of TestaCorrecao */
-    public TestaCorrecao(File diretorio, ThreadBarra tb) throws IOException {
-        this.diretorio = diretorio;
-        this.tb = tb;
+    public TestaCorrecao(File diretorio, BarraProgresso barraProgresso) throws IOException {
         
         GerenciaPas gp = new GerenciaPas(diretorio);
         if (gp.procurarPas().size() == 0) {
             throw new IOException();
         }
         
-        Correcao cor = new Correcao(diretorio, tb);
-        cor.corrigir();
+        Correcao cor = new Correcao(diretorio, barraProgresso);
+        cor.start();
     }
 }

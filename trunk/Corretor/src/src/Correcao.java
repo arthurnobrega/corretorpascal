@@ -20,30 +20,45 @@ import log.Constantes;
  *
  * @author UltraXP
  */
-public class Correcao {
+public class Correcao extends Thread {
     
     File diretorio = null;
-    ThreadBarra tb = null;
+    BarraProgresso barraProgresso = null;
+    Thread thread = null;
     
     /** Creates a new instance of Correcao */
-    public Correcao(File diretorio, ThreadBarra tb) {
+    public Correcao(File diretorio, BarraProgresso barraProgresso) {
         this.diretorio = diretorio;
-        this.tb = tb;
+        this.barraProgresso = barraProgresso;
     }
     
-    public void corrigir() throws IOException {
-        
+    public void run() {
         GerenciaPas gp = new GerenciaPas(diretorio);
         ArrayList<File> listaAlunos = gp.procurarPas();
         ArrayList<File> pastasAlunos = null;
 
         int nroAlunos = listaAlunos.size();
-        
-        for (int i = 0; i <= listaAlunos.size() - 1; i++) {
-            criarDiretorio(listaAlunos.get(i));
-            pastasAlunos = gp.procurarPastasPas();
-            compilarFonte(pastasAlunos.get(i));
-            tb.setarValorBarra(((i + 1) / nroAlunos) / 100);
+        Thread thread = new Thread(barraProgresso);
+        thread.start();
+        try {
+            for (int i = 0; i <= listaAlunos.size() - 1; i++) {
+                criarDiretorio(listaAlunos.get(i));
+                pastasAlunos = gp.procurarPastasPas();
+                compilarFonte(pastasAlunos.get(i));
+                setarValorBarra( ( (i + 1) / nroAlunos) * 100 );
+            }
+            synchronized(this) {  
+                this.notify();
+            }  
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void setarValorBarra(int valor) {
+        barraProgresso.getBarraProgresso().setValue(valor);
+        if (barraProgresso.getBarraProgresso().getValue() == 100) {
+            barraProgresso.dispose();
         }
     }
     
