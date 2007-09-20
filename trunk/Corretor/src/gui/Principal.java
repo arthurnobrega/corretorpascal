@@ -3,13 +3,9 @@ package gui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
-import javax.swing.ListModel;
 import javax.swing.UIManager;
-import javax.swing.event.ListDataListener;
 import log.TestaCorrecao;
 import log.Constantes;
 import log.TestaImportacao;
@@ -195,8 +191,7 @@ public class Principal extends javax.swing.JFrame {
         Janelas.alinharContainer(fc);
         diretorio = fc.getSelectedFile();
         try {
-            BarraProgresso barraProgresso = new BarraProgresso(this, true);
-            TestaCorrecao tc = new TestaCorrecao(diretorio, barraProgresso);
+            TestaCorrecao tc = new TestaCorrecao(diretorio);
             importarCorrecao();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
