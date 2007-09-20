@@ -20,7 +20,7 @@ import log.Constantes;
  *
  * @author UltraXP
  */
-public class Correcao extends Thread {
+public class Correcao {
     
     File diretorio = null;
     BarraProgresso barraProgresso = null;
@@ -30,9 +30,10 @@ public class Correcao extends Thread {
     public Correcao(File diretorio, BarraProgresso barraProgresso) {
         this.diretorio = diretorio;
         this.barraProgresso = barraProgresso;
+        corrigir();
     }
     
-    public void run() {
+    public void corrigir() {
         GerenciaPas gp = new GerenciaPas(diretorio);
         ArrayList<File> listaAlunos = gp.procurarPas();
         ArrayList<File> pastasAlunos = null;
@@ -42,7 +43,7 @@ public class Correcao extends Thread {
             for (int i = 0; i <= listaAlunos.size() - 1; i++) {
                 criarDiretorio(listaAlunos.get(i));
                 pastasAlunos = gp.procurarPastasPas();
-                compilarFonte(pastasAlunos.get(i));
+                compilarFonte(pastasAlunos.get(i), nroAlunos, i);
             } 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -65,10 +66,11 @@ public class Correcao extends Thread {
         }
     }
     
-    private void compilarFonte(File pastaAluno) throws IOException {
-        Executador ex = new Executador("fpc " + pastaAluno.getAbsolutePath() + "/" 
+    private synchronized void compilarFonte(File pastaAluno, int nroAlunos, int aluno) {
+        Executador exec = new Executador("fpc " + pastaAluno.getAbsolutePath() + "/" 
                 + pastaAluno.getName() + ".pas");
-        criarArquivoRelatorio(pastaAluno, ex.getValorSaida());
+        barraProgresso.getBarraProgresso().setValue( ( (aluno + 1) / (nroAlunos) ) * 100);
+        criarArquivoRelatorio(pastaAluno, exec.getValorSaida());
     }
     
     private void criarArquivoRelatorio(File pastaAluno, int valorSaida) {

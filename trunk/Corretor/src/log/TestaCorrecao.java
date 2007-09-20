@@ -32,6 +32,5 @@ public class TestaCorrecao {
         }
         
         Correcao cor = new Correcao(diretorio, barraProgresso);
-        cor.start();
     }
 }

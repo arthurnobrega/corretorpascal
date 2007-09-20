@@ -2,10 +2,11 @@ package src;
 
 import java.io.BufferedReader;
 
-public class Executador {
+public class Executador{
     
     private int exitVal = 0;
     private BufferedReader br = null;
+    private String args = null;
  
     public Executador(String args) {
 
