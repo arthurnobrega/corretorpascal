@@ -9,11 +9,8 @@
 
 package log;
 
-import gui.BarraProgresso;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JProgressBar;
-import src.Arquivos;
 import src.Correcao;
 import src.GerenciaPas;
 
@@ -24,13 +21,13 @@ import src.GerenciaPas;
 public class TestaCorrecao {
     
     /** Creates a new instance of TestaCorrecao */
-    public TestaCorrecao(File diretorio, BarraProgresso barraProgresso) throws IOException {
+    public TestaCorrecao(File diretorio) throws IOException {
         
         GerenciaPas gp = new GerenciaPas(diretorio);
         if (gp.procurarPas().size() == 0) {
             throw new IOException();
         }
         
-        Correcao cor = new Correcao(diretorio, barraProgresso);
+        Correcao cor = new Correcao(diretorio);
     }
 }
