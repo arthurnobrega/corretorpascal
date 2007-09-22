@@ -1,4 +1,4 @@
-﻿program prova;
+program prova;
 uses crt;
 var n1,n2,q1,q2:string;
 begin
