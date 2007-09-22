@@ -11,8 +11,11 @@ package log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import src.Arquivos;
 import src.Correcao;
 import src.GerenciaPas;
+import src.PastaCorrecao;
 
 /**
  *
@@ -20,14 +23,27 @@ import src.GerenciaPas;
  */
 public class TestaCorrecao {
     
+    File diretorio = null;
+    
     /** Creates a new instance of TestaCorrecao */
     public TestaCorrecao(File diretorio) throws IOException {
+        this.diretorio = diretorio;
         
         GerenciaPas gp = new GerenciaPas(diretorio);
-        if (gp.procurarPas().size() == 0) {
+        ArrayList<PastaCorrecao> pastasCorrecao = gp.procurarPastasPas();
+        if (pastasCorrecao.size() == 0) {
             throw new IOException();
         }
+        try {
+            for (PastaCorrecao pastaCorrecao : pastasCorrecao) {
+                Correcao cor = new Correcao(pastaCorrecao);
+                cor.criarDiretorios();
+                cor.compilarFontes();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         
-        Correcao cor = new Correcao(diretorio);
+        
     }
 }

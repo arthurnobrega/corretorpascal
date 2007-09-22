@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import src.GerenciaPas;
+import src.PastaCorrecao;
 
 /**
  *
@@ -21,7 +22,7 @@ import src.GerenciaPas;
 public class TestaImportacao {
     
     File diretorio = null;
-    ArrayList<File> pastasAlunos = null;
+    ArrayList<PastaCorrecao> pastasAlunos = null;
     
     /** Creates a new instance of TestaCorrecao */
     public TestaImportacao(File diretorio) throws IOException {
@@ -34,16 +35,12 @@ public class TestaImportacao {
         }
     }
     
-    public ArrayList<File> getListaAlunos() {
+    public ArrayList<PastaCorrecao> getListaAlunos() {
         return pastasAlunos;
     }
     
     public String[] getVetorAlunos() {
         String[] alunos = new String[pastasAlunos.size()];
-        
-        for (int i = 0; i <= pastasAlunos.size() - 1; i++) {
-            alunos[i] = pastasAlunos.get(i).getName();
-        }
         
         return alunos;
     }

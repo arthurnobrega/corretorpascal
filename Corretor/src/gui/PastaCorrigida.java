@@ -6,6 +6,7 @@
 
 package gui;
 
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 
@@ -13,10 +14,10 @@ import javax.swing.JTextArea;
  *
  * @author  UltraXP
  */
-public class PainelLista extends javax.swing.JPanel {
+public class PastaCorrigida extends javax.swing.JPanel {
     
     /** Creates new form PainelLista */
-    public PainelLista() {
+    public PastaCorrigida() {
         initComponents();
     }
     
@@ -32,13 +33,12 @@ public class PainelLista extends javax.swing.JPanel {
         listaAlunos = new javax.swing.JList();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtTexto = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         btnFonte = new javax.swing.JButton();
-        btnSaidas = new javax.swing.JButton();
         btnRelatorio = new javax.swing.JButton();
-        btnRodar = new javax.swing.JButton();
+        btnSaidas = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtTexto = new javax.swing.JTextArea();
 
         jSplitPane.setDividerLocation(120);
         jSplitPane.setDividerSize(10);
@@ -51,66 +51,46 @@ public class PainelLista extends javax.swing.JPanel {
 
         jSplitPane.setLeftComponent(jScrollPane1);
 
-        txtTexto.setColumns(20);
-        txtTexto.setRows(5);
-        jScrollPane2.setViewportView(txtTexto);
-
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+            .add(0, 351, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+            .add(0, 0, Short.MAX_VALUE)
         );
+
+        jPanel3.setLayout(new java.awt.GridBagLayout());
 
         btnFonte.setText("Fonte");
-
-        btnSaidas.setText("Sa\u00eddas");
+        jPanel3.add(btnFonte, new java.awt.GridBagConstraints());
 
         btnRelatorio.setText("Relat\u00f3rio");
+        jPanel3.add(btnRelatorio, new java.awt.GridBagConstraints());
 
-        btnRodar.setText("Rodar Programa");
+        btnSaidas.setText("Sa\u00eddas");
+        jPanel3.add(btnSaidas, new java.awt.GridBagConstraints());
 
-        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(btnFonte)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnSaidas)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnRelatorio)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnRodar)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                .add(btnFonte)
-                .add(btnSaidas)
-                .add(btnRelatorio)
-                .add(btnRodar))
-        );
+        txtTexto.setColumns(20);
+        txtTexto.setRows(5);
+        jScrollPane2.setViewportView(txtTexto);
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 266, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -122,7 +102,7 @@ public class PainelLista extends javax.swing.JPanel {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jSplitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                .add(jSplitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -141,11 +121,10 @@ public class PainelLista extends javax.swing.JPanel {
     public JTextArea getTxtTexto() {
         return txtTexto;
     }
-    
+       
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JButton btnFonte;
     private javax.swing.JButton btnRelatorio;
-    private javax.swing.JButton btnRodar;
     private javax.swing.JButton btnSaidas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

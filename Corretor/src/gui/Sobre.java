@@ -81,17 +81,6 @@ public class Sobre extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Sobre(new javax.swing.JFrame(), true).setVisible(true);
-            }
-        });
-    }
-    
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

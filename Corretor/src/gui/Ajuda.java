@@ -51,18 +51,7 @@ public class Ajuda extends javax.swing.JDialog {
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Ajuda(new javax.swing.JFrame(), true).setVisible(true);
-            }
-        });
-    }
-    
+ 
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // Fim da declaração de variáveis//GEN-END:variables
