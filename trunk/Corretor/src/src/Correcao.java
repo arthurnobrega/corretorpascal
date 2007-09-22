@@ -12,6 +12,7 @@ package src;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import log.Constantes;
 
 /**
@@ -20,48 +21,48 @@ import log.Constantes;
  */
 public class Correcao {
     
-    File diretorio = null;
-    Thread thread = null;
+    PastaCorrecao pastaCorrecao = null;
     
     /** Creates a new instance of Correcao */
-    public Correcao(File diretorio) {
-        this.diretorio = diretorio;
-        corrigir();
+    public Correcao(PastaCorrecao pastaCorrecao) {
+        this.pastaCorrecao = pastaCorrecao;
     }
     
-    public void corrigir() {
-        GerenciaPas gp = new GerenciaPas(diretorio);
-        ArrayList<File> listaAlunos = gp.procurarPas();
-        ArrayList<File> pastasAlunos = null;
-
-        int nroAlunos = listaAlunos.size();
-        try {
-            for (int i = 0; i <= listaAlunos.size() - 1; i++) {
-                criarDiretorio(listaAlunos.get(i));
-                pastasAlunos = gp.procurarPastasPas();
-                compilarFonte(pastasAlunos.get(i), nroAlunos, i);
-            } 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    public void criarDiretorios() throws IOException {        
+        ArrayList<ArquivoFonte> arqFontes = pastaCorrecao.getArquivosPas();
+        
+        for (ArquivoFonte fonteAluno : arqFontes) {
+            File arqFonteAluno = fonteAluno.getArquivo();
+            String nomePasta = arqFonteAluno.getName().substring(0, 
+                    arqFonteAluno.getName().length() - 4);
+            
+            File diretorio = pastaCorrecao.getPasta();
+            
+            if (new File(diretorio.getAbsolutePath() + "/" + nomePasta).mkdir()) {
+                String texto = Arquivos.getTextoArquivo(arqFonteAluno.getAbsolutePath());
+                Arquivos.salvarArquivo(arqFonteAluno.getParent() + "/" + nomePasta + 
+                        "/" + arqFonteAluno.getName(), texto);
+            }
         }
     }
     
-    private void criarDiretorio(File fonteAluno) throws IOException {
-        String aluno = fonteAluno.getName().substring(0, fonteAluno.getName().length() - 4);
-
-        if (new File(diretorio.getAbsolutePath() + "/" + aluno).mkdir()) {
-            String texto = Arquivos.getTextoArquivo(fonteAluno.getAbsolutePath());
-            Arquivos.salvarArquivo(fonteAluno.getParent() + "/" + aluno + "/" + fonteAluno.getName(), texto);
+    public void compilarFontes() throws IOException {
+        ArrayList<ArquivoFonte> arqFontes = pastaCorrecao.getArquivosPas();
+        
+        for (ArquivoFonte fonteAluno : arqFontes) {
+            String nomeArqFonte = fonteAluno.getArquivo().getName();
+            String caminhoPasta = pastaCorrecao.getPasta().getAbsolutePath();
+            
+            File pastaAluno = new File(caminhoPasta + "/" + 
+                    nomeArqFonte.substring(0, nomeArqFonte.length() - 4));
+            
+            Executador ex = new Executador("cd " + pastaAluno.getAbsolutePath() +
+                    "&&" + "fpc " + nomeArqFonte);
+            criarRelatorioErro(pastaAluno, ex.getValorSaida());
         }
     }
     
-    private synchronized void compilarFonte(File pastaAluno, int nroAlunos, int aluno) {
-        Executador exec = new Executador("fpc " + pastaAluno.getAbsolutePath() + "/" 
-                + pastaAluno.getName() + ".pas");
-        criarArquivoRelatorio(pastaAluno, exec.getValorSaida());
-    }
-    
-    private void criarArquivoRelatorio(File pastaAluno, int valorSaida) {
+    private void criarRelatorioErro(File pastaAluno, int valorSaida) {
         try {
             if (valorSaida != 0) {
                 Arquivos.salvarArquivo(pastaAluno.getAbsolutePath() + 
@@ -70,10 +71,6 @@ public class Correcao {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-    
-    private void testarProgramas() {
-        
     }
     
 }

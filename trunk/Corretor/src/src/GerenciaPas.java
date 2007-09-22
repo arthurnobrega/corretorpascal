@@ -25,16 +25,17 @@ public class GerenciaPas {
         this.diretorio = diretorio;
     }
     
-    public ArrayList<File> procurarPas() {
+    public ArrayList<ArquivoFonte> procurarPas() {
         File[] arquivos = diretorio.listFiles();
-        ArrayList<File> listaAlunos = new ArrayList<File>();
+        ArrayList<ArquivoFonte> listaAlunos = new ArrayList<ArquivoFonte>();
         for (File arq : arquivos) {
             String nomeArq = arq.getName();
             int tamarq = nomeArq.length();
             
             if ((nomeArq.length() > 4) && (nomeArq.substring(tamarq - 4, tamarq).equals(".pas")) 
                     && (arq.isFile())) {
-                listaAlunos.add(arq);
+                ArquivoFonte arqFonte = new ArquivoFonte(arq);
+                listaAlunos.add(arqFonte);
             }
             
         }
@@ -42,23 +43,24 @@ public class GerenciaPas {
         return listaAlunos;
     }
     
-    public ArrayList<File> procurarPastasPas() {
+    public ArrayList<PastaCorrecao> procurarPastasPas() {
         File[] arquivos = diretorio.listFiles();
-        ArrayList<File> pastasAlunos = new ArrayList<File>();
+        ArrayList<PastaCorrecao> pastasCorrecao = new ArrayList<PastaCorrecao>();
         for (File arq : arquivos) {
             String nomeArq = arq.getName();
             int tamarq = nomeArq.length();
             
             if (arq.isDirectory()) {
                 GerenciaPas gp = new GerenciaPas(arq);
-                if (gp.procurarPas().size() > 0 && 
-                        gp.procurarPas().get(0).getName().equals(arq.getName() + ".pas")) {
-                    pastasAlunos.add(arq);
+                ArrayList<ArquivoFonte> arquivosPas = gp.procurarPas();
+                if (arquivosPas.size() > 0) {
+                    PastaCorrecao pastaCor = new PastaCorrecao(arq, arquivosPas);
+                    pastasCorrecao.add(pastaCor);
                 }
             }
         }
         
-        return pastasAlunos;
+        return pastasCorrecao;
     }
     
 }
