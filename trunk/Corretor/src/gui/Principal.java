@@ -164,12 +164,6 @@ public class Principal extends javax.swing.JFrame {
         diretorio = fc.getSelectedFile();
         try {
             TestaImportacao ti = new TestaImportacao(diretorio);
-            pastasAlunos = ti.getListaAlunos();
-            this.getContentPane().setVisible(false);
-            pl = new PastaCorrigida();
-            this.setContentPane(pl);
-            pl.getListaAlunos().setListData(ti.getVetorAlunos());
-            this.getContentPane().setVisible(true);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
@@ -187,6 +181,7 @@ public class Principal extends javax.swing.JFrame {
             diretorio = fc.getSelectedFile();
             try {
                 TestaCorrecao tc = new TestaCorrecao(diretorio);
+                pastasCorrecao = tc.getPastasCorrecao();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
@@ -199,7 +194,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSairActionPerformed
 
     private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
-        Entradas ent = new Entradas(this, true);
+        Entradas ent = new Entradas(this, pastasCorrecao);
         ent.setVisible(true);
     }//GEN-LAST:event_itemEntradasActionPerformed
     
@@ -215,8 +210,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     File diretorio = null;
-    ArrayList<PastaCorrecao> pastasAlunos = null;
-    private PastaCorrigida pl = null;
+    PastaCorrecao[] pastasCorrecao = null;
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemAjuda;

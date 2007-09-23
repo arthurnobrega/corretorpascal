@@ -18,16 +18,16 @@ import java.util.ArrayList;
  */
 public class PastaCorrecao {
     
-    private ArrayList<ArquivoFonte> arquivosPas = null;
+    private ArquivoFonte[] arquivosPas = null;
     private File pasta = null;
     
     /** Creates a new instance of PastaCorrecao */
-    public PastaCorrecao(File pasta, ArrayList<ArquivoFonte> arquivosPas) {
+    public PastaCorrecao(File pasta, ArquivoFonte[] arquivosPas) {
         this.pasta = pasta;
         this.arquivosPas = arquivosPas;
     }
     
-    public ArrayList<ArquivoFonte> getArquivosPas() {
+    public ArquivoFonte[] getArquivosPas() {
         return arquivosPas;
     }
     

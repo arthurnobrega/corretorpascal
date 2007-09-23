@@ -25,7 +25,7 @@ public class GerenciaPas {
         this.diretorio = diretorio;
     }
     
-    public ArrayList<ArquivoFonte> procurarPas() {
+    public ArquivoFonte[] procurarPas() {
         File[] arquivos = diretorio.listFiles();
         ArrayList<ArquivoFonte> listaAlunos = new ArrayList<ArquivoFonte>();
         for (File arq : arquivos) {
@@ -40,10 +40,10 @@ public class GerenciaPas {
             
         }
 
-        return listaAlunos;
+        return listaAlunos.toArray(new ArquivoFonte[] {});
     }
     
-    public ArrayList<PastaCorrecao> procurarPastasPas() {
+    public PastaCorrecao[] procurarPastasPas() {
         File[] arquivos = diretorio.listFiles();
         ArrayList<PastaCorrecao> pastasCorrecao = new ArrayList<PastaCorrecao>();
         for (File arq : arquivos) {
@@ -52,15 +52,15 @@ public class GerenciaPas {
             
             if (arq.isDirectory()) {
                 GerenciaPas gp = new GerenciaPas(arq);
-                ArrayList<ArquivoFonte> arquivosPas = gp.procurarPas();
-                if (arquivosPas.size() > 0) {
+                ArquivoFonte[] arquivosPas = gp.procurarPas();
+                if (arquivosPas.length > 0) {
                     PastaCorrecao pastaCor = new PastaCorrecao(arq, arquivosPas);
                     pastasCorrecao.add(pastaCor);
                 }
             }
         }
         
-        return pastasCorrecao;
+        return pastasCorrecao.toArray(new PastaCorrecao[] {});
     }
     
 }

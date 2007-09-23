@@ -24,14 +24,15 @@ import src.PastaCorrecao;
 public class TestaCorrecao {
     
     File diretorio = null;
+    PastaCorrecao[] pastasCorrecao = null;
     
     /** Creates a new instance of TestaCorrecao */
     public TestaCorrecao(File diretorio) throws IOException {
         this.diretorio = diretorio;
-        
         GerenciaPas gp = new GerenciaPas(diretorio);
-        ArrayList<PastaCorrecao> pastasCorrecao = gp.procurarPastasPas();
-        if (pastasCorrecao.size() == 0) {
+        pastasCorrecao = gp.procurarPastasPas();
+        
+        if (pastasCorrecao.length == 0) {
             throw new IOException();
         }
         try {
@@ -43,7 +44,9 @@ public class TestaCorrecao {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
-        
+    }
+    
+    public PastaCorrecao[] getPastasCorrecao() {
+        return pastasCorrecao;
     }
 }

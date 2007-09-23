@@ -29,7 +29,7 @@ public class Correcao {
     }
     
     public void criarDiretorios() throws IOException {        
-        ArrayList<ArquivoFonte> arqFontes = pastaCorrecao.getArquivosPas();
+        ArquivoFonte[] arqFontes = pastaCorrecao.getArquivosPas();
         
         for (ArquivoFonte fonteAluno : arqFontes) {
             File arqFonteAluno = fonteAluno.getArquivo();
@@ -47,7 +47,7 @@ public class Correcao {
     }
     
     public void compilarFontes() throws IOException {
-        ArrayList<ArquivoFonte> arqFontes = pastaCorrecao.getArquivosPas();
+        ArquivoFonte[] arqFontes = pastaCorrecao.getArquivosPas();
         
         for (ArquivoFonte fonteAluno : arqFontes) {
             String nomeArqFonte = fonteAluno.getArquivo().getName();
@@ -65,6 +65,14 @@ public class Correcao {
     private void criarRelatorioErro(File pastaAluno, int valorSaida) {
         try {
             if (valorSaida != 0) {
+                for (ArquivoFonte arqFonte : pastaCorrecao.getArquivosPas()) {
+                    String nomePasta = arqFonte.getArquivo().getName().substring(0, 
+                    arqFonte.getArquivo().getName().length() - 4);
+                    if (nomePasta.equals(pastaAluno.getName())) {
+                        arqFonte.setErroCompilacao(true);
+                    }
+                }
+                
                 Arquivos.salvarArquivo(pastaAluno.getAbsolutePath() + 
                         "/relatorio.txt", Constantes.E_COMPILACAO);
             }
