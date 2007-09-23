@@ -22,7 +22,7 @@ import src.PastaCorrecao;
 public class TestaImportacao {
     
     File diretorio = null;
-    ArrayList<PastaCorrecao> pastasAlunos = null;
+    PastaCorrecao[] pastasAlunos = null;
     
     /** Creates a new instance of TestaCorrecao */
     public TestaImportacao(File diretorio) throws IOException {
@@ -30,19 +30,13 @@ public class TestaImportacao {
         
         GerenciaPas gp = new GerenciaPas(diretorio);
         pastasAlunos = gp.procurarPastasPas();
-        if (pastasAlunos.size() == 0) {
+        if (pastasAlunos.length == 0) {
             throw new IOException();
         }
     }
     
-    public ArrayList<PastaCorrecao> getListaAlunos() {
+    public PastaCorrecao[] getListaAlunos() {
         return pastasAlunos;
-    }
-    
-    public String[] getVetorAlunos() {
-        String[] alunos = new String[pastasAlunos.size()];
-        
-        return alunos;
     }
     
 }
