@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class PastaCorrecao {
     
+    private ListaIO io = null;
     private ArquivoFonte[] arquivosPas = null;
     private File pasta = null;
     
@@ -25,6 +26,11 @@ public class PastaCorrecao {
     public PastaCorrecao(File pasta, ArquivoFonte[] arquivosPas) {
         this.pasta = pasta;
         this.arquivosPas = arquivosPas;
+        io = new ListaIO();
+    }
+    
+    public ListaIO getListaIO() {
+        return io;
     }
     
     public ArquivoFonte[] getArquivosPas() {

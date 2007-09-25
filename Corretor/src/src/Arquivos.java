@@ -19,10 +19,10 @@ public class Arquivos {
      * @param filename O Nome do Arquivo.
      * @return Uma String que contém o texto do arquivo.
      */
-    public static String getTextoArquivo(String nomeArquivo) throws IOException {
+    public static String getTextoArquivo(File arquivo) throws IOException {
         StringBuffer buffer = new StringBuffer();
                 BufferedReader in = new BufferedReader (new InputStreamReader (
-                                new FileInputStream (nomeArquivo), "UTF-8"));
+                                new FileInputStream (arquivo), "UTF-8"));
         String line;
         while((line = in.readLine()) != null) {
             buffer.append(line + "\n");
@@ -36,9 +36,9 @@ public class Arquivos {
      * @param caminhoArquivo O caminho completo do arquivo no qual será gravado os dados.
      * @param texto O texto que será gravado no arquivo.
      */
-    public static void salvarArquivo(String caminhoArquivo, String texto) throws IOException {
+    public static void salvarArquivo(File arquivo, String texto) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(caminhoArquivo), "UTF8"));
+                        new FileOutputStream(arquivo), "UTF8"));
         out.write(texto);
         out.close();
     }

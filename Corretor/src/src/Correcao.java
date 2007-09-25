@@ -39,9 +39,9 @@ public class Correcao {
             File diretorio = pastaCorrecao.getPasta();
             
             if (new File(diretorio.getAbsolutePath() + "/" + nomePasta).mkdir()) {
-                String texto = Arquivos.getTextoArquivo(arqFonteAluno.getAbsolutePath());
-                Arquivos.salvarArquivo(arqFonteAluno.getParent() + "/" + nomePasta + 
-                        "/" + arqFonteAluno.getName(), texto);
+                String texto = Arquivos.getTextoArquivo(arqFonteAluno);
+                Arquivos.salvarArquivo(new File(arqFonteAluno.getParent() + "/" + nomePasta + 
+                        "/" + arqFonteAluno.getName()), texto);
             }
         }
     }
@@ -73,8 +73,8 @@ public class Correcao {
                     }
                 }
                 
-                Arquivos.salvarArquivo(pastaAluno.getAbsolutePath() + 
-                        "/relatorio.txt", Constantes.E_COMPILACAO);
+                Arquivos.salvarArquivo(new File(pastaAluno.getAbsolutePath() + 
+                        "/relatorio.txt"), Constantes.E_COMPILACAO);
             }
         } catch (IOException ex) {
             ex.printStackTrace();

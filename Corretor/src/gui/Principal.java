@@ -194,7 +194,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSairActionPerformed
 
     private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
-        Entradas ent = new Entradas(this, pastasCorrecao);
+        IO ent = new IO(this, pastasCorrecao);
         ent.setVisible(true);
     }//GEN-LAST:event_itemEntradasActionPerformed
     
