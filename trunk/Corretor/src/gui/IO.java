@@ -7,6 +7,7 @@
 package gui;
 
 import java.util.ArrayList;
+import log.GerenciaIO;
 import src.ArquivoFonte;
 import src.PastaCorrecao;
 
@@ -14,12 +15,12 @@ import src.PastaCorrecao;
  *
  * @author  UltraXP
  */
-public class Entradas extends javax.swing.JDialog {
+public class IO extends javax.swing.JDialog {
     
     PastaCorrecao[] pastasCorrecao = null;
     
     /** Creates new form Entradas */
-    public Entradas(java.awt.Frame parent, PastaCorrecao[] pastasCorrecao) {
+    public IO(java.awt.Frame parent, PastaCorrecao[] pastasCorrecao) {
         super(parent, true);
         this.pastasCorrecao = pastasCorrecao;
         initComponents();
@@ -57,14 +58,14 @@ public class Entradas extends javax.swing.JDialog {
             }
         });
 
-        listaEntradas.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(listaEntradas);
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
 
@@ -84,11 +85,6 @@ public class Entradas extends javax.swing.JDialog {
         txtGabarito.setRows(5);
         jScrollPane3.setViewportView(txtGabarito);
 
-        listaCorrecoes.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         listaCorrecoes.setListData(getCorrecoes());
         listaCorrecoes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -106,32 +102,29 @@ public class Entradas extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(btnCancelar)
-                            .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
-                                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(btnAdicionar)
-                                    .add(btnRemover, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel2)
-                                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 171, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                            .add(btnSalvar)))
+                                .add(btnRemover, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnAdicionar))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel1)
+                            .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel2)
+                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)))
                     .add(layout.createSequentialGroup()
-                        .add(310, 310, 310)
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 352, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnCancelar)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 646, Short.MAX_VALUE)
+                        .add(btnSalvar)))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {jScrollPane2, jScrollPane3}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
         layout.linkSize(new java.awt.Component[] {btnAdicionar, btnRemover, jScrollPane1}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
@@ -140,33 +133,32 @@ public class Entradas extends javax.swing.JDialog {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel2)
-                    .add(jLabel1))
+                    .add(jLabel1)
+                    .add(jLabel2))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(btnAdicionar)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnRemover))
-                    .add(layout.createSequentialGroup()
-                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(btnCancelar)
-                            .add(btnSalvar)))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
-                        .add(29, 29, 29)))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                    .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnCancelar)
+                    .add(btnSalvar))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {jScrollPane1, jScrollPane2, jScrollPane3, jScrollPane4}, org.jdesktop.layout.GroupLayout.VERTICAL);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        int indice = listaCorrecoes.getSelectedIndex();
+        GerenciaIO gerIO = new GerenciaIO(pastasCorrecao[indice]);
+        gerIO.adicionar();
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void listaCorrecoesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaCorrecoesValueChanged
 

@@ -15,5 +15,8 @@ public class Constantes {
             "\u00e9 v\u00e1lido,\n pois n\u00e3o foi feita uma corre\u00e7\u00e3o nele!";
     
     public static final String E_COMPILACAO = "ERRO DE COMPILAÇÃO";
+    
+    public static final String NARQ_ENT= "Entrada";
+    public static final String NARQ_GAB= "Gabarito";
 
 }
