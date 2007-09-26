@@ -6,9 +6,14 @@
 
 package gui;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import log.GerenciaIO;
 import src.ArquivoFonte;
+import src.Arquivos;
+import src.ListaIO;
 import src.PastaCorrecao;
 
 /**
@@ -25,6 +30,7 @@ public class IO extends javax.swing.JDialog {
         this.pastasCorrecao = pastasCorrecao;
         initComponents();
         Janelas.alinharContainer(this);
+        mudarCorEditor(0);
     }
     
     /** This method is called from within the constructor to
@@ -43,9 +49,9 @@ public class IO extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtEntrada = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
         txtGabarito = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtEntrada = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         listaCorrecoes = new javax.swing.JList();
 
@@ -55,6 +61,12 @@ public class IO extends javax.swing.JDialog {
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
+            }
+        });
+
+        listaEntradas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaEntradasValueChanged(evt);
             }
         });
 
@@ -68,6 +80,11 @@ public class IO extends javax.swing.JDialog {
         });
 
         btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("Entrada");
@@ -76,16 +93,23 @@ public class IO extends javax.swing.JDialog {
         jLabel2.setText("Gabarito");
 
         btnSalvar.setText("Salvar Altera\u00e7\u00f5es");
-
-        txtEntrada.setColumns(20);
-        txtEntrada.setRows(5);
-        jScrollPane2.setViewportView(txtEntrada);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         txtGabarito.setColumns(20);
         txtGabarito.setRows(5);
-        jScrollPane3.setViewportView(txtGabarito);
+        jScrollPane2.setViewportView(txtGabarito);
+
+        txtEntrada.setColumns(20);
+        txtEntrada.setRows(5);
+        jScrollPane3.setViewportView(txtEntrada);
 
         listaCorrecoes.setListData(getCorrecoes());
+        listaCorrecoes.setSelectedIndex(0);
+        atualizarListaIO();
         listaCorrecoes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listaCorrecoesValueChanged(evt);
@@ -154,21 +178,69 @@ public class IO extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        GerenciaIO gerencia = new GerenciaIO(pastasCorrecao[listaCorrecoes.getSelectedIndex()]);
+        gerencia.removerIO(listaEntradas.getSelectedIndex());
+        atualizarListaIO();
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        File entrada = pastasCorrecao[listaCorrecoes.getSelectedIndex()].getListaIO().getEntrada(listaEntradas.getSelectedIndex());
+        File gabarito = pastasCorrecao[listaCorrecoes.getSelectedIndex()].getListaIO().getGabarito(listaEntradas.getSelectedIndex());
+        
+        try {
+            Arquivos.salvarArquivo(entrada, txtEntrada.getText());
+            Arquivos.salvarArquivo(gabarito, txtGabarito.getText());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void listaEntradasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEntradasValueChanged
+        File entrada = pastasCorrecao[listaCorrecoes.getSelectedIndex()].getListaIO().getEntrada(listaEntradas.getSelectedIndex());
+        File gabarito = pastasCorrecao[listaCorrecoes.getSelectedIndex()].getListaIO().getGabarito(listaEntradas.getSelectedIndex());
+        
+        mudarCorEditor(1);
+        
+        try {
+            txtEntrada.setText(Arquivos.getTextoArquivo(entrada));
+            txtGabarito.setText(Arquivos.getTextoArquivo(gabarito));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_listaEntradasValueChanged
+
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         int indice = listaCorrecoes.getSelectedIndex();
         GerenciaIO gerIO = new GerenciaIO(pastasCorrecao[indice]);
         gerIO.adicionar();
+        atualizarListaIO();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void listaCorrecoesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaCorrecoesValueChanged
-
+        atualizarListaIO();
+        mudarCorEditor(0);
     }//GEN-LAST:event_listaCorrecoesValueChanged
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    public String[] getCorrecoes() {
+    private void mudarCorEditor(int modo) {
+        if (modo == 0) {
+            txtEntrada.setBackground(Color.LIGHT_GRAY);
+            txtGabarito.setBackground(Color.LIGHT_GRAY);
+            txtEntrada.setEnabled(false);
+            txtGabarito.setEnabled(false);
+        } else if (modo == 1) {
+            txtEntrada.setBackground(Color.WHITE);
+            txtGabarito.setBackground(Color.WHITE);
+            txtEntrada.setEnabled(true);
+            txtGabarito.setEnabled(true);
+        }
+    }
+    
+    private String[] getCorrecoes() {
         String[] nomesCorrecoes = new String[pastasCorrecao.length];
         for (int i = 0; i <= pastasCorrecao.length - 1; i++) {
             nomesCorrecoes[i] = pastasCorrecao[i].getPasta().getName();
@@ -177,23 +249,10 @@ public class IO extends javax.swing.JDialog {
         return nomesCorrecoes;
     }
     
-/*    public String[] getFontes(String nomeCorrecao) {
-        int i = 0;
-        for (i = 0; i <= pastasCorrecao.length - 1; i++) {
-            if (pastasCorrecao[i].getPasta().getName().equals(nomeCorrecao)) {
-                break;
-            }
-        }
-        
-        
-        ArquivoFonte[] arquivos = pastasCorrecao[i].getArquivosPas();
-        String[] nomesFontes = new String[arquivos.length];
-        for (int j = 0; j <= arquivos.length - 1; j++) {
-            nomesFontes[j] = arquivos[j].getArquivo().getName();
-        }
-        
-        return nomesFontes;
-    }*/
+    private void atualizarListaIO() {
+        GerenciaIO gerencia = new GerenciaIO(pastasCorrecao[listaCorrecoes.getSelectedIndex()]);
+        listaEntradas.setListData(gerencia.getVetorIO());
+    }
     
     
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables

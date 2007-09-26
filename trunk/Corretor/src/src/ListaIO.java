@@ -36,9 +36,17 @@ public class ListaIO {
         return entradas.get(indice);
     }
     
+    public void removerEntrada(int indice) {
+        entradas.remove(indice);
+    }
+    
     public File getGabarito(int indice) {
         return gabaritos.get(indice);
     }    
+    
+    public void removerGabarito(int indice) {
+        gabaritos.remove(indice);
+    }
     
     public int getTamLista() {
         return entradas.size();

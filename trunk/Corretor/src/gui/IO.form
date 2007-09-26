@@ -107,6 +107,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listaEntradasValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -122,6 +125,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Remover"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoverActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -143,6 +149,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Salvar Altera&#xe7;&#xf5;es"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
@@ -151,7 +160,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="txtEntrada">
+        <Component class="javax.swing.JTextArea" name="txtGabarito">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
@@ -166,7 +175,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="txtGabarito">
+        <Component class="javax.swing.JTextArea" name="txtEntrada">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
@@ -191,7 +200,7 @@
             <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listaCorrecoesValueChanged"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="listaCorrecoes.setListData(getCorrecoes());"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="listaCorrecoes.setListData(getCorrecoes());&#xa;listaCorrecoes.setSelectedIndex(0);&#xa;atualizarListaIO();"/>
           </AuxValues>
         </Component>
       </SubComponents>

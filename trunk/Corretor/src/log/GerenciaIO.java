@@ -47,8 +47,28 @@ public class GerenciaIO {
         }
     }
     
-    public ListaIO getListaIO() {
-        return pastaCorrecao.getListaIO();
+    public String[] getVetorIO() {
+        ListaIO listaIO = pastaCorrecao.getListaIO();
+        String[] nomesIO = new String[listaIO.getTamLista()];
+        for (int i = 0; i <= nomesIO.length - 1; i++) {
+            nomesIO[i] = "Nível " + (i + 1);
+        }
+        
+        return nomesIO;
     }
     
+    public void removerIO(int indice) {
+        File entrada = pastaCorrecao.getListaIO().getEntrada(indice);
+        File gabarito = pastaCorrecao.getListaIO().getGabarito(indice);
+        
+        try {
+            Arquivos.deletarArquivo(entrada);
+            Arquivos.deletarArquivo(gabarito);
+            pastaCorrecao.getListaIO().removerEntrada(indice);
+            pastaCorrecao.getListaIO().removerGabarito(indice);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+            
 }
