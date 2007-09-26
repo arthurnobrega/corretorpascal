@@ -43,5 +43,10 @@ public class Arquivos {
         out.close();
     }
 
+    public static void deletarArquivo(File arquivo) throws IOException {
+        if (!arquivo.delete()) {
+            throw new IOException();
+        }
+    }
 
 }
