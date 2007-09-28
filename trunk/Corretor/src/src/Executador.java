@@ -19,7 +19,7 @@ public class Executador{
                 cmd[2] = args;
             } else if (osName.equals("Linux")) {
                 cmd[0] = "konsole";
-                cmd[1] = "";
+                cmd[1] = "-e";
                 cmd[2] = args;
             } else if (osName.equals("Windows 95")) {
                 cmd[0] = "command.com";
