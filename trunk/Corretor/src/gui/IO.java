@@ -200,13 +200,15 @@ public class IO extends javax.swing.JDialog {
         File entrada = pastasCorrecao[listaCorrecoes.getSelectedIndex()].getListaIO().getEntrada(listaEntradas.getSelectedIndex());
         File gabarito = pastasCorrecao[listaCorrecoes.getSelectedIndex()].getListaIO().getGabarito(listaEntradas.getSelectedIndex());
         
-        mudarCorEditor(1);
-        
-        try {
-            txtEntrada.setText(Arquivos.getTextoArquivo(entrada));
-            txtGabarito.setText(Arquivos.getTextoArquivo(gabarito));
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (entrada != null) {
+            mudarCorEditor(1);
+
+            try {
+                txtEntrada.setText(Arquivos.getTextoArquivo(entrada));
+                txtGabarito.setText(Arquivos.getTextoArquivo(gabarito));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_listaEntradasValueChanged
 
@@ -250,6 +252,8 @@ public class IO extends javax.swing.JDialog {
     }
     
     private void atualizarListaIO() {
+        txtEntrada.setText("");
+        txtGabarito.setText("");
         GerenciaIO gerencia = new GerenciaIO(pastasCorrecao[listaCorrecoes.getSelectedIndex()]);
         listaEntradas.setListData(gerencia.getVetorIO());
     }

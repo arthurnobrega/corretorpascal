@@ -10,13 +10,14 @@
 package src;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author UltraXP
  */
-public class PastaCorrecao {
+public class PastaCorrecao implements Serializable {
     
     private ListaIO io = null;
     private ArquivoFonte[] arquivosPas = null;

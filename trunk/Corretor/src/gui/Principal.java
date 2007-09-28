@@ -10,6 +10,7 @@ import javax.swing.JProgressBar;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListDataListener;
+import log.GerenciaSerializacao;
 import log.TestaCorrecao;
 import log.Constantes;
 import log.TestaImportacao;
@@ -68,6 +69,15 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Corretor de Programas em Pascal");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
         menuArquivo.setText("Arquivo");
         itemNova.setText("Nova Corre\u00e7\u00e3o");
         itemNova.addActionListener(new java.awt.event.ActionListener() {
@@ -146,6 +156,16 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
+        gerSer.serializar(pastasCorrecao);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
+        gerSer.serializar(pastasCorrecao);
+    }//GEN-LAST:event_formWindowClosed
+
     private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
         Ajuda ajuda = new Ajuda(this, true);
         ajuda.setVisible(true);
@@ -162,12 +182,8 @@ public class Principal extends javax.swing.JFrame {
         fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
         diretorio = fc.getSelectedFile();
-        try {
-            TestaImportacao ti = new TestaImportacao(diretorio);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        TestaImportacao ti = new TestaImportacao(diretorio);
+        pastasCorrecao = ti.importar();
     }//GEN-LAST:event_itemImportarActionPerformed
 
     private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
@@ -182,6 +198,8 @@ public class Principal extends javax.swing.JFrame {
             try {
                 TestaCorrecao tc = new TestaCorrecao(diretorio);
                 pastasCorrecao = tc.getPastasCorrecao();
+                GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
+                gerSer.serializar(pastasCorrecao);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
