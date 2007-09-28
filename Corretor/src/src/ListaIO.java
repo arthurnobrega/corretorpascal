@@ -10,13 +10,15 @@
 package src;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author UltraXP
  */
-public class ListaIO {
+public class ListaIO implements Serializable {
     
     public ArrayList<File> entradas = null;
     public ArrayList<File> gabaritos = null;
@@ -32,20 +34,30 @@ public class ListaIO {
         gabaritos.add(gabarito);
     }
     
-    public File getEntrada(int indice) {
-        return entradas.get(indice);
+    public File getEntrada(int indice){
+        if (indice >= 0) {
+            return entradas.get(indice);
+        }
+            return null;
     }
     
     public void removerEntrada(int indice) {
-        entradas.remove(indice);
+        if (indice >= 0) {
+            entradas.remove(indice);
+        }
     }
     
     public File getGabarito(int indice) {
-        return gabaritos.get(indice);
+        if (indice >= 0) {
+            return gabaritos.get(indice);
+        }
+        return null;
     }    
     
-    public void removerGabarito(int indice) {
-        gabaritos.remove(indice);
+    public void removerGabarito(int indice) throws IOException {
+        if (indice >= 0) {
+            gabaritos.remove(indice);
+        }
     }
     
     public int getTamLista() {

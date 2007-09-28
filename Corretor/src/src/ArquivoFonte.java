@@ -10,12 +10,13 @@
 package src;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  *
  * @author UltraXP
  */
-public class ArquivoFonte {
+public class ArquivoFonte implements Serializable {
     
     private File arquivo = null;
     private boolean erroCompilacao = false;

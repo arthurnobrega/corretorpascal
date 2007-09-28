@@ -22,21 +22,17 @@ import src.PastaCorrecao;
 public class TestaImportacao {
     
     File diretorio = null;
-    PastaCorrecao[] pastasAlunos = null;
+    PastaCorrecao[] pastasCorrecao = null;
     
     /** Creates a new instance of TestaCorrecao */
-    public TestaImportacao(File diretorio) throws IOException {
+    public TestaImportacao(File diretorio) {
         this.diretorio = diretorio;
-        
-        GerenciaPas gp = new GerenciaPas(diretorio);
-        pastasAlunos = gp.procurarPastasPas();
-        if (pastasAlunos.length == 0) {
-            throw new IOException();
-        }
+        this.pastasCorrecao = pastasCorrecao;
     }
     
-    public PastaCorrecao[] getListaAlunos() {
-        return pastasAlunos;
+    public PastaCorrecao[] importar() {
+        GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
+        return gerSer.desserializar();
     }
     
 }

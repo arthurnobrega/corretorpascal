@@ -18,5 +18,7 @@ public class Constantes {
     
     public static final String NARQ_ENT= "Entrada";
     public static final String NARQ_GAB= "Gabarito";
+    
+    public static final String NARQ_SER= "Correção.ser";
 
 }
