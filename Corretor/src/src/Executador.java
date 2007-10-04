@@ -1,6 +1,7 @@
 package src;
 
 import java.io.BufferedReader;
+import java.io.File;
 
 public class Executador{
     
@@ -8,9 +9,10 @@ public class Executador{
     private BufferedReader br = null;
     private String args = null;
  
-    public Executador(String args) {
-
+    public Executador(File diretorio, String args) {
+        
         try {
+            /*
             String osName = System.getProperty("os.name");
             String[] cmd = new String[3];
             if (osName.equals("Windows NT") || osName.equals("Windows XP")) {
@@ -18,19 +20,21 @@ public class Executador{
                 cmd[1] = "/C";
                 cmd[2] = args;
             } else if (osName.equals("Linux")) {
-                cmd[0] = "konsole";
-                cmd[1] = "-e";
-                cmd[2] = args;
+                cmd[0] = diretorio.getAbsolutePath() + "/" + args;
+                cmd[1] = "";
+                cmd[2] = "";
             } else if (osName.equals("Windows 95")) {
                 cmd[0] = "command.com";
                 cmd[1] = "/C";
                 cmd[2] = args;
             }
+             */
 
             Runtime rt = Runtime.getRuntime();
-            System.out.println("Execing " + cmd[0] + " " + cmd[1] 
-                               + " " + cmd[2]);
-            Process proc = rt.exec(cmd);
+            System.out.println("Setando diretório: " + diretorio.getAbsolutePath());
+            System.out.println("Executando: " + args);
+            String[] env = new String[] {"PATH=" + System.getenv("PATH")};
+            Process proc = rt.exec(args, env, diretorio);
             
             // alguma mensagem de erro?
             StreamGobbler errorGobbler = new 
