@@ -56,8 +56,7 @@ public class Correcao {
             File pastaAluno = new File(caminhoPasta + "/" + 
                     nomeArqFonte.substring(0, nomeArqFonte.length() - 4));
             
-            Executador ex = new Executador("cd " + pastaAluno.getAbsolutePath() +
-                    "&&" + "fpc " + nomeArqFonte);
+            Executador ex = new Executador(pastaAluno, "fpc " + nomeArqFonte);
             criarRelatorioErro(pastaAluno, ex.getValorSaida());
         }
     }
