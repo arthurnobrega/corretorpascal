@@ -14,11 +14,12 @@ public class Constantes {
     public static final String E_IMP = "O diret\u00f3rio informado n\u00e3o " +
             "\u00e9 v\u00e1lido,\n pois n\u00e3o foi feita uma corre\u00e7\u00e3o nele!";
     
-    public static final String E_COMPILACAO = "ERRO DE COMPILAÇÃO";
+    public static final String E_COMPILACAO = "ERRO DE COMPILA\u00c7\u00c3O";
     
     public static final String NARQ_ENT= "Entrada";
     public static final String NARQ_GAB= "Gabarito";
+    public static final String NARQ_REL= "Relatorio";
     
-    public static final String NARQ_SER= "Correção.ser";
+    public static final String NARQ_SER= "Correcao.ser";
 
 }

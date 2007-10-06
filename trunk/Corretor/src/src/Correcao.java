@@ -33,15 +33,14 @@ public class Correcao {
         
         for (ArquivoFonte fonteAluno : arqFontes) {
             File arqFonteAluno = fonteAluno.getArquivo();
-            String nomePasta = arqFonteAluno.getName().substring(0, 
-                    arqFonteAluno.getName().length() - 4);
-            
             File diretorio = pastaCorrecao.getPasta();
             
-            if (new File(diretorio.getAbsolutePath() + "/" + nomePasta).mkdir()) {
-                String texto = Arquivos.getTextoArquivo(arqFonteAluno);
-                Arquivos.salvarArquivo(new File(arqFonteAluno.getParent() + "/" + nomePasta + 
-                        "/" + arqFonteAluno.getName()), texto);
+            if (new File(arqFonteAluno.getParent()).mkdir()) {
+                File arquivoAntigo = new File(diretorio.getAbsolutePath() +
+                        "/" + arqFonteAluno.getName());
+                String texto = Arquivos.getTextoArquivo(arquivoAntigo);
+                arquivoAntigo.delete();
+                Arquivos.salvarArquivo(new File(arqFonteAluno.getAbsolutePath()), texto);
             }
         }
     }
@@ -57,24 +56,17 @@ public class Correcao {
                     nomeArqFonte.substring(0, nomeArqFonte.length() - 4));
             
             Executador ex = new Executador(pastaAluno, "fpc " + nomeArqFonte);
-            criarRelatorioErro(pastaAluno, ex.getValorSaida());
+            if (ex.getValorSaida() != 0) {
+                criarRelatorioErro(pastaAluno, fonteAluno);
+            }
         }
     }
     
-    private void criarRelatorioErro(File pastaAluno, int valorSaida) {
+    private void criarRelatorioErro(File pastaAluno, ArquivoFonte fonteAluno) {
         try {
-            if (valorSaida != 0) {
-                for (ArquivoFonte arqFonte : pastaCorrecao.getArquivosPas()) {
-                    String nomePasta = arqFonte.getArquivo().getName().substring(0, 
-                    arqFonte.getArquivo().getName().length() - 4);
-                    if (nomePasta.equals(pastaAluno.getName())) {
-                        arqFonte.setErroCompilacao(true);
-                    }
-                }
-                
-                Arquivos.salvarArquivo(new File(pastaAluno.getAbsolutePath() + 
-                        "/relatorio.txt"), Constantes.E_COMPILACAO);
-            }
+            fonteAluno.setErroCompilacao(true);
+            Arquivos.salvarArquivo(new File(pastaAluno.getAbsolutePath() + 
+                    "/" + Constantes.NARQ_REL + ".txt"), Constantes.E_COMPILACAO);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

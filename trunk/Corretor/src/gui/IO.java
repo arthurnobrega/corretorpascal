@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import log.GerenciaIO;
 import src.ArquivoFonte;
 import src.Arquivos;
@@ -191,6 +192,7 @@ public class IO extends javax.swing.JDialog {
         try {
             Arquivos.salvarArquivo(entrada, txtEntrada.getText());
             Arquivos.salvarArquivo(gabarito, txtGabarito.getText());
+            JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!", "Arquivo salvo!", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -40,6 +40,8 @@ public class TestaCorrecao {
                 Correcao cor = new Correcao(pastaCorrecao);
                 cor.criarDiretorios();
                 cor.compilarFontes();
+                GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
+                gerSer.serializar(pastasCorrecao);
             }
         } catch (IOException ex) {
             ex.printStackTrace();

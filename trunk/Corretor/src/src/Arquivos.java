@@ -68,7 +68,7 @@ public abstract class Arquivos {
        }
     }
     
-    public static PastaCorrecao[] desserializarCorrecao(File diretorio) {
+    public static PastaCorrecao[] desserializarCorrecao(File diretorio) throws IOException {
        File arq = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_SER);
        InputStream is;
        ObjectInputStream ois;  
@@ -79,15 +79,14 @@ public abstract class Arquivos {
               is = new FileInputStream(arq);
               ois = new ObjectInputStream(is);
               pastasCorrecao =  (PastaCorrecao[]) ois.readObject();
-              return pastasCorrecao;
            } catch (IOException e) {
               e.printStackTrace();
            } catch (ClassNotFoundException e) {
               e.printStackTrace();
            }
+       } else {
+           throw new IOException();
        }
-       
-       return null;
+       return pastasCorrecao;
     }
-
 }
