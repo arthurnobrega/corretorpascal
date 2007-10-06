@@ -30,7 +30,7 @@ public class TestaImportacao {
         this.pastasCorrecao = pastasCorrecao;
     }
     
-    public PastaCorrecao[] importar() {
+    public PastaCorrecao[] importar() throws IOException {
         GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
         return gerSer.desserializar();
     }

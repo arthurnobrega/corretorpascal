@@ -10,6 +10,7 @@
 package log;
 
 import java.io.File;
+import java.io.IOException;
 import src.Arquivos;
 import src.PastaCorrecao;
 
@@ -30,7 +31,7 @@ public class GerenciaSerializacao {
         Arquivos.serializarCorrecao(diretorio, pastasCorrecao);
     }
     
-    public PastaCorrecao[] desserializar() {
+    public PastaCorrecao[] desserializar() throws IOException {
         return Arquivos.desserializarCorrecao(diretorio);
     }
     

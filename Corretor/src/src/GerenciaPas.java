@@ -25,7 +25,7 @@ public class GerenciaPas {
         this.diretorio = diretorio;
     }
     
-    public ArquivoFonte[] procurarPas() {
+    private ArquivoFonte[] procurarPas() {
         File[] arquivos = diretorio.listFiles();
         ArrayList<ArquivoFonte> listaAlunos = new ArrayList<ArquivoFonte>();
         for (File arq : arquivos) {
@@ -34,7 +34,9 @@ public class GerenciaPas {
             
             if ((nomeArq.length() > 4) && (nomeArq.substring(tamarq - 4, tamarq).equals(".pas")) 
                     && (arq.isFile())) {
-                ArquivoFonte arqFonte = new ArquivoFonte(arq);
+                File arquivoFonte = new File(arq.getParent() + "/" + 
+                        nomeArq.substring(0,tamarq - 4) + "/" + arq.getName());
+                ArquivoFonte arqFonte = new ArquivoFonte(arquivoFonte);
                 listaAlunos.add(arqFonte);
             }
             
