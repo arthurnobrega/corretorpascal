@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import log.GerenciaIO;
-import src.ArquivoFonte;
+import src.Aluno;
 import src.Arquivos;
 import src.ListaIO;
 import src.PastaCorrecao;
