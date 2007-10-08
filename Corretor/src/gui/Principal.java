@@ -10,8 +10,10 @@ import javax.swing.JProgressBar;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListDataListener;
+import log.GerenciaReversao;
 import log.GerenciaSerializacao;
 import log.TestaCorrecao;
+import log.TestaPreCorrecao;
 import log.Constantes;
 import log.TestaImportacao;
 import src.PastaCorrecao;
@@ -64,6 +66,8 @@ public class Principal extends javax.swing.JFrame {
         menuFerramentas = new javax.swing.JMenu();
         itemEntradas = new javax.swing.JMenuItem();
         itemReverter = new javax.swing.JMenuItem();
+        menuConstruir = new javax.swing.JMenu();
+        itemCorrigir = new javax.swing.JMenuItem();
         menuAjuda = new javax.swing.JMenu();
         itemAjuda = new javax.swing.JMenuItem();
         itemSobre = new javax.swing.JMenuItem();
@@ -130,6 +134,18 @@ public class Principal extends javax.swing.JFrame {
 
         barraMenu.add(menuFerramentas);
 
+        menuConstruir.setText("Construir");
+        itemCorrigir.setText("Corrigir");
+        itemCorrigir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCorrigirActionPerformed(evt);
+            }
+        });
+
+        menuConstruir.add(itemCorrigir);
+
+        barraMenu.add(menuConstruir);
+
         menuAjuda.setText("Ajuda");
         itemAjuda.setText("Conte\u00fados de Ajuda");
         itemAjuda.addActionListener(new java.awt.event.ActionListener() {
@@ -166,22 +182,27 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
+        TestaCorrecao testaCor = new TestaCorrecao(diretorio, pastasCorrecao);
+    }//GEN-LAST:event_itemCorrigirActionPerformed
+
     private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
-        
+        GerenciaReversao gerRev = new GerenciaReversao(diretorio, pastasCorrecao);
+        gerRev.reverter();
     }//GEN-LAST:event_itemReverterActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if (pastasCorrecao != null) {
+        /*if (pastasCorrecao != null) {
             GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
             gerSer.serializar(pastasCorrecao);
-        }
+        }*/
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        if (pastasCorrecao != null) {
+        /*if (pastasCorrecao != null) {
             GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
             gerSer.serializar(pastasCorrecao);
-        }
+        }*/
     }//GEN-LAST:event_formWindowClosed
 
     private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
@@ -198,15 +219,19 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fc.showOpenDialog(this);
+        int resultado = fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
-        diretorio = fc.getSelectedFile();
-        TestaImportacao ti = new TestaImportacao(diretorio);
-        try {
-            pastasCorrecao = ti.importar();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
-                    JOptionPane.ERROR_MESSAGE);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            diretorio = null;
+        } else {
+            diretorio = fc.getSelectedFile();
+            TestaImportacao ti = new TestaImportacao(diretorio);
+            try {
+                pastasCorrecao = ti.importar();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_itemImportarActionPerformed
 
@@ -220,7 +245,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             diretorio = fc.getSelectedFile();
             try {
-                TestaCorrecao tc = new TestaCorrecao(diretorio);
+                TestaPreCorrecao tc = new TestaPreCorrecao(diretorio);
                 pastasCorrecao = tc.getPastasCorrecao();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
@@ -254,6 +279,7 @@ public class Principal extends javax.swing.JFrame {
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemAjuda;
+    private javax.swing.JMenuItem itemCorrigir;
     private javax.swing.JMenuItem itemEntradas;
     private javax.swing.JMenuItem itemImportar;
     private javax.swing.JMenuItem itemNova;
@@ -262,6 +288,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemSobre;
     private javax.swing.JMenu menuAjuda;
     private javax.swing.JMenu menuArquivo;
+    private javax.swing.JMenu menuConstruir;
     private javax.swing.JMenu menuFerramentas;
     // Fim da declaração de variáveis//GEN-END:variables
     

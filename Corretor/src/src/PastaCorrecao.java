@@ -20,13 +20,13 @@ import java.util.ArrayList;
 public class PastaCorrecao implements Serializable {
     
     private ListaIO io = null;
-    private ArquivoFonte[] arquivosPas = null;
+    private Aluno[] alunos = null;
     private File pasta = null;
     
     /** Creates a new instance of PastaCorrecao */
-    public PastaCorrecao(File pasta, ArquivoFonte[] arquivosPas) {
+    public PastaCorrecao(File pasta, Aluno[] alunos) {
         this.pasta = pasta;
-        this.arquivosPas = arquivosPas;
+        this.alunos = alunos;
         io = new ListaIO();
     }
     
@@ -34,8 +34,8 @@ public class PastaCorrecao implements Serializable {
         return io;
     }
     
-    public ArquivoFonte[] getArquivosPas() {
-        return arquivosPas;
+    public Aluno[] getAlunos() {
+        return alunos;
     }
     
     public File getPasta() {

@@ -16,26 +16,35 @@ import java.io.Serializable;
  *
  * @author UltraXP
  */
-public class ArquivoFonte implements Serializable {
+public class Aluno implements Serializable {
     
-    private File arquivo = null;
+    private File saida = null;
+    private File fonte = null;
     private boolean erroCompilacao = false;
     
     /** Creates a new instance of ArquivoFonte */
-    public ArquivoFonte(File arquivo) {
-        this.arquivo = arquivo;
+    public Aluno(File fonte) {
+        this.fonte = fonte;
     }
 
-    public File getArquivo() {
-        return arquivo;
+    public File getArquivoFonte() {
+        return fonte;
+    }
+    
+    public void setErroCompilacao(boolean erro) {
+        erroCompilacao = erro;
     }
     
     public boolean getErroCompilacao() {
         return erroCompilacao;
     }
     
-    public void setErroCompilacao(boolean erro) {
-        erroCompilacao = erro;
+    public void setArquivoSaida(File saida) {
+        this.saida = saida;
+    }
+    
+    public File getArquivoSaida() {
+        return saida;
     }
     
 }
