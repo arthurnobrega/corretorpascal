@@ -84,7 +84,7 @@ public class Correcao {
                 for (int i = 0; i <= tamLista - 1; i++) {
                     File saida = new File(fonte.getParent() + "/" + Constantes.NARQ_SAI +
                             (i + 1) + ".txt");
-                    File entrada = pastaCorrecao.getListaIO().getEntrada(i);
+                    String entrada = pastaCorrecao.getListaIO().getEntrada(i);
                     String args = nomeAluno + ".exe";
                     
                     Executador ex = new Executador(fonte.getParentFile(), args, entrada, saida);

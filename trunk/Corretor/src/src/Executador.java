@@ -9,11 +9,11 @@ public class Executador{
     private BufferedReader br = null;
     private String args = null;
  
-    public Executador(File diretorio, String args, File entrada, File saida) {
+    public Executador(File diretorio, String args, String entrada, File saida) {
         
         try {
             Runtime rt = Runtime.getRuntime();
-            System.out.println("Setando diretório: " + diretorio.getAbsolutePath());
+            System.out.println("Setando diretï¿½rio: " + diretorio.getAbsolutePath());
             System.out.println("Executando: " + args);
             String[] env = new String[] {"PATH=" + System.getenv("PATH")};
             Process proc = rt.exec(args, env, diretorio);
@@ -22,7 +22,7 @@ public class Executador{
             StreamGobbler errorGobbler = new 
                 StreamGobbler(proc.getErrorStream(), "ERROR");
 
-            // alguma saída?
+            // alguma saï¿½da?
             StreamGobbler outputGobbler = new 
                 StreamGobbler(proc.getInputStream(), "OUTPUT");
 
@@ -32,7 +32,7 @@ public class Executador{
             br = outputGobbler.getBufferedReader();            
             exitVal = proc.waitFor();
             
-            System.out.println("Valor de Saída: " + exitVal);
+            System.out.println("Valor de Saï¿½da: " + exitVal);
         } catch (Throwable t) {
             t.printStackTrace();
         }
