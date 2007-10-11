@@ -20,44 +20,50 @@ import java.util.ArrayList;
  */
 public class ListaIO implements Serializable {
     
-    public ArrayList<File> entradas = null;
-    public ArrayList<File> gabaritos = null;
+    public ArrayList<String> entradas = null;
+    public ArrayList<String> gabaritos = null;
     
     /** Creates a new instance of ListaEntradas */
     public ListaIO() {
-        entradas = new ArrayList<File>();
-        gabaritos = new ArrayList<File>();
+        entradas = new ArrayList<String>();
+        gabaritos = new ArrayList<String>();
     }
     
-    public void adicionarIO(File entrada, File gabarito) {
+    public void adicionarIO(String entrada, String gabarito) {
         entradas.add(entrada);
         gabaritos.add(gabarito);
     }
     
-    public File getEntrada(int indice){
+    public void alterarIO(int indice, String entrada, String gabarito) {
+        if (indice >= 0) {
+            String ent = entradas.get(indice);
+            String gab = gabaritos.get(indice);
+            entradas.get(indice);
+            entradas.set(indice, entrada);
+            gabaritos.get(indice);
+            gabaritos.set(indice, gabarito);
+        }
+    }
+    
+    public void removerIO(int indice) {
+        if (indice >= 0) {
+            entradas.remove(indice);
+            gabaritos.remove(indice);
+        }
+    }
+    
+    public String getEntrada(int indice){
         if (indice >= 0) {
             return entradas.get(indice);
         }
             return null;
     }
     
-    public void removerEntrada(int indice) {
-        if (indice >= 0) {
-            entradas.remove(indice);
-        }
-    }
-    
-    public File getGabarito(int indice) {
+    public String getGabarito(int indice) {
         if (indice >= 0) {
             return gabaritos.get(indice);
         }
         return null;
-    }    
-    
-    public void removerGabarito(int indice) throws IOException {
-        if (indice >= 0) {
-            gabaritos.remove(indice);
-        }
     }
     
     public int getTamLista() {
