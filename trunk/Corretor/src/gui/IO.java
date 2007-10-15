@@ -192,7 +192,7 @@ public class IO extends javax.swing.JDialog {
         
         listaIO.alterarIO(listaEntradas.getSelectedIndex(), txtEntrada.getText(), txtGabarito.getText());
         Arquivos.serializarCorrecao(diretorio, pastasCorrecao);
-        JOptionPane.showMessageDialog(null, "AlteraÃ§Ãµes salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void listaEntradasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEntradasValueChanged
