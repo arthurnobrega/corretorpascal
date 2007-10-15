@@ -56,6 +56,7 @@ public class Correcao {
                     nomeArqFonte.substring(0, nomeArqFonte.length() - 4));
             
             Executador ex = new Executador(pastaAluno, "fpc " + nomeArqFonte, null, null);
+            ex.executar();
             if (ex.getValorSaida() != 0) {
                 criarRelatorioErro(pastaAluno, fonteAluno);
             }
@@ -85,9 +86,10 @@ public class Correcao {
                     File saida = new File(fonte.getParent() + "/" + Constantes.NARQ_SAI +
                             (i + 1) + ".txt");
                     String entrada = pastaCorrecao.getListaIO().getEntrada(i);
-                    String args = nomeAluno + ".exe";
+                    String args = "cmd /C " + nomeAluno + ".exe";
                     
                     Executador ex = new Executador(fonte.getParentFile(), args, entrada, saida);
+                    ex.executar();
                 }
             }
         }

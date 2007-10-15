@@ -36,7 +36,7 @@ public class GerenciaIO {
         ListaIO listaIO = pastaCorrecao.getListaIO();
         String[] nomesIO = new String[listaIO.getTamLista()];
         for (int i = 0; i <= nomesIO.length - 1; i++) {
-            nomesIO[i] = "Nï¿½vel " + (i + 1);
+            nomesIO[i] = "Nível " + (i + 1);
         }
         
         return nomesIO;

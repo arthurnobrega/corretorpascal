@@ -6,6 +6,8 @@
 
 package gui;
 
+import javax.swing.JProgressBar;
+
 /**
  *
  * @author  UltraXP
@@ -13,11 +15,15 @@ package gui;
 public class BarraProgresso extends javax.swing.JDialog {
     
     /** Creates new form BarraProgresso */
-    public BarraProgresso(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public BarraProgresso(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
-        barraProgresso.setString("Carregando...");
-        barraProgresso.setIndeterminate(true);
+        setTitle("Carregando...");
+        barraProgresso.setMinimum(0);  
+        barraProgresso.setMaximum(100);  
+        barraProgresso.setIndeterminate(false);
+        barraProgresso.setStringPainted(true);
+        barraProgresso.setValue(0);
         Janelas.alinharContainer(this);
     }
     
@@ -36,14 +42,18 @@ public class BarraProgresso extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+            .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    public JProgressBar getBarraProgresso() {
+        return barraProgresso;
+    }
     
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JProgressBar barraProgresso;
