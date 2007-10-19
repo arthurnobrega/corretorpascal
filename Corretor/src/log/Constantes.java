@@ -20,7 +20,9 @@ public class Constantes {
     public static final String NARQ_GAB= "Gabarito";
     public static final String NARQ_REL= "Relatorio";
     public static final String NARQ_SAI= "Saida";
-    
     public static final String NARQ_SER= "Correcao.ser";
+    
+    public static final String TS_SAI = "SAÍDA";
+    public static final String TS_ERR = "ERRO";
 
 }
