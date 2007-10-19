@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.StringTokenizer;
+import log.Constantes;
 
 public class Executador {
     
@@ -34,40 +35,25 @@ public class Executador {
             String[] env = new String[] {"PATH=" + System.getenv("PATH")};
             Process proc = rt.exec(args, env, diretorio);
             
-            if (entrada != null && saida != null) {
-                InputStream in = proc.getInputStream();
-                int c;
-                StringBuilder texto = new StringBuilder();
-                StringTokenizer tokenizer = new StringTokenizer(entrada);
-                String token = null;
-                while (tokenizer.hasMoreTokens()) {
-                    while ((c = in.read()) != -1) {
-                        if (c == 13) {
-                            OutputStream out = proc.getOutputStream();
-                            token = tokenizer.nextToken();
-                            out.write(token.getBytes());
-                        }
-
-                        char caracter = (char) c;
-                        texto.append(caracter);
-                    }
-                }
-                Arquivos.salvarArquivo(saida, texto.toString());
-                in.close();
-            }
-            
             // alguma mensagem de erro?
             StreamGobbler errorGobbler = new 
-                StreamGobbler(proc.getErrorStream(), "ERROR");
+                StreamGobbler(proc.getErrorStream(), Constantes.TS_ERR);
 
             // alguma saï¿½da?
             StreamGobbler outputGobbler = new 
-                StreamGobbler(proc.getInputStream(), "OUTPUT");
+                StreamGobbler(proc.getInputStream(), Constantes.TS_SAI);
 
             errorGobbler.start();
             outputGobbler.start();
             
-            br = outputGobbler.getBufferedReader();            
+            if (saida != null && entrada != null) {
+                Arquivos.salvarArquivo(saida, "");
+                OutputStream out = proc.getOutputStream();
+                out.write((entrada + "\n\n").getBytes());
+                out.close();
+                br = outputGobbler.getBufferedReader();
+                String linha = null;
+            }
             exitVal = proc.waitFor();
             
             System.out.println("Valor de Saída: " + exitVal);
@@ -100,8 +86,13 @@ public class Executador {
                 InputStreamReader isr = new InputStreamReader(is);
                 br = new BufferedReader(isr);
                 String line = null;
-                while ( (line = br.readLine()) != null)
+                while ( (line = br.readLine()) != null) {
                     System.out.println(type + ">" + line);
+                    if (type.equals(Constantes.TS_SAI) && saida != null) {
+                        String texto = Arquivos.getTextoArquivo(saida);
+                        Arquivos.salvarArquivo(saida, texto + line);
+                    }
+                }
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
