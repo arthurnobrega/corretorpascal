@@ -21,59 +21,66 @@ import log.Constantes;
  */
 public class Correcao {
     
-    PastaCorrecao pastaCorrecao = null;
+    Aluno aluno = null;
     
     /** Creates a new instance of Correcao */
-    public Correcao(PastaCorrecao pastaCorrecao) {
-        this.pastaCorrecao = pastaCorrecao;
+    public Correcao(Aluno aluno) {
+        this.aluno = aluno;
     }
     
-    public void criarDiretorios() throws IOException {        
-        Aluno[] arqFontes = pastaCorrecao.getAlunos();
+    public void criarDiretorios() throws IOException {
+        ArquivoFonte[] arquivosFontes = aluno.getFontes();
+        ArquivoFonte[] novosArquivosFontes = new ArquivoFonte[arquivosFontes.length];
         
-        for (Aluno fonteAluno : arqFontes) {
-            File arqFonteAluno = fonteAluno.getArquivoFonte();
-            File diretorio = pastaCorrecao.getPasta();
+        for (int i = 0; i <= arquivosFontes.length - 1; i++) {
+            ArquivoFonte arquivoFonte = arquivosFontes[i];
+            File arqFonte = arquivoFonte.getArquivo();
             
-            if (new File(arqFonteAluno.getParent()).mkdir()) {
+            File diretorio = aluno.getDiretorio();
+            File pastaFonte = new File(diretorio.getAbsolutePath() + "/" + 
+                    arqFonte.getName().substring(0, arqFonte.getName().length()- 4));
+            
+            if (pastaFonte.mkdir()) {
                 File arquivoAntigo = new File(diretorio.getAbsolutePath() +
-                        "/" + arqFonteAluno.getName());
+                        "/" + arqFonte.getName());
                 String texto = Arquivos.getTextoArquivo(arquivoAntigo);
                 arquivoAntigo.delete();
-                Arquivos.salvarArquivo(new File(arqFonteAluno.getAbsolutePath()), texto);
+                File novoArquivo = new File(pastaFonte.getAbsolutePath() + "/" + arqFonte.getName());
+                Arquivos.salvarArquivo(novoArquivo, texto);
+                ArquivoFonte novoArquivoFonte = new ArquivoFonte(novoArquivo);
+                novosArquivosFontes[i] = novoArquivoFonte;
             }
         }
+        aluno.setFontes(novosArquivosFontes);
     }
     
     public void compilarFontes() throws IOException {
-        Aluno[] arqFontes = pastaCorrecao.getAlunos();
+        ArquivoFonte[] arquivosFontes = aluno.getFontes();
         
-        for (Aluno fonteAluno : arqFontes) {
-            String nomeArqFonte = fonteAluno.getArquivoFonte().getName();
-            String caminhoPasta = pastaCorrecao.getPasta().getAbsolutePath();
+        for (int i = 0; i <= arquivosFontes.length - 1; i++) {
+            ArquivoFonte arquivoFonte = arquivosFontes[i];
+            File arqFonte = arquivoFonte.getArquivo();
             
-            File pastaAluno = new File(caminhoPasta + "/" + 
-                    nomeArqFonte.substring(0, nomeArqFonte.length() - 4));
-            
-            Executador ex = new Executador(pastaAluno, "fpc " + nomeArqFonte, null, null);
+            Executador ex = new Executador(arqFonte.getParentFile(), new String[] {
+                "fpc", arqFonte.getName()}, null, null);
             ex.executar();
             if (ex.getValorSaida() != 0) {
-                criarRelatorioErro(pastaAluno, fonteAluno);
+                criarRelatorioErro(arquivoFonte);
             }
         }
     }
     
-    private void criarRelatorioErro(File pastaAluno, Aluno fonteAluno) {
+    private void criarRelatorioErro(ArquivoFonte arquivoFonte) {
         try {
-            fonteAluno.setErroCompilacao(true);
-            Arquivos.salvarArquivo(new File(pastaAluno.getAbsolutePath() + 
-                    "/" + Constantes.NARQ_REL + ".txt"), Constantes.E_COMPILACAO);
+            arquivoFonte.setErroCompilacao(true);
+            Arquivos.salvarArquivo(new File(arquivoFonte.getArquivo().getParent() + 
+                    "/" + Constantes.NARQ_REL), Constantes.E_COMPILACAO);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    public void gerarSaidas() {
+    public void gerarSaidas() {/*
         Aluno[] fontesAlunos = pastaCorrecao.getAlunos();
         for (Aluno aluno : fontesAlunos) {
             if (!aluno.getErroCompilacao()) {
@@ -86,13 +93,17 @@ public class Correcao {
                     File saida = new File(fonte.getParent() + "/" + Constantes.NARQ_SAI +
                             (i + 1) + ".txt");
                     String entrada = pastaCorrecao.getListaIO().getEntrada(i);
-                    String args = "cmd /C " + nomeAluno + ".exe";
+                    String args = "cmd /C " + nomeAluno;
                     
                     Executador ex = new Executador(fonte.getParentFile(), args, entrada, saida);
                     ex.executar();
                 }
             }
-        }
+        }*/
+    }
+    
+    private void gerarSaidaUnitaria(ArrayList<ListaIO> listaIO, Aluno aluno) {
+        
     }
     
 }

@@ -99,32 +99,32 @@ public abstract class Arquivos {
         return dir.delete();  
     }
     
-    public static void serializarCorrecao(File diretorio, PastaCorrecao[] pastasCorrecao) {
-       File arq = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_SER);
+    public static void serializarCorrecao(PastaCorrecao pastaCorrecao) {
+       File arq = new File(pastaCorrecao.getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
        FileOutputStream fos;
        ObjectOutputStream oos;
        
        try {
           fos = new FileOutputStream(arq);
           oos = new ObjectOutputStream(fos);
-          oos.writeObject((PastaCorrecao[]) pastasCorrecao);
+          oos.writeObject((PastaCorrecao) pastaCorrecao);
           oos.close();
        } catch (IOException e) {
           e.printStackTrace();
        }
     }
     
-    public static PastaCorrecao[] desserializarCorrecao(File diretorio) throws IOException {
+    public static PastaCorrecao desserializarCorrecao(File diretorio) throws IOException {
        File arq = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_SER);
        InputStream is;
        ObjectInputStream ois;  
-       PastaCorrecao[] pastasCorrecao = null;
+       PastaCorrecao pastaCorrecao = null;
        
        if (arq.exists()) {
            try {
               is = new FileInputStream(arq);
               ois = new ObjectInputStream(is);
-              pastasCorrecao =  (PastaCorrecao[]) ois.readObject();
+              pastaCorrecao =  (PastaCorrecao) ois.readObject();
            } catch (IOException e) {
               e.printStackTrace();
            } catch (ClassNotFoundException e) {
@@ -133,6 +133,6 @@ public abstract class Arquivos {
        } else {
            throw new IOException();
        }
-       return pastasCorrecao;
+       return pastaCorrecao;
     }
 }

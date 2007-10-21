@@ -12,7 +12,7 @@ package log;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import src.GerenciaPas;
+import src.Configuracao;
 import src.PastaCorrecao;
 
 /**
@@ -22,15 +22,13 @@ import src.PastaCorrecao;
 public class TestaImportacao {
     
     File diretorio = null;
-    PastaCorrecao[] pastasCorrecao = null;
     
     /** Creates a new instance of TestaCorrecao */
     public TestaImportacao(File diretorio) {
         this.diretorio = diretorio;
-        this.pastasCorrecao = pastasCorrecao;
     }
     
-    public PastaCorrecao[] importar() throws IOException {
+    public PastaCorrecao importar() throws IOException {
         GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
         return gerSer.desserializar();
     }

@@ -27,11 +27,11 @@ public class GerenciaSerializacao {
         this.diretorio = diretorio;
     }
     
-    public void serializar(PastaCorrecao[] pastasCorrecao) {
-        Arquivos.serializarCorrecao(diretorio, pastasCorrecao);
+    public void serializar(PastaCorrecao pastaCorrecao) {
+        Arquivos.serializarCorrecao(pastaCorrecao);
     }
     
-    public PastaCorrecao[] desserializar() throws IOException {
+    public PastaCorrecao desserializar() throws IOException {
         return Arquivos.desserializarCorrecao(diretorio);
     }
     

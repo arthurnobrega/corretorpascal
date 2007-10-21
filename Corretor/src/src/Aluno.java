@@ -11,6 +11,7 @@ package src;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,33 +19,34 @@ import java.io.Serializable;
  */
 public class Aluno implements Serializable {
     
-    private File saida = null;
-    private File fonte = null;
-    private boolean erroCompilacao = false;
+    private ArrayList<Saidas> saidas = null;
+    private ArquivoFonte[] fontes = null;
+    private File diretorio = null;
     
     /** Creates a new instance of ArquivoFonte */
-    public Aluno(File fonte) {
-        this.fonte = fonte;
+    public Aluno(File diretorio, ArquivoFonte[] fontes) {
+        this.diretorio = diretorio;
+        this.fontes = fontes;
     }
 
-    public File getArquivoFonte() {
-        return fonte;
+    public void setFontes(ArquivoFonte[] fontes) {
+        this.fontes = fontes;
     }
     
-    public void setErroCompilacao(boolean erro) {
-        erroCompilacao = erro;
+    public ArquivoFonte[] getFontes() {
+        return fontes;
     }
     
-    public boolean getErroCompilacao() {
-        return erroCompilacao;
+    public File getDiretorio() {
+        return diretorio;
     }
     
-    public void setArquivoSaida(File saida) {
-        this.saida = saida;
+    public void setSaidas(ArrayList<Saidas> saidas) {
+        this.saidas = saidas;
     }
     
-    public File getArquivoSaida() {
-        return saida;
+    public ArrayList<Saidas> getSaidas() {
+        return saidas;
     }
     
 }

@@ -28,12 +28,12 @@ public class GerenciaIO {
         this.pastaCorrecao = pastaCorrecao;
     }
     
-    public void adicionar() {
-        pastaCorrecao.getListaIO().adicionarIO("", "");
+    public void adicionarIO(int indice) {
+        pastaCorrecao.getArrayListIO().get(indice).adicionarIO("", "");
     }
     
-    public String[] getVetorIO() {
-        ListaIO listaIO = pastaCorrecao.getListaIO();
+    public String[] getVetorIO(int indice) {
+        ListaIO listaIO = pastaCorrecao.getArrayListIO().get(indice);
         String[] nomesIO = new String[listaIO.getTamLista()];
         for (int i = 0; i <= nomesIO.length - 1; i++) {
             nomesIO[i] = "Nível " + (i + 1);
@@ -42,8 +42,8 @@ public class GerenciaIO {
         return nomesIO;
     }
     
-    public void removerIO(int indice) {
-        pastaCorrecao.getListaIO().removerIO(indice);
+    public void removerIO(int nroQuestao, int indice) {
+        pastaCorrecao.getArrayListIO().get(nroQuestao).removerIO(indice);
     }
             
 }

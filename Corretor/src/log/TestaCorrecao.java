@@ -10,6 +10,7 @@
 package log;
 
 import java.io.File;
+import src.Aluno;
 import src.Correcao;
 import src.PastaCorrecao;
 
@@ -19,17 +20,18 @@ import src.PastaCorrecao;
  */
 public class TestaCorrecao {
     
-    PastaCorrecao[] pastasCorrecao = null;
+    PastaCorrecao pastaCorrecao = null;
     
     /** Creates a new instance of TestaCorrecao */
-    public TestaCorrecao(File diretorio, PastaCorrecao[] pastasCorrecao) {
-        this.pastasCorrecao = pastasCorrecao;
+    public TestaCorrecao(PastaCorrecao pastaCorrecao) {
+        this.pastaCorrecao = pastaCorrecao;
+        Aluno[] alunos = pastaCorrecao.getAlunos();
         
-        for (PastaCorrecao pastaCorrecao : pastasCorrecao) {
-            Correcao cor = new Correcao(pastaCorrecao);
+        for (Aluno aluno : alunos) {
+            Correcao cor = new Correcao(aluno);
             cor.gerarSaidas();
-            GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
-            gerSer.serializar(pastasCorrecao);
+            GerenciaSerializacao gerSer = new GerenciaSerializacao(pastaCorrecao.getDiretorio());
+            gerSer.serializar(pastaCorrecao);
         }
     }
     
