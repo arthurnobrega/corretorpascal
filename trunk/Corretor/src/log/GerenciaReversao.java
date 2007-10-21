@@ -12,6 +12,7 @@ package log;
 import java.io.File;
 import java.io.IOException;
 import src.Aluno;
+import src.ArquivoFonte;
 import src.Arquivos;
 import src.PastaCorrecao;
 
@@ -21,29 +22,28 @@ import src.PastaCorrecao;
  */
 public class GerenciaReversao {
     
-    PastaCorrecao[] pastasCorrecao = null;
-    File diretorio = null;
+    PastaCorrecao pastaCorrecao = null;
     
     /** Creates a new instance of GerenciaReversao */
-    public GerenciaReversao(File diretorio, PastaCorrecao[] pastasCorrecao) {
-        this.pastasCorrecao = pastasCorrecao;
-        this.diretorio = diretorio;
+    public GerenciaReversao(PastaCorrecao pastaCorrecao) {
+        this.pastaCorrecao = pastaCorrecao;
     }
     
     public void reverter() {
         try {
-            for (PastaCorrecao pastaCorrecao : pastasCorrecao) {
-                Aluno[] alunos = pastaCorrecao.getAlunos();
-                for (Aluno aluno : alunos) {
-                    File arquivoAntigo = aluno.getArquivoFonte();
+            Aluno[] alunos = pastaCorrecao.getAlunos();
+            for (Aluno aluno : alunos) {
+                ArquivoFonte[] arquivosFontes = aluno.getFontes();
+                for (int i = 0; i <= arquivosFontes.length - 1; i++) {
+                    File arquivoAntigo = arquivosFontes[i].getArquivo();
                     String texto = Arquivos.getTextoArquivo(arquivoAntigo);
-                    Arquivos.salvarArquivo(new File(pastaCorrecao.getPasta().getAbsoluteFile() +
+                    Arquivos.salvarArquivo(new File(aluno.getDiretorio() + 
                             "/" + arquivoAntigo.getName()), texto);
                     Arquivos.deletarDiretorio(arquivoAntigo.getParentFile());
                 }
             }
             
-            File arqSer = new File(diretorio.getAbsolutePath() +
+            File arqSer = new File(pastaCorrecao.getDiretorio().getAbsolutePath() +
                                 "/" + Constantes.NARQ_SER);
             Arquivos.deletarArquivo(arqSer);
             System.out.println("Reversão Concluída!!");

@@ -16,10 +16,10 @@ public class Constantes {
     
     public static final String E_COMPILACAO = "ERRO DE COMPILA\u00c7\u00c3O";
     
-    public static final String NARQ_ENT= "Entrada";
-    public static final String NARQ_GAB= "Gabarito";
-    public static final String NARQ_REL= "Relatorio";
-    public static final String NARQ_SAI= "Saida";
+    public static final String NARQ_ENT= "Entrada.txt";
+    public static final String NARQ_GAB= "Gabarito.txt";
+    public static final String NARQ_REL= "Relatorio.txt";
+    public static final String NARQ_SAI= "Saida.txt";
     public static final String NARQ_SER= "Correcao.ser";
     
     public static final String TS_SAI = "SAÍDA";

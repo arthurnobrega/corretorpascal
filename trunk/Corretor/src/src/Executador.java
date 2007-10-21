@@ -15,12 +15,12 @@ public class Executador {
     
     private int exitVal = 0;
     private BufferedReader br = null;
-    private String args = null;
+    private String[] args = null;
     private File diretorio = null ;
     private String entrada = null;
     private File saida = null;
  
-    public Executador(File diretorio, String args, String entrada, File saida) {
+    public Executador(File diretorio, String[] args, String entrada, File saida) {
         this.diretorio = diretorio;
         this.args = args;
         this.entrada = entrada;

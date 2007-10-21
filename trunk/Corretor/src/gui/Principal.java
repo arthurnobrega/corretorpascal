@@ -34,7 +34,6 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void inicializarJFileChooser() {
-        UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
         UIManager.put("FileChooser.acceptAllFileFilterText", "Todos os arquivos");
         
         UIManager.put("FileChooser.openButtonToolTipText", "Abrir diretório selecionado");
@@ -180,14 +179,14 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
-        TestaCorrecao testaCor = new TestaCorrecao(diretorio, pastasCorrecao);
+        TestaCorrecao testaCor = new TestaCorrecao(pastaCorrecao);
     }//GEN-LAST:event_itemCorrigirActionPerformed
 
     private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
         int opcao = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja " +
                 "reverter a correção?", "Confirmação!", JOptionPane.YES_NO_OPTION);
         if (opcao == 0) {
-            GerenciaReversao gerRev = new GerenciaReversao(diretorio, pastasCorrecao);
+            GerenciaReversao gerRev = new GerenciaReversao(pastaCorrecao);
             gerRev.reverter();
             desabilitarOpcoes(new int[] { 0, 1, 2 });
         }
@@ -205,6 +204,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
         UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
+        File diretorio = null;
+        
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
@@ -215,7 +216,7 @@ public class Principal extends javax.swing.JFrame {
             diretorio = fc.getSelectedFile();
             TestaImportacao ti = new TestaImportacao(diretorio);
             try {
-                pastasCorrecao = ti.importar();
+                pastaCorrecao = ti.importar();
                 habilitarOpcoes(new int[] { 0, 1, 2 });
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
@@ -225,6 +226,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemImportarActionPerformed
 
     private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
+        UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
+        File diretorio = null;
+        
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
@@ -236,7 +240,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 barraProgresso = new BarraProgresso(this);
                 TestaPreCorrecao tc = new TestaPreCorrecao(diretorio, barraProgresso);
-                pastasCorrecao = tc.preCorrigir();
+                pastaCorrecao = tc.preCorrigir();
                 habilitarOpcoes(new int[] { 0, 1, 2});
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
@@ -250,7 +254,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSairActionPerformed
 
     private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
-        IO ent = new IO(this, diretorio, pastasCorrecao);
+        IO ent = new IO(this, pastaCorrecao.getDiretorio(), pastaCorrecao);
         ent.setVisible(true);
     }//GEN-LAST:event_itemEntradasActionPerformed
     
@@ -295,8 +299,7 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_COR = 2;
     
     BarraProgresso barraProgresso = null;
-    File diretorio = null;
-    PastaCorrecao[] pastasCorrecao = null;
+    PastaCorrecao pastaCorrecao = null;
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemAjuda;

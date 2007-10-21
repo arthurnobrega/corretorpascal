@@ -19,18 +19,18 @@ import java.util.ArrayList;
  */
 public class PastaCorrecao implements Serializable {
     
-    private ListaIO io = null;
+    private ArrayList<ListaIO> io = null;
     private Aluno[] alunos = null;
-    private File pasta = null;
+    private File diretorio = null;
     
     /** Creates a new instance of PastaCorrecao */
-    public PastaCorrecao(File pasta, Aluno[] alunos) {
-        this.pasta = pasta;
+    public PastaCorrecao(File diretorio, Aluno[] alunos) {
+        this.diretorio = diretorio;
         this.alunos = alunos;
-        io = new ListaIO();
+        io = new ArrayList<ListaIO>();
     }
     
-    public ListaIO getListaIO() {
+    public ArrayList<ListaIO> getArrayListIO() {
         return io;
     }
     
@@ -38,8 +38,8 @@ public class PastaCorrecao implements Serializable {
         return alunos;
     }
     
-    public File getPasta() {
-        return pasta;
+    public File getDiretorio() {
+        return diretorio;
     }
     
 }
