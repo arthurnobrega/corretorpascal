@@ -41,24 +41,31 @@ public class Correcao {
                     arqFonte.getName().substring(0, arqFonte.getName().length()- 4));
             
             if (arqFonte.getName().startsWith(Constantes.NARQ_QUE) && pastaFonte.mkdir()) {
-                File arquivoAntigo = new File(diretorio.getAbsolutePath() +
-                        "/" + arqFonte.getName());
-                String texto = Arquivos.getTextoArquivo(arquivoAntigo);
-                arquivoAntigo.delete();
-                File novoArquivo = new File(pastaFonte.getAbsolutePath() + "/" + arqFonte.getName());
-                Arquivos.salvarArquivo(novoArquivo, texto);
-                ArquivoFonte novoArquivoFonte = new ArquivoFonte(novoArquivo);
-                String[] temp1 = null;
-                String temp2 = null;
-                temp1 = arqFonte.getName().split(Constantes.NARQ_QUE);
-                temp2 = temp1[0];
-                temp1 = temp2.split(".pas");
-                int nro = Integer.parseInt(temp1[0]);
-                
-                novosArquivosFontes.add(novoArquivoFonte);
+                try {
+                    String[] temp1 = null;
+                    String temp2 = null;
+                    temp1 = arqFonte.getName().split(Constantes.NARQ_QUE);
+                    temp2 = temp1[1];
+                    temp1 = temp2.split(".pas");
+                    int nro = Integer.parseInt(temp1[0]);
+                    
+                    File arquivoAntigo = new File(diretorio.getAbsolutePath() +
+                            "/" + arqFonte.getName());
+                    String texto = Arquivos.getTextoArquivo(arquivoAntigo);
+                    arquivoAntigo.delete();
+                    File novoArquivo = new File(pastaFonte.getAbsolutePath() + "/" + arqFonte.getName());
+                    Arquivos.salvarArquivo(novoArquivo, texto);
+                    ArquivoFonte novoArquivoFonte = new ArquivoFonte(novoArquivo);
+                    while (novosArquivosFontes.size() < (nro - 1)) {
+                        novosArquivosFontes.add(null);
+                    }
+                    novosArquivosFontes.add(nro - 1, novoArquivoFonte);
+                } catch (NumberFormatException ex) {
+                    //ignorando
+                }
             }
         }
-        aluno.setFontes((ArquivoFonte[])novosArquivosFontes.toArray());
+        aluno.setFontes((ArquivoFonte[])novosArquivosFontes.toArray(new ArquivoFonte[] {}));
     }
     
     public void compilarFontes() throws IOException {
@@ -66,13 +73,17 @@ public class Correcao {
         
         for (int i = 0; i <= arquivosFontes.length - 1; i++) {
             ArquivoFonte arquivoFonte = arquivosFontes[i];
-            File arqFonte = arquivoFonte.getArquivo();
-            
-            Executador ex = new Executador(arqFonte.getParentFile(), new String[] {
-                "fpc", arqFonte.getName()}, null, null);
-            ex.executar();
-            if (ex.getValorSaida() != 0) {
+            if (arquivoFonte != null) {
+                File arqFonte = arquivoFonte.getArquivo();
+
+                Executador ex = new Executador(arqFonte.getParentFile(), new String[] {
+                    "fpc", arqFonte.getName()}, null, null);
+                ex.executar();
+                if (ex.getValorSaida() != 0) {
                 arquivoFonte.setErroCompilacao(true);
+                }
+            } else {
+                //Colocar uma flag mostrando o erro.
             }
         }
     }
