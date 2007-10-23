@@ -18,9 +18,9 @@ public class Executador {
     private String[] args = null;
     private File diretorio = null ;
     private String entrada = null;
-    private File saida = null;
+    private String saida = null;
  
-    public Executador(File diretorio, String[] args, String entrada, File saida) {
+    public Executador(File diretorio, String[] args, String entrada, String saida) {
         this.diretorio = diretorio;
         this.args = args;
         this.entrada = entrada;
@@ -47,11 +47,12 @@ public class Executador {
             outputGobbler.start();
             
             if (saida != null && entrada != null) {
-                Arquivos.salvarArquivo(saida, "");
                 OutputStream out = proc.getOutputStream();
                 out.write((entrada + "\n\n").getBytes());
                 out.close();
+                
                 br = outputGobbler.getBufferedReader();
+                saida = br.toString();
                 String linha = null;
             }
             exitVal = proc.waitFor();
@@ -88,10 +89,6 @@ public class Executador {
                 String line = null;
                 while ( (line = br.readLine()) != null) {
                     System.out.println(type + ">" + line);
-                    if (type.equals(Constantes.TS_SAI) && saida != null) {
-                        String texto = Arquivos.getTextoArquivo(saida);
-                        Arquivos.salvarArquivo(saida, texto + line);
-                    }
                 }
             } catch (IOException ioe) {
                 ioe.printStackTrace();

@@ -29,7 +29,7 @@ public class TestaCorrecao {
         
         for (Aluno aluno : alunos) {
             Correcao cor = new Correcao(aluno);
-            cor.gerarSaidas();
+            cor.corrigir(pastaCorrecao.getArrayListIO());
             GerenciaSerializacao gerSer = new GerenciaSerializacao(pastaCorrecao.getDiretorio());
             gerSer.serializar(pastaCorrecao);
         }

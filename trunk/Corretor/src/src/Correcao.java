@@ -30,7 +30,7 @@ public class Correcao {
     
     public void criarDiretorios() throws IOException {
         ArquivoFonte[] arquivosFontes = aluno.getFontes();
-        ArquivoFonte[] novosArquivosFontes = new ArquivoFonte[arquivosFontes.length];
+        ArrayList<ArquivoFonte> novosArquivosFontes = new ArrayList<ArquivoFonte>();
         
         for (int i = 0; i <= arquivosFontes.length - 1; i++) {
             ArquivoFonte arquivoFonte = arquivosFontes[i];
@@ -40,7 +40,7 @@ public class Correcao {
             File pastaFonte = new File(diretorio.getAbsolutePath() + "/" + 
                     arqFonte.getName().substring(0, arqFonte.getName().length()- 4));
             
-            if (pastaFonte.mkdir()) {
+            if (arqFonte.getName().startsWith(Constantes.NARQ_QUE) && pastaFonte.mkdir()) {
                 File arquivoAntigo = new File(diretorio.getAbsolutePath() +
                         "/" + arqFonte.getName());
                 String texto = Arquivos.getTextoArquivo(arquivoAntigo);
@@ -48,10 +48,17 @@ public class Correcao {
                 File novoArquivo = new File(pastaFonte.getAbsolutePath() + "/" + arqFonte.getName());
                 Arquivos.salvarArquivo(novoArquivo, texto);
                 ArquivoFonte novoArquivoFonte = new ArquivoFonte(novoArquivo);
-                novosArquivosFontes[i] = novoArquivoFonte;
+                String[] temp1 = null;
+                String temp2 = null;
+                temp1 = arqFonte.getName().split(Constantes.NARQ_QUE);
+                temp2 = temp1[0];
+                temp1 = temp2.split(".pas");
+                int nro = Integer.parseInt(temp1[0]);
+                
+                novosArquivosFontes.add(novoArquivoFonte);
             }
         }
-        aluno.setFontes(novosArquivosFontes);
+        aluno.setFontes((ArquivoFonte[])novosArquivosFontes.toArray());
     }
     
     public void compilarFontes() throws IOException {
@@ -65,44 +72,18 @@ public class Correcao {
                 "fpc", arqFonte.getName()}, null, null);
             ex.executar();
             if (ex.getValorSaida() != 0) {
-                criarRelatorioErro(arquivoFonte);
+                arquivoFonte.setErroCompilacao(true);
             }
         }
     }
     
-    private void criarRelatorioErro(ArquivoFonte arquivoFonte) {
-        try {
-            arquivoFonte.setErroCompilacao(true);
-            Arquivos.salvarArquivo(new File(arquivoFonte.getArquivo().getParent() + 
-                    "/" + Constantes.NARQ_REL), Constantes.E_COMPILACAO);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    public void corrigir(ArrayList<ListaIO> listaIO) {
+        ArquivoFonte[] arquivosFonte = aluno.getFontes();
+        for (int i = 0; i <= arquivosFonte.length - 1; i++) {
+            ArquivoFonte arqFonte = arquivosFonte[i];
+            
+            arqFonte.corrigir("");
         }
-    }
-    
-    public void gerarSaidas() {/*
-        Aluno[] fontesAlunos = pastaCorrecao.getAlunos();
-        for (Aluno aluno : fontesAlunos) {
-            if (!aluno.getErroCompilacao()) {
-                File fonte = aluno.getArquivoFonte();
-                String nomeAluno = fonte.getName().substring(0, fonte.getName().length() - 4);
-                File executavel = new File(fonte.getParent() + "/" + nomeAluno + ".exe");
-                
-                int tamLista = pastaCorrecao.getListaIO().getTamLista();
-                for (int i = 0; i <= tamLista - 1; i++) {
-                    File saida = new File(fonte.getParent() + "/" + Constantes.NARQ_SAI +
-                            (i + 1) + ".txt");
-                    String entrada = pastaCorrecao.getListaIO().getEntrada(i);
-                    String args = "cmd /C " + nomeAluno;
-                    
-                    Executador ex = new Executador(fonte.getParentFile(), args, entrada, saida);
-                    ex.executar();
-                }
-            }
-        }*/
-    }
-    
-    private void gerarSaidaUnitaria(ArrayList<ListaIO> listaIO, Aluno aluno) {
         
     }
     

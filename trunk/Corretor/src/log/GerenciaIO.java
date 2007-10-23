@@ -36,10 +36,22 @@ public class GerenciaIO {
         ListaIO listaIO = pastaCorrecao.getArrayListIO().get(indice);
         String[] nomesIO = new String[listaIO.getTamLista()];
         for (int i = 0; i <= nomesIO.length - 1; i++) {
-            nomesIO[i] = "Nível " + (i + 1);
+            nomesIO[i] = "E/G " + (i + 1);
         }
         
         return nomesIO;
+    }
+    
+    public String[] setVetorQuestões(int quant) {
+        String[] vetorQuestoes = new String[quant];
+        pastaCorrecao.getArrayListIO().clear();
+        for (int i = 0; i <= quant - 1; i++) {
+            String questao = "Questão " + (i+1);
+            vetorQuestoes[i] = questao;
+            pastaCorrecao.getArrayListIO().add(new ListaIO());
+        }
+        
+        return vetorQuestoes;
     }
     
     public void removerIO(int nroQuestao, int indice) {

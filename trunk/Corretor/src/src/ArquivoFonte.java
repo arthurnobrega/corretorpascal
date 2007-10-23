@@ -38,4 +38,13 @@ public class ArquivoFonte implements Serializable {
         return erroCompilacao;
     }
     
+    public String corrigir(String entrada) {
+        String[] args = new String[] { 
+            arquivoFonte.getName().substring(0, arquivoFonte.getName().length() - 4) };
+        String saida = null;
+        Executador executador = new Executador(arquivoFonte.getParentFile(), args, entrada, saida);
+        
+        return saida;
+    }
+    
 }
