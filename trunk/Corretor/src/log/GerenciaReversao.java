@@ -36,10 +36,12 @@ public class GerenciaReversao {
                 ArquivoFonte[] arquivosFontes = aluno.getFontes();
                 for (int i = 0; i <= arquivosFontes.length - 1; i++) {
                     File arquivoAntigo = arquivosFontes[i].getArquivo();
-                    String texto = Arquivos.getTextoArquivo(arquivoAntigo);
-                    Arquivos.salvarArquivo(new File(aluno.getDiretorio() + 
-                            "/" + arquivoAntigo.getName()), texto);
-                    Arquivos.deletarDiretorio(arquivoAntigo.getParentFile());
+                    if (arquivoAntigo != null) {
+                        String texto = Arquivos.getTextoArquivo(arquivoAntigo);
+                        Arquivos.salvarArquivo(new File(aluno.getDiretorio() + 
+                                "/" + arquivoAntigo.getName()), texto);
+                        Arquivos.deletarDiretorio(arquivoAntigo.getParentFile());
+                    }
                 }
             }
             
