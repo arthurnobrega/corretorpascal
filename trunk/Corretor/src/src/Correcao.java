@@ -92,8 +92,18 @@ public class Correcao {
         ArquivoFonte[] arquivosFonte = aluno.getFontes();
         for (int i = 0; i <= arquivosFonte.length - 1; i++) {
             ArquivoFonte arqFonte = arquivosFonte[i];
-            
-            arqFonte.corrigir("");
+            ArrayList<Saidas> saidas = null;
+            if (arqFonte != null) {
+                ListaIO io = listaIO.get(i);
+                saidas = new ArrayList<Saidas>();
+                for (int j = 0; j <= io.getTamLista() - 1; j++) {
+                    String textoSaida = arqFonte.corrigir(io.getEntrada(j));
+                    Saidas saida = new Saidas(textoSaida, "relatorio");
+                    saidas.add(saida);
+                    // Fazer o teste com o gabarito.
+                }
+            }
+            arqFonte.setSaidas(saidas);
         }
         
     }

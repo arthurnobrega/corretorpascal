@@ -9,11 +9,13 @@
 
 package src;
 
+import java.io.Serializable;
+
 /**
  *
  * @author UltraXP
  */
-public class Saidas {
+public class Saidas implements Serializable {
     
     private String relatorio = null;
     private String saida = null;

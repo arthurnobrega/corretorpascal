@@ -18,8 +18,6 @@ import java.util.ArrayList;
  * @author UltraXP
  */
 public class Aluno implements Serializable {
-    
-    private ArrayList<Saidas> saidas = null;
     private ArquivoFonte[] fontes = null;
     private File diretorio = null;
     
@@ -39,14 +37,6 @@ public class Aluno implements Serializable {
     
     public File getDiretorio() {
         return diretorio;
-    }
-    
-    public void setSaidas(ArrayList<Saidas> saidas) {
-        this.saidas = saidas;
-    }
-    
-    public ArrayList<Saidas> getSaidas() {
-        return saidas;
     }
     
 }
