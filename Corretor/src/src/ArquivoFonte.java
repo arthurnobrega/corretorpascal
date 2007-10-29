@@ -11,6 +11,7 @@ package src;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +21,7 @@ public class ArquivoFonte implements Serializable {
     
     private boolean erroCompilacao = false;
     private File arquivoFonte = null;
+    private ArrayList<Saidas> saidas = null;
     
     /** Creates a new instance of ArquivoFonte */
     public ArquivoFonte(File arquivoFonte) {
@@ -38,11 +40,20 @@ public class ArquivoFonte implements Serializable {
         return erroCompilacao;
     }
     
+    public void setSaidas(ArrayList<Saidas> saidas) {
+        this.saidas = saidas;
+    }
+    
+    public ArrayList<Saidas> getSaidas() {
+        return saidas;
+    }
+    
     public String corrigir(String entrada) {
         String[] args = new String[] { 
             arquivoFonte.getName().substring(0, arquivoFonte.getName().length() - 4) };
         String saida = null;
         Executador executador = new Executador(arquivoFonte.getParentFile(), args, entrada, saida);
+        executador.executar();
         
         return saida;
     }

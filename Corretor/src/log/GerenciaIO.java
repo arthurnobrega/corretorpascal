@@ -42,11 +42,11 @@ public class GerenciaIO {
         return nomesIO;
     }
     
-    public String[] setVetorQuestões(int quant) {
+    public String[] setVetorQuestoes(int quant) {
         String[] vetorQuestoes = new String[quant];
         pastaCorrecao.getArrayListIO().clear();
         for (int i = 0; i <= quant - 1; i++) {
-            String questao = "Questão " + (i+1);
+            String questao = "Questï¿½o " + (i+1);
             vetorQuestoes[i] = questao;
             pastaCorrecao.getArrayListIO().add(new ListaIO());
         }
