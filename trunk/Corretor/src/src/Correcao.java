@@ -105,10 +105,12 @@ public class Correcao {
                     saidas.add(saida);
                     somaNotas += arqFonte.getNota();
                 }
+                aluno.addNotaQuestao(somaNotas/io.getTamLista());
+            } else {
+                aluno.addNotaQuestao(0);
             }
             arqFonte.setSaidas(saidas);
         }
-        aluno.setNotaFinal(somaNotas/nroFontes);
     }
     
 }

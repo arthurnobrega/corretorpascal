@@ -245,7 +245,7 @@ public class IO extends javax.swing.JDialog {
             String[] vetorQuestoes = new String[numeroQuestoes];
             pastaCorrecao.getArrayListIO().clear();
             for (int i = 0; i <= numeroQuestoes - 1; i++) {
-                String questao = "Questï¿½o " + (i+1);
+                String questao = "Questão " + (i+1);
                 vetorQuestoes[i] = questao;
                 pastaCorrecao.getArrayListIO().add(new ListaIO());
             }
@@ -253,7 +253,7 @@ public class IO extends javax.swing.JDialog {
             listaQuestoes.setSelectedIndex(0);
             
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Informe um nï¿½mero inteiro!", "Erro!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Informe um número inteiro!", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
@@ -268,7 +268,7 @@ public class IO extends javax.swing.JDialog {
         
         listaIO.alterarIO(listaEntradas.getSelectedIndex(), txtEntrada.getText(), txtGabarito.getText());
         Arquivos.serializarCorrecao(pastaCorrecao);
-        JOptionPane.showMessageDialog(null, "Alteraï¿½ï¿½es salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void listaEntradasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEntradasValueChanged
@@ -316,7 +316,7 @@ public class IO extends javax.swing.JDialog {
         if (numeroQuestoes != 0) {
             vetorQuestoes = new String[numeroQuestoes];
             for (int i = 0; i <= numeroQuestoes - 1; i++) {
-                String questao = "Questï¿½o " + (i+1);
+                String questao = "Questão " + (i+1);
                 vetorQuestoes[i] = questao;
             }
         }
