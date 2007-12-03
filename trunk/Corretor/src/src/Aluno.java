@@ -20,13 +20,20 @@ import java.util.ArrayList;
 public class Aluno implements Serializable {
     private ArquivoFonte[] fontes = null;
     private File diretorio = null;
-    private ArrayList<Integer> notaQuestao;
+    private ArrayList<Integer> notaQuestoes;
     
     /** Creates a new instance of ArquivoFonte */
     public Aluno(File diretorio, ArquivoFonte[] fontes) {
         this.diretorio = diretorio;
         this.fontes = fontes;
-        notaQuestao = new ArrayList<Integer>();
+        notaQuestoes = new ArrayList<Integer>();
+    }
+    
+    public void reiniciarContagem() {
+        notaQuestoes = new ArrayList<Integer>();
+        for (ArquivoFonte fonte : fontes) {
+            fonte.reiniciarContagem();
+        }
     }
 
     public void setFontes(ArquivoFonte[] fontes) {
@@ -42,17 +49,17 @@ public class Aluno implements Serializable {
     }
     
     public int getNotaQuestao(int nroQuestao) {
-        return notaQuestao.get(nroQuestao).intValue();
+        return notaQuestoes.get(nroQuestao).intValue();
     }
     
     public void addNotaQuestao(int notaQuestao) {
-        this.notaQuestao.add(new Integer(notaQuestao));
+        this.notaQuestoes.add(new Integer(notaQuestao));
     }
     
     public int getNotaFinal() {
-        int nroQuestoes = notaQuestao.size();
+        int nroQuestoes = notaQuestoes.size();
         int soma = 0;
-        for (Integer inteiro : notaQuestao) {
+        for (Integer inteiro : notaQuestoes) {
             soma += inteiro.intValue();
         }
         return soma/nroQuestoes;

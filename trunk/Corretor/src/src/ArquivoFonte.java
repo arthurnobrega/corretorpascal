@@ -22,11 +22,16 @@ public class ArquivoFonte implements Serializable {
     private boolean erroCompilacao = false;
     private File arquivoFonte = null;
     private ArrayList<Saidas> saidas = null;
-    private int nota = 0;
+    private ArrayList<Integer> notas = null;
     
     /** Creates a new instance of ArquivoFonte */
     public ArquivoFonte(File arquivoFonte) {
         this.arquivoFonte = arquivoFonte;
+        notas = new ArrayList<Integer>();
+    }
+    
+    public void reiniciarContagem() {
+        notas = new ArrayList<Integer>();
     }
     
     public File getArquivo() {
@@ -49,33 +54,39 @@ public class ArquivoFonte implements Serializable {
         return saidas;
     }
     
-    public int getNota() {
-        return nota;
+    public int getNota(int indice) {
+        return notas.get(indice).intValue();
     }
     
-    public void setNota(int nota) {
-        this.nota = nota;
+    public void addNota(int nota) {
+        notas.add(new Integer(nota));
     }
     
-    public String corrigir(String entrada, String gabarito) {
+    public int getNotaTotal() {
+        int somaNotas = 0;
+        int nroTestes = notas.size();
+        for (int i = 0; i <= nroTestes - 1; i++) {
+            somaNotas += notas.get(i).intValue();
+        }
+        return somaNotas/nroTestes;
+    }
+    
+    public String corrigir(String entrada) {
         String saida = null;
         String[] args = new String[] { "cmd", "/C",
             arquivoFonte.getName().substring(0, arquivoFonte.getName().length() - 4) + ".exe" };
-        Executador executador = new Executador(arquivoFonte.getParentFile(), args, entrada);
-        executador.executar();
-        saida = executador.getSaida();
-        testarGabaritos(saida, gabarito);
+        Executador ex = new Executador(arquivoFonte.getParentFile(), args, entrada);
+        ex.executar();
+        saida = ex.getSaida();
         
         return saida;
     }
     
-    public void testarGabaritos(String saida, String gabarito) {
-        String[] linhasSaida = saida.split("\n");
-        String[] linhasGabarito = gabarito.split("\n");
-        int nroSaida = linhasSaida.length;
-        int nroGabarito = linhasGabarito.length;
-        int limite;
-        int nroAcertos = 0;
+    public String testarGabarito(String saida, String gabarito) {
+        String relatorio = new String();
+        String[] linhasSaida = saida.split("\n"), linhasGabarito = gabarito.split("\n");
+        int nroSaida = linhasSaida.length, nroGabarito = linhasGabarito.length, 
+                limite, nroAcertos = 0, nota;        
         
         limite = nroGabarito;
         
@@ -85,11 +96,21 @@ public class ArquivoFonte implements Serializable {
         
         for (int i = 0; i <= limite - 1; i++) {
             if (linhasSaida[i].contains(linhasGabarito[i])) {
-                nroAcertos++;
+                relatorio += "Acertou o quesito " + (i + 1) + "\n";
+                        
+                nroAcertos += 1;
+            } else {
+                relatorio += "Errou o quesito " + (i + 1) + "\n";
             }
+            relatorio += "          Gabarito: (" + linhasGabarito[i] +
+                        ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
         }
         
-        setNota(100 * (nroAcertos/nroGabarito));
+        nota = (int) (100 * ((double)nroAcertos / (double)nroGabarito));
+        relatorio += "\nNota (0-100): " + nota;
+        this.addNota(nota);
+        
+        return relatorio;
     }
     
 }
