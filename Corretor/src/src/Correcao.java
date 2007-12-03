@@ -9,6 +9,7 @@
 
 package src;
 
+import gui.BarraProgresso;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,8 +91,8 @@ public class Correcao {
     
     public void corrigir(ArrayList<ListaIO> listaIO) {
         ArquivoFonte[] arquivosFonte = aluno.getFontes();
+        aluno.reiniciarContagem();
         int nroFontes = arquivosFonte.length;
-        int somaNotas = 0;
         
         for (int i = 0; i <= nroFontes - 1; i++) {
             ArquivoFonte arqFonte = arquivosFonte[i];
@@ -100,12 +101,12 @@ public class Correcao {
                 ListaIO io = listaIO.get(i);
                 saidas = new ArrayList<Saidas>();
                 for (int j = 0; j <= io.getTamLista() - 1; j++) {
-                    String textoSaida = arqFonte.corrigir(io.getEntrada(j), io.getGabarito(j));
-                    Saidas saida = new Saidas(textoSaida, "relatorio");
+                    String textoSaida = arqFonte.corrigir(io.getEntrada(j));
+                    String textoRelatorio = arqFonte.testarGabarito(textoSaida, io.getGabarito(j));
+                    Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
-                    somaNotas += arqFonte.getNota();
                 }
-                aluno.addNotaQuestao(somaNotas/io.getTamLista());
+                aluno.addNotaQuestao(arqFonte.getNotaTotal());
             } else {
                 aluno.addNotaQuestao(0);
             }

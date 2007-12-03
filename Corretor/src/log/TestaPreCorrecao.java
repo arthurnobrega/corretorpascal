@@ -9,7 +9,6 @@
 
 package log;
 
-import gui.BarraProgresso;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,12 +26,10 @@ public class TestaPreCorrecao {
     
     File diretorio = null;
     PastaCorrecao pastaCorrecao = null;
-    BarraProgresso barraProgresso = null;
     
     /** Creates a new instance of TestaCorrecao */
-    public TestaPreCorrecao(File diretorio, BarraProgresso barraProgresso) {
+    public TestaPreCorrecao(File diretorio) {
         this.diretorio = diretorio;
-        this.barraProgresso = barraProgresso;
     }
     
     public PastaCorrecao preCorrigir() throws IOException {

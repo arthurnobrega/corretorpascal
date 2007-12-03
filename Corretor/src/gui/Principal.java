@@ -181,7 +181,7 @@ public class Principal extends javax.swing.JFrame {
     private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
         TestaCorrecao testaCor = new TestaCorrecao(pastaCorrecao);
         this.getContentPane().setVisible(false);
-        this.setContentPane(new TabelaNotas(pastaCorrecao));
+        this.setContentPane(new TabelaNotas(pastaCorrecao, this));
         this.getContentPane().setVisible(true);
     }//GEN-LAST:event_itemCorrigirActionPerformed
 
@@ -241,8 +241,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             diretorio = fc.getSelectedFile();
             try {
-                barraProgresso = new BarraProgresso(this);
-                TestaPreCorrecao tc = new TestaPreCorrecao(diretorio, barraProgresso);
+                TestaPreCorrecao tc = new TestaPreCorrecao(diretorio);
                 pastaCorrecao = tc.preCorrigir();
                 habilitarOpcoes(new int[] { 0, 1, 2});
             } catch (IOException ex) {
@@ -301,7 +300,6 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_REV = 1;
     private static int OPCAO_COR = 2;
     
-    BarraProgresso barraProgresso = null;
     PastaCorrecao pastaCorrecao = null;
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;

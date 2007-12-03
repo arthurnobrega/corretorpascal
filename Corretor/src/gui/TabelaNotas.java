@@ -6,6 +6,7 @@
 
 package gui;
 
+import javax.swing.JFrame;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import src.Aluno;
@@ -18,11 +19,13 @@ import src.PastaCorrecao;
 public class TabelaNotas extends javax.swing.JPanel {
     
     PastaCorrecao pastaCorrecao = null;
+    JFrame pai = null;
     
     /** Creates new form TabelaNotas */
-    public TabelaNotas(PastaCorrecao pastaCorrecao) {
+    public TabelaNotas(PastaCorrecao pastaCorrecao, JFrame pai) {
         initComponents();
         this.pastaCorrecao = pastaCorrecao;
+        this.pai = pai;
         preencherTabela();
     }
     
@@ -95,6 +98,12 @@ public class TabelaNotas extends javax.swing.JPanel {
                 "Título 1", "Título 2", "Título 3", "Título 4"
             }
         ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
+
         jScrollPane1.setViewportView(tabela);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -114,6 +123,10 @@ public class TabelaNotas extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        new Relatorio(pastaCorrecao, tabela.getSelectedRow(), "Relatório do aluno " + (String)tabela.getValueAt(tabela.getSelectedRow(), tabela.getSelectedColumn()), pai).setVisible(true);
+    }//GEN-LAST:event_tabelaMouseClicked
     
     
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
