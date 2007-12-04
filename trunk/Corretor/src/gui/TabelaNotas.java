@@ -125,7 +125,7 @@ public class TabelaNotas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-        new Relatorio(pastaCorrecao, tabela.getSelectedRow(), "Relatório do aluno " + (String)tabela.getValueAt(tabela.getSelectedRow(), tabela.getSelectedColumn()), pai).setVisible(true);
+        new Relatorio(pastaCorrecao, tabela.getSelectedRow(), "Relatório do aluno " + (String)tabela.getValueAt(tabela.getSelectedRow(), 0), pai).setVisible(true);
     }//GEN-LAST:event_tabelaMouseClicked
     
     

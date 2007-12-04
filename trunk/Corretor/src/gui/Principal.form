@@ -16,6 +16,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNovaActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconNova = new javax.swing.ImageIcon(Imagens.NOVACORRECAO);&#xa;java.awt.Image imgNova = iconNova.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemNova.setIcon(new javax.swing.ImageIcon(imgNova));"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemImportar">
               <Properties>
@@ -24,6 +27,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemImportarActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconImp = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);&#xa;java.awt.Image imgImp = iconImp.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemImportar.setIcon(new javax.swing.ImageIcon(imgImp));"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSair">
               <Properties>
@@ -32,6 +38,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSairActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.BRANCO);&#xa;java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSair.setIcon(new javax.swing.ImageIcon(imgSair));"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -47,6 +56,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemEntradasActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconEntradas = new javax.swing.ImageIcon(Imagens.ENTRADAS);&#xa;java.awt.Image imgEntradas = iconEntradas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemEntradas.setIcon(new javax.swing.ImageIcon(imgEntradas));"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemReverter">
               <Properties>
@@ -55,6 +67,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemReverterActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);&#xa;java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -70,6 +85,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemCorrigirActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconCorrigir = new javax.swing.ImageIcon(Imagens.CORRIGIR);&#xa;java.awt.Image imgCorrigir = iconCorrigir.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemCorrigir.setIcon(new javax.swing.ImageIcon(imgCorrigir));"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -85,6 +103,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAjudaActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconAjuda = new javax.swing.ImageIcon(Imagens.CONTAJUDA);&#xa;java.awt.Image imgAjuda = iconAjuda.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemAjuda.setIcon(new javax.swing.ImageIcon(imgAjuda));"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSobre">
               <Properties>
@@ -93,6 +114,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSobreActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSobre = new javax.swing.ImageIcon(Imagens.SOBRE);&#xa;java.awt.Image imgSobre = iconSobre.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSobre.setIcon(new javax.swing.ImageIcon(imgSobre));"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>

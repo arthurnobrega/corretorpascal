@@ -28,15 +28,12 @@ public class TestaCorrecao {
         this.pastaCorrecao = pastaCorrecao;
         Aluno[] alunos = pastaCorrecao.getAlunos();
         
-        //BarraProgresso barraP = new BarraProgresso();
-        //barraP.start();
         for (Aluno aluno : alunos) {
             Correcao cor = new Correcao(aluno);
             cor.corrigir(pastaCorrecao.getArrayListIO());
             GerenciaSerializacao gerSer = new GerenciaSerializacao(pastaCorrecao.getDiretorio());
             gerSer.serializar(pastaCorrecao);
         }
-        //barraP.notify();
     }
     
     
