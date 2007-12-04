@@ -30,6 +30,9 @@ public class Principal extends javax.swing.JFrame {
         inicializarJFileChooser();
         inicializarJOptionPane();
         Janelas.alinharContainer(this);
+        javax.swing.ImageIcon icone = new javax.swing.ImageIcon(Imagens.CORRETOR_I);
+        java.awt.Image img = icone.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        this.setIconImage(img);
         desabilitarOpcoes(new int[] { 0, 1, 2});
     }
     
@@ -81,6 +84,9 @@ public class Principal extends javax.swing.JFrame {
         setTitle("Corretor de Programas em Pascal");
         menuArquivo.setText("Arquivo");
         itemNova.setText("Nova Corre\u00e7\u00e3o");
+        javax.swing.ImageIcon iconNova = new javax.swing.ImageIcon(Imagens.NOVACORRECAO);
+        java.awt.Image imgNova = iconNova.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemNova.setIcon(new javax.swing.ImageIcon(imgNova));
         itemNova.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemNovaActionPerformed(evt);
@@ -90,6 +96,9 @@ public class Principal extends javax.swing.JFrame {
         menuArquivo.add(itemNova);
 
         itemImportar.setText("Importar Corre\u00e7\u00e3o...");
+        javax.swing.ImageIcon iconImp = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);
+        java.awt.Image imgImp = iconImp.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemImportar.setIcon(new javax.swing.ImageIcon(imgImp));
         itemImportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemImportarActionPerformed(evt);
@@ -99,6 +108,9 @@ public class Principal extends javax.swing.JFrame {
         menuArquivo.add(itemImportar);
 
         itemSair.setText("Sair");
+        javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.BRANCO);
+        java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemSair.setIcon(new javax.swing.ImageIcon(imgSair));
         itemSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemSairActionPerformed(evt);
@@ -111,6 +123,9 @@ public class Principal extends javax.swing.JFrame {
 
         menuFerramentas.setText("Ferramentas");
         itemEntradas.setText("Entradas e Gabaritos");
+        javax.swing.ImageIcon iconEntradas = new javax.swing.ImageIcon(Imagens.ENTRADAS);
+        java.awt.Image imgEntradas = iconEntradas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemEntradas.setIcon(new javax.swing.ImageIcon(imgEntradas));
         itemEntradas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemEntradasActionPerformed(evt);
@@ -120,6 +135,9 @@ public class Principal extends javax.swing.JFrame {
         menuFerramentas.add(itemEntradas);
 
         itemReverter.setText("Reverter Corre\u00e7\u00e3o");
+        javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);
+        java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));
         itemReverter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemReverterActionPerformed(evt);
@@ -132,6 +150,9 @@ public class Principal extends javax.swing.JFrame {
 
         menuConstruir.setText("Construir");
         itemCorrigir.setText("Corrigir");
+        javax.swing.ImageIcon iconCorrigir = new javax.swing.ImageIcon(Imagens.CORRIGIR);
+        java.awt.Image imgCorrigir = iconCorrigir.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemCorrigir.setIcon(new javax.swing.ImageIcon(imgCorrigir));
         itemCorrigir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemCorrigirActionPerformed(evt);
@@ -144,6 +165,9 @@ public class Principal extends javax.swing.JFrame {
 
         menuAjuda.setText("Ajuda");
         itemAjuda.setText("Conte\u00fados de Ajuda");
+        javax.swing.ImageIcon iconAjuda = new javax.swing.ImageIcon(Imagens.CONTAJUDA);
+        java.awt.Image imgAjuda = iconAjuda.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemAjuda.setIcon(new javax.swing.ImageIcon(imgAjuda));
         itemAjuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemAjudaActionPerformed(evt);
@@ -153,6 +177,9 @@ public class Principal extends javax.swing.JFrame {
         menuAjuda.add(itemAjuda);
 
         itemSobre.setText("Sobre");
+        javax.swing.ImageIcon iconSobre = new javax.swing.ImageIcon(Imagens.SOBRE);
+        java.awt.Image imgSobre = iconSobre.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemSobre.setIcon(new javax.swing.ImageIcon(imgSobre));
         itemSobre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemSobreActionPerformed(evt);

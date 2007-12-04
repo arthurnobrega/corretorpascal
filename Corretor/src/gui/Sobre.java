@@ -26,7 +26,7 @@ public class Sobre extends javax.swing.JDialog {
      */
     // <editor-fold defaultstate="collapsed" desc=" Código Gerado ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jLabel1 = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -34,8 +34,9 @@ public class Sobre extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sobre");
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("logo do corretor");
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        javax.swing.ImageIcon icone = new javax.swing.ImageIcon(Imagens.CORRETOR_G);
+        lblLogo.setIcon(icone);
 
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
@@ -62,7 +63,7 @@ public class Sobre extends javax.swing.JDialog {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(lblLogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -73,7 +74,7 @@ public class Sobre extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jScrollPane2)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                    .add(lblLogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 136, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -82,11 +83,11 @@ public class Sobre extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
     
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JLabel lblLogo;
     // Fim da declaração de variáveis//GEN-END:variables
     
 }
