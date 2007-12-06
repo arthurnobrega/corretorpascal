@@ -207,13 +207,20 @@ public class Principal extends javax.swing.JFrame {
 
     private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
         TestaCorrecao testaCor = new TestaCorrecao(pastaCorrecao);
-        this.getContentPane().setVisible(false);
-        this.setContentPane(new TabelaNotas(pastaCorrecao, this));
-        this.getContentPane().setVisible(true);
+        try {
+            testaCor.testar();
+            this.getContentPane().setVisible(false);
+            this.setContentPane(new TabelaNotas(pastaCorrecao, this));
+            this.getContentPane().setVisible(true);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Antes informe as Entradas e " +
+                    "Gabaritos para corrigir os programas.", "Foi encontrado um " +
+                    "erro!", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_itemCorrigirActionPerformed
 
     private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
-        int opcao = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja " +
+        int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza que deseja " +
                 "reverter a correção?", "Confirmação!", JOptionPane.YES_NO_OPTION);
         if (opcao == 0) {
             GerenciaReversao gerRev = new GerenciaReversao(pastaCorrecao);
@@ -249,7 +256,7 @@ public class Principal extends javax.swing.JFrame {
                 pastaCorrecao = ti.importar();
                 habilitarOpcoes(new int[] { 0, 1, 2 });
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, log.Constantes.E_IMP, Constantes.ET_DIR,
+                JOptionPane.showMessageDialog(this, log.Constantes.E_IMP, Constantes.ET_DIR,
                         JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -272,7 +279,7 @@ public class Principal extends javax.swing.JFrame {
                 pastaCorrecao = tc.preCorrigir();
                 habilitarOpcoes(new int[] { 0, 1, 2});
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, log.Constantes.E_DIR, Constantes.ET_DIR,
+                JOptionPane.showMessageDialog(this, log.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
             }
         }
