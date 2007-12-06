@@ -11,6 +11,7 @@ package log;
 
 import gui.BarraProgresso;
 import java.io.File;
+import java.io.IOException;
 import src.Aluno;
 import src.Correcao;
 import src.PastaCorrecao;
@@ -22,12 +23,19 @@ import src.PastaCorrecao;
 public class TestaCorrecao {
     
     PastaCorrecao pastaCorrecao = null;
+    Aluno[] alunos = null;
     
     /** Creates a new instance of TestaCorrecao */
     public TestaCorrecao(PastaCorrecao pastaCorrecao) {
         this.pastaCorrecao = pastaCorrecao;
-        Aluno[] alunos = pastaCorrecao.getAlunos();
+        this.alunos = pastaCorrecao.getAlunos();
         
+    }
+    
+    public void testar() throws IOException {
+        if (pastaCorrecao.getArrayListIO().isEmpty()) {
+            throw new IOException();
+        }
         for (Aluno aluno : alunos) {
             Correcao cor = new Correcao(aluno);
             cor.corrigir(pastaCorrecao.getArrayListIO());
@@ -35,6 +43,5 @@ public class TestaCorrecao {
             gerSer.serializar(pastaCorrecao);
         }
     }
-    
     
 }
