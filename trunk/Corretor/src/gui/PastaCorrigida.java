@@ -6,7 +6,6 @@
 
 package gui;
 
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 

@@ -9,11 +9,9 @@
 
 package src;
 
-import gui.BarraProgresso;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import log.Constantes;
 
 /**

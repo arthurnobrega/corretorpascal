@@ -11,9 +11,7 @@ package log;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import src.Aluno;
-import src.Arquivos;
 import src.Correcao;
 import src.Configuracao;
 import src.PastaCorrecao;
