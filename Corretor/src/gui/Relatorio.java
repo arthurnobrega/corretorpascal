@@ -9,7 +9,6 @@ package gui;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import src.Aluno;
-import src.ArquivoFonte;
 import src.PastaCorrecao;
 import src.Saidas;
 

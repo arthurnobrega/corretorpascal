@@ -9,8 +9,6 @@
 
 package log;
 
-import gui.BarraProgresso;
-import java.io.File;
 import java.io.IOException;
 import src.Aluno;
 import src.Correcao;

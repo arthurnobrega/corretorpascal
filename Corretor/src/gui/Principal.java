@@ -1,17 +1,13 @@
 package gui;
 
+import java.awt.FlowLayout;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
-import javax.swing.ListModel;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.event.ListDataListener;
 import log.GerenciaReversao;
-import log.GerenciaSerializacao;
 import log.TestaCorrecao;
 import log.TestaPreCorrecao;
 import log.Constantes;
@@ -33,6 +29,7 @@ public class Principal extends javax.swing.JFrame {
         javax.swing.ImageIcon icone = new javax.swing.ImageIcon(Imagens.CORRETOR_I);
         java.awt.Image img = icone.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
         this.setIconImage(img);
+        limparContentPane();
         desabilitarOpcoes(new int[] { 0, 1, 2});
     }
     
@@ -66,6 +63,14 @@ public class Principal extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc=" Código Gerado ">//GEN-BEGIN:initComponents
     private void initComponents() {
+        jToolBar1 = new javax.swing.JToolBar();
+        btnNova = new javax.swing.JButton();
+        btnImportar = new javax.swing.JButton();
+        jToolBar2 = new javax.swing.JToolBar();
+        btnEntradas = new javax.swing.JButton();
+        btnReverter = new javax.swing.JButton();
+        jToolBar3 = new javax.swing.JToolBar();
+        btnCorrigir = new javax.swing.JButton();
         barraMenu = new javax.swing.JMenuBar();
         menuArquivo = new javax.swing.JMenu();
         itemNova = new javax.swing.JMenuItem();
@@ -82,6 +87,87 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Corretor de Programas em Pascal");
+        jToolBar1.setFloatable(false);
+        jToolBar1.setMaximumSize(new java.awt.Dimension(9, 32));
+        jToolBar1.setMinimumSize(new java.awt.Dimension(9, 32));
+        jToolBar1.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnNova.setToolTipText("Nova Corre\u00e7\u00e3o");
+        btnNova.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnNova.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnNova.setPreferredSize(new java.awt.Dimension(30, 30));
+        javax.swing.ImageIcon iconTbNova = new javax.swing.ImageIcon(Imagens.NOVACORRECAO);
+        java.awt.Image imgTbNova = iconTbNova.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
+        btnNova.setIcon(new javax.swing.ImageIcon(imgTbNova));
+        btnNova.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(btnNova);
+
+        btnImportar.setToolTipText("Importar Corre\u00e7\u00e3o");
+        btnImportar.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnImportar.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnImportar.setPreferredSize(new java.awt.Dimension(30, 30));
+        javax.swing.ImageIcon iconTbImportar = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);
+        java.awt.Image imgTbImportar = iconTbImportar.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
+        btnImportar.setIcon(new javax.swing.ImageIcon(imgTbImportar));
+        btnImportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportarActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(btnImportar);
+
+        jToolBar2.setFloatable(false);
+        btnEntradas.setToolTipText("Entradas e Gabaritos");
+        btnEntradas.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnEntradas.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnEntradas.setPreferredSize(new java.awt.Dimension(30, 30));
+        javax.swing.ImageIcon iconTbEntradas = new javax.swing.ImageIcon(Imagens.ENTRADAS);
+        java.awt.Image imgTbEntradas = iconTbEntradas.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
+        btnEntradas.setIcon(new javax.swing.ImageIcon(imgTbEntradas));
+        btnEntradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntradasActionPerformed(evt);
+            }
+        });
+
+        jToolBar2.add(btnEntradas);
+
+        btnReverter.setToolTipText("Reverter Corre\u00e7\u00e3o");
+        btnReverter.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnReverter.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnReverter.setPreferredSize(new java.awt.Dimension(30, 30));
+        javax.swing.ImageIcon iconTbReverter = new javax.swing.ImageIcon(Imagens.REVERTER);
+        java.awt.Image imgTbReverter = iconTbReverter.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
+        btnReverter.setIcon(new javax.swing.ImageIcon(imgTbReverter));
+        btnReverter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReverterActionPerformed(evt);
+            }
+        });
+
+        jToolBar2.add(btnReverter);
+
+        jToolBar3.setFloatable(false);
+        btnCorrigir.setToolTipText("Corrigir");
+        btnCorrigir.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnCorrigir.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnCorrigir.setPreferredSize(new java.awt.Dimension(30, 30));
+        javax.swing.ImageIcon iconTbCorrigir = new javax.swing.ImageIcon(Imagens.CORRIGIR);
+        java.awt.Image imgTbCorrigir = iconTbCorrigir.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
+        btnCorrigir.setIcon(new javax.swing.ImageIcon(imgTbCorrigir));
+        btnCorrigir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCorrigirActionPerformed(evt);
+            }
+        });
+
+        jToolBar3.add(btnCorrigir);
+
         menuArquivo.setText("Arquivo");
         itemNova.setText("Nova Corre\u00e7\u00e3o");
         javax.swing.ImageIcon iconNova = new javax.swing.ImageIcon(Imagens.NOVACORRECAO);
@@ -196,76 +282,65 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 670, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jToolBar2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jToolBar3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(493, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 429, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(jToolBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .add(408, 408, 408))
+            .add(layout.createSequentialGroup()
+                .add(jToolBar2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .add(jToolBar3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        layout.linkSize(new java.awt.Component[] {jToolBar1, jToolBar2}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
-        TestaCorrecao testaCor = new TestaCorrecao(pastaCorrecao);
-        try {
-            testaCor.testar();
-            this.getContentPane().setVisible(false);
-            this.setContentPane(new TabelaNotas(pastaCorrecao, this));
-            this.getContentPane().setVisible(true);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Antes informe as Entradas e " +
-                    "Gabaritos para corrigir os programas.", "Foi encontrado um " +
-                    "erro!", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_itemCorrigirActionPerformed
+    private void btnCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigirActionPerformed
+        corrigir();
+    }//GEN-LAST:event_btnCorrigirActionPerformed
 
-    private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
-        int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza que deseja " +
-                "reverter a correção?", "Confirmação!", JOptionPane.YES_NO_OPTION);
-        if (opcao == 0) {
-            GerenciaReversao gerRev = new GerenciaReversao(pastaCorrecao);
-            gerRev.reverter();
-            desabilitarOpcoes(new int[] { 0, 1, 2 });
-        }
-    }//GEN-LAST:event_itemReverterActionPerformed
+    private void btnReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReverterActionPerformed
+        reverter();
+    }//GEN-LAST:event_btnReverterActionPerformed
 
-    private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
-        Ajuda ajuda = new Ajuda(this, true);
-        ajuda.setVisible(true);
-    }//GEN-LAST:event_itemAjudaActionPerformed
+    private void btnEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradasActionPerformed
+        entradas();
+    }//GEN-LAST:event_btnEntradasActionPerformed
 
-    private void itemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSobreActionPerformed
-        Sobre sobre = new Sobre(this, true);
-        sobre.setVisible(true);
-    }//GEN-LAST:event_itemSobreActionPerformed
+    private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
+        importarCorrecao();
+    }//GEN-LAST:event_btnImportarActionPerformed
 
-    private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
-        UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
-        File diretorio = null;
-        
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int resultado = fc.showOpenDialog(this);
-        Janelas.alinharContainer(fc);
-        if (resultado == JFileChooser.CANCEL_OPTION) {
-            diretorio = null;
-        } else {
-            diretorio = fc.getSelectedFile();
-            TestaImportacao ti = new TestaImportacao(diretorio);
-            try {
-                pastaCorrecao = ti.importar();
-                habilitarOpcoes(new int[] { 0, 1, 2 });
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, log.Constantes.E_IMP, Constantes.ET_DIR,
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_itemImportarActionPerformed
+    private void btnNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaActionPerformed
+        novaCorrecao();
+    }//GEN-LAST:event_btnNovaActionPerformed
 
-    private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
+    public void limparContentPane() {
+        JPanel container = new JPanel(new FlowLayout());
+        /*container.add(jToolBar1);
+        container.add(jToolBar2);
+        container.add(jToolBar3);*/
+        this.setContentPane(container);
+    }
+    
+    public void novaCorrecao() {
         UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
         File diretorio = null;
         
+        limparContentPane();
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
@@ -283,6 +358,87 @@ public class Principal extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    
+    public void importarCorrecao() {
+        UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
+        File diretorio = null;
+        
+        limparContentPane();
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int resultado = fc.showOpenDialog(this);
+        Janelas.alinharContainer(fc);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            diretorio = null;
+        } else {
+            diretorio = fc.getSelectedFile();
+            TestaImportacao ti = new TestaImportacao(diretorio);
+            try {
+                pastaCorrecao = ti.importar();
+                habilitarOpcoes(new int[] { 0, 1, 2 });
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, log.Constantes.E_IMP, Constantes.ET_DIR,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    public void entradas() {
+        IO ent = new IO(this, pastaCorrecao.getDiretorio(), pastaCorrecao);
+        ent.setVisible(true);
+    }
+    
+    public void corrigir() {
+        TestaCorrecao testaCor = new TestaCorrecao(pastaCorrecao);
+        limparContentPane();
+        try {
+            testaCor.testar();
+            this.getContentPane().setVisible(false);
+            this.setContentPane(new TabelaNotas(pastaCorrecao, this));
+            this.getContentPane().setVisible(true);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Antes informe as Entradas e " +
+                    "Gabaritos para corrigir os programas.", "Foi encontrado um " +
+                    "erro!", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public void reverter() {
+        int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza que deseja " +
+                "reverter a correção?", "Confirmação!", JOptionPane.YES_NO_OPTION);
+        if (opcao == 0) {
+            GerenciaReversao gerRev = new GerenciaReversao(pastaCorrecao);
+            gerRev.reverter();
+            limparContentPane();
+            desabilitarOpcoes(new int[] { 0, 1, 2 });
+        }
+    }
+
+    private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
+        corrigir();
+    }//GEN-LAST:event_itemCorrigirActionPerformed
+
+    private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
+        reverter();
+    }//GEN-LAST:event_itemReverterActionPerformed
+
+    private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
+        Ajuda ajuda = new Ajuda(this, true);
+        ajuda.setVisible(true);
+    }//GEN-LAST:event_itemAjudaActionPerformed
+
+    private void itemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSobreActionPerformed
+        Sobre sobre = new Sobre(this, true);
+        sobre.setVisible(true);
+    }//GEN-LAST:event_itemSobreActionPerformed
+
+    private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
+        importarCorrecao();
+    }//GEN-LAST:event_itemImportarActionPerformed
+
+    private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
+        novaCorrecao();
     }//GEN-LAST:event_itemNovaActionPerformed
 
     private void itemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSairActionPerformed
@@ -290,8 +446,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSairActionPerformed
 
     private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
-        IO ent = new IO(this, pastaCorrecao.getDiretorio(), pastaCorrecao);
-        ent.setVisible(true);
+        entradas();
     }//GEN-LAST:event_itemEntradasActionPerformed
     
     private void desabilitarOpcoes(int[] opcoes) {
@@ -337,6 +492,11 @@ public class Principal extends javax.swing.JFrame {
     PastaCorrecao pastaCorrecao = null;
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JButton btnCorrigir;
+    private javax.swing.JButton btnEntradas;
+    private javax.swing.JButton btnImportar;
+    private javax.swing.JButton btnNova;
+    private javax.swing.JButton btnReverter;
     private javax.swing.JMenuItem itemAjuda;
     private javax.swing.JMenuItem itemCorrigir;
     private javax.swing.JMenuItem itemEntradas;
@@ -345,6 +505,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemReverter;
     private javax.swing.JMenuItem itemSair;
     private javax.swing.JMenuItem itemSobre;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
     private javax.swing.JMenu menuAjuda;
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenu menuConstruir;

@@ -11,8 +11,6 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
-
-import javax.swing.JOptionPane;
 import log.Constantes;
 
 public abstract class Arquivos {

@@ -9,9 +9,6 @@
 
 package log;
 
-import java.io.File;
-import java.io.IOException;
-import src.Arquivos;
 import src.ListaIO;
 import src.PastaCorrecao;
 
