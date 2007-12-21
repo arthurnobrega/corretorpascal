@@ -353,6 +353,8 @@ public class Principal extends javax.swing.JFrame {
                 TestaPreCorrecao tc = new TestaPreCorrecao(diretorio);
                 pastaCorrecao = tc.preCorrigir();
                 habilitarOpcoes(new int[] { 0, 1, 2});
+                JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", "Concluído!",
+                    JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, log.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
@@ -377,6 +379,8 @@ public class Principal extends javax.swing.JFrame {
             try {
                 pastaCorrecao = ti.importar();
                 habilitarOpcoes(new int[] { 0, 1, 2 });
+                JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
+                    JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, log.Constantes.E_IMP, Constantes.ET_DIR,
                         JOptionPane.ERROR_MESSAGE);
@@ -397,6 +401,8 @@ public class Principal extends javax.swing.JFrame {
             this.getContentPane().setVisible(false);
             this.setContentPane(new TabelaNotas(pastaCorrecao, this));
             this.getContentPane().setVisible(true);
+            JOptionPane.showMessageDialog(this, "Correção Concluída!", "Concluído!",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Antes informe as Entradas e " +
                     "Gabaritos para corrigir os programas.", "Foi encontrado um " +
@@ -410,8 +416,11 @@ public class Principal extends javax.swing.JFrame {
         if (opcao == 0) {
             GerenciaReversao gerRev = new GerenciaReversao(pastaCorrecao);
             gerRev.reverter();
+            pastaCorrecao = null;
             limparContentPane();
             desabilitarOpcoes(new int[] { 0, 1, 2 });
+            JOptionPane.showMessageDialog(this, "Reversão Concluída!", "Concluído!",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

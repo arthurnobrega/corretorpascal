@@ -16,6 +16,7 @@ public class Executador {
     private File diretorio = null ;
     private String entrada = null;
     private String saida = null;
+    private long tempoExecucao = 0;
  
     public Executador(File diretorio, String[] args, String entrada) {
         this.diretorio = diretorio;
@@ -43,6 +44,7 @@ public class Executador {
             StreamGobbler outputGobbler = new 
                 StreamGobbler(proc.getInputStream(), Constantes.TS_SAI);
 
+            tempoExecucao = System.currentTimeMillis();
             errorGobbler.start();
             outputGobbler.start();
             
@@ -52,6 +54,7 @@ public class Executador {
                 out.close();
                 
                 while(outputGobbler.isAlive()) { }
+                tempoExecucao = System.currentTimeMillis() - tempoExecucao;
                 saida = outputGobbler.getSaida();
             }
             exitVal = proc.waitFor();
@@ -60,6 +63,10 @@ public class Executador {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+    
+    public long getTempoExecucao() {
+        return tempoExecucao;
     }
     
     public String getSaida() {
