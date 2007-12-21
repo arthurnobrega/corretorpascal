@@ -47,6 +47,7 @@ public class GerenciaReversao {
             
             File arqSer = new File(pastaCorrecao.getDiretorio().getAbsolutePath() +
                                 "/" + Constantes.NARQ_SER);
+            pastaCorrecao = null;
             Arquivos.deletarArquivo(arqSer);
             System.out.println("Reversão Concluída!!");
         } catch (IOException ex) {

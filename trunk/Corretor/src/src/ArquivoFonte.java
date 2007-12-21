@@ -23,6 +23,7 @@ public class ArquivoFonte implements Serializable {
     private File arquivoFonte = null;
     private ArrayList<Saidas> saidas = null;
     private ArrayList<Integer> notas = null;
+    private long tempoExecucao = 0;
     
     /** Creates a new instance of ArquivoFonte */
     public ArquivoFonte(File arquivoFonte) {
@@ -32,6 +33,10 @@ public class ArquivoFonte implements Serializable {
     
     public void reiniciarContagem() {
         notas = new ArrayList<Integer>();
+    }
+    
+    public long getTempoExecucao() {
+        return tempoExecucao;
     }
     
     public File getArquivo() {
@@ -77,6 +82,7 @@ public class ArquivoFonte implements Serializable {
             arquivoFonte.getName().substring(0, arquivoFonte.getName().length() - 4) + ".exe" };
         Executador ex = new Executador(arquivoFonte.getParentFile(), args, entrada);
         ex.executar();
+        tempoExecucao = ex.getTempoExecucao();
         saida = ex.getSaida();
         
         return saida;
