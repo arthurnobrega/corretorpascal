@@ -20,10 +20,12 @@ import log.Constantes;
  */
 public class Correcao {
     
+    PastaCorrecao pastaCorrecao = null;
     Aluno aluno = null;
     
     /** Creates a new instance of Correcao */
-    public Correcao(Aluno aluno) {
+    public Correcao(PastaCorrecao pastaCorrecao, Aluno aluno) {
+        this.pastaCorrecao = pastaCorrecao;
         this.aluno = aluno;
     }
     
@@ -105,7 +107,8 @@ public class Correcao {
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
                 }
-                aluno.addNotaQuestao(arqFonte.getNotaTotal());
+                int notaMax = pastaCorrecao.getArrayListIO().get(i).getNotaQuestao();
+                aluno.addNotaQuestao((int) (arqFonte.getNotaTotal() * notaMax) / 100);
             } else {
                 aluno.addNotaQuestao(0);
             }

@@ -242,12 +242,33 @@ public class IO extends javax.swing.JDialog {
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         try {
             int numeroQuestoes = Integer.parseInt(txtNroQuestoes.getText());
+            int notasQuestoes[] = new int[numeroQuestoes];
+            int notaDividida = 100 / numeroQuestoes;
+            int mult = notaDividida * numeroQuestoes;
+            for (int i = 0; i <= numeroQuestoes - 1; i++) {
+                    notasQuestoes[i] = notaDividida;
+                }
+            if (mult != 100) {
+                int i = 0, nroIndices = notasQuestoes.length;
+                int resto = 100 - mult;
+                while(resto != 0) {
+                    notasQuestoes[i] += 1;
+                    resto--;
+                    if (i < nroIndices) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                }
+            }
             String[] vetorQuestoes = new String[numeroQuestoes];
             pastaCorrecao.getArrayListIO().clear();
             for (int i = 0; i <= numeroQuestoes - 1; i++) {
                 String questao = "Questão " + (i+1);
                 vetorQuestoes[i] = questao;
-                pastaCorrecao.getArrayListIO().add(new ListaIO());
+                ListaIO listaIO = new ListaIO();
+                listaIO.setNotaQuestao(notasQuestoes[i]);
+                pastaCorrecao.getArrayListIO().add(listaIO);
             }
             listaQuestoes.setListData(vetorQuestoes);
             listaQuestoes.setSelectedIndex(0);

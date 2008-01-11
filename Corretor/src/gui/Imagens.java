@@ -23,6 +23,7 @@ public class Imagens {
     
     public static final String ENTRADAS = "imagens/entradas.png";
     public static final String REVERTER = "imagens/reverter.png";
+    public static final String NOTAS = "imagens/notas.png";
     
     public static final String CORRIGIR = "imagens/corrigir.png";
     

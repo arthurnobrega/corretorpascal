@@ -35,7 +35,7 @@ public class TestaCorrecao {
             throw new IOException();
         }
         for (Aluno aluno : alunos) {
-            Correcao cor = new Correcao(aluno);
+            Correcao cor = new Correcao(pastaCorrecao, aluno);
             cor.corrigir(pastaCorrecao.getArrayListIO());
             GerenciaSerializacao gerSer = new GerenciaSerializacao(pastaCorrecao.getDiretorio());
             gerSer.serializar(pastaCorrecao);

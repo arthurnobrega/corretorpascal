@@ -53,7 +53,7 @@ public class TestaPreCorrecao {
              */
             for (Aluno aluno : alunos) {
                 i++;
-                Correcao cor = new Correcao(aluno);
+                Correcao cor = new Correcao(pastaCorrecao, aluno);
                 cor.criarDiretorios();
                 cor.compilarFontes();
             }

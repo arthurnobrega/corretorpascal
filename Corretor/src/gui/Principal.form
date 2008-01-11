@@ -71,6 +71,17 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);&#xa;java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemNotas">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Notas das Quest&#xf5;es"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNotasActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconNotas = new javax.swing.ImageIcon(Imagens.NOTAS);&#xa;java.awt.Image imgNotas = iconNotas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemNotas.setIcon(new javax.swing.ImageIcon(imgNotas));"/>
+              </AuxValues>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuConstruir">

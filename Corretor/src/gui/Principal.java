@@ -20,6 +20,11 @@ import src.PastaCorrecao;
  */
 public class Principal extends javax.swing.JFrame {
     
+    private static int OPCAO_ENT = 0;
+    private static int OPCAO_REV = 1;
+    private static int OPCAO_COR = 2;
+    private static int OPCAO_NOT = 3;
+    
     /** Creates new form Principal */
     public Principal() {
         initComponents();
@@ -30,7 +35,7 @@ public class Principal extends javax.swing.JFrame {
         java.awt.Image img = icone.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
         this.setIconImage(img);
         limparContentPane();
-        desabilitarOpcoes(new int[] { 0, 1, 2});
+        desabilitarOpcoes(new int[] { 0, 1, 2, 3});
     }
     
     private void inicializarJFileChooser() {
@@ -79,6 +84,7 @@ public class Principal extends javax.swing.JFrame {
         menuFerramentas = new javax.swing.JMenu();
         itemEntradas = new javax.swing.JMenuItem();
         itemReverter = new javax.swing.JMenuItem();
+        itemNotas = new javax.swing.JMenuItem();
         menuConstruir = new javax.swing.JMenu();
         itemCorrigir = new javax.swing.JMenuItem();
         menuAjuda = new javax.swing.JMenu();
@@ -232,6 +238,18 @@ public class Principal extends javax.swing.JFrame {
 
         menuFerramentas.add(itemReverter);
 
+        itemNotas.setText("Notas das Quest\u00f5es");
+        javax.swing.ImageIcon iconNotas = new javax.swing.ImageIcon(Imagens.NOTAS);
+        java.awt.Image imgNotas = iconNotas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemNotas.setIcon(new javax.swing.ImageIcon(imgNotas));
+        itemNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemNotasActionPerformed(evt);
+            }
+        });
+
+        menuFerramentas.add(itemNotas);
+
         barraMenu.add(menuFerramentas);
 
         menuConstruir.setText("Construir");
@@ -308,6 +326,10 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNotasActionPerformed
+        new NotasQuestoes(this, pastaCorrecao).setVisible(true);
+    }//GEN-LAST:event_itemNotasActionPerformed
+
     private void btnCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigirActionPerformed
         corrigir();
     }//GEN-LAST:event_btnCorrigirActionPerformed
@@ -352,7 +374,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 TestaPreCorrecao tc = new TestaPreCorrecao(diretorio);
                 pastaCorrecao = tc.preCorrigir();
-                habilitarOpcoes(new int[] { 0, 1, 2});
+                habilitarOpcoes(new int[] { 0, 1, 2, 3 });
                 JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
@@ -378,7 +400,7 @@ public class Principal extends javax.swing.JFrame {
             TestaImportacao ti = new TestaImportacao(diretorio);
             try {
                 pastaCorrecao = ti.importar();
-                habilitarOpcoes(new int[] { 0, 1, 2 });
+                habilitarOpcoes(new int[] { 0, 1, 2, 3 });
                 JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
@@ -418,7 +440,7 @@ public class Principal extends javax.swing.JFrame {
             gerRev.reverter();
             pastaCorrecao = null;
             limparContentPane();
-            desabilitarOpcoes(new int[] { 0, 1, 2 });
+            desabilitarOpcoes(new int[] { 0, 1, 2, 3 });
             JOptionPane.showMessageDialog(this, "Reversão Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
         }
@@ -466,6 +488,8 @@ public class Principal extends javax.swing.JFrame {
                 itemReverter.setEnabled(false);
             } else if (opcao == OPCAO_COR) {
                 itemCorrigir.setEnabled(false);
+            } else if (opcao == OPCAO_NOT) {
+                itemNotas.setEnabled(false);
             }
         }
     }
@@ -478,6 +502,8 @@ public class Principal extends javax.swing.JFrame {
                 itemReverter.setEnabled(true);
             } else if (opcao == OPCAO_COR) {
                 itemCorrigir.setEnabled(true);
+            } else if (opcao == OPCAO_NOT) {
+                itemNotas.setEnabled(true);
             }
         }
     }
@@ -493,11 +519,6 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     
-    
-    private static int OPCAO_ENT = 0;
-    private static int OPCAO_REV = 1;
-    private static int OPCAO_COR = 2;
-    
     PastaCorrecao pastaCorrecao = null;
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
@@ -510,6 +531,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemCorrigir;
     private javax.swing.JMenuItem itemEntradas;
     private javax.swing.JMenuItem itemImportar;
+    private javax.swing.JMenuItem itemNotas;
     private javax.swing.JMenuItem itemNova;
     private javax.swing.JMenuItem itemReverter;
     private javax.swing.JMenuItem itemSair;

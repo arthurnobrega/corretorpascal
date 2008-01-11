@@ -57,11 +57,10 @@ public class Aluno implements Serializable {
     }
     
     public int getNotaFinal() {
-        int nroQuestoes = notaQuestoes.size();
         int soma = 0;
         for (Integer inteiro : notaQuestoes) {
             soma += inteiro.intValue();
         }
-        return soma/nroQuestoes;
+        return soma;
     }
 }
