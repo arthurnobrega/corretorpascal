@@ -18,8 +18,10 @@ import java.util.ArrayList;
  */
 public class ListaIO implements Serializable {
     
-    public ArrayList<String> entradas = null;
-    public ArrayList<String> gabaritos = null;
+    private ArrayList<String> entradas = null;
+    private ArrayList<String> gabaritos = null;
+    private int notaQuestao = 0;
+    
     
     /** Creates a new instance of ListaEntradas */
     public ListaIO() {
@@ -66,6 +68,14 @@ public class ListaIO implements Serializable {
     
     public int getTamLista() {
         return entradas.size();
+    }
+    
+    public int getNotaQuestao() {
+        return notaQuestao;
+    }
+    
+    public void setNotaQuestao(int notaQuestao) {
+        this.notaQuestao = notaQuestao;
     }
     
 }
