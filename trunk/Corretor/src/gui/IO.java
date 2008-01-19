@@ -242,12 +242,24 @@ public class IO extends javax.swing.JDialog {
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         try {
             int numeroQuestoes = Integer.parseInt(txtNroQuestoes.getText());
+            if (numeroQuestoes == 0) {
+                listaQuestoes.setListData(new String[0]);
+                listaEntradas.setListData(new String[0]);
+                txtEntrada.setText("");
+                txtGabarito.setText("");
+                mudarCorEditor(0);
+                pastaCorrecao.getArrayListIO().clear();
+                return;
+            } else if (numeroQuestoes < 0) {
+                JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             int notasQuestoes[] = new int[numeroQuestoes];
             int notaDividida = 100 / numeroQuestoes;
             int mult = notaDividida * numeroQuestoes;
             for (int i = 0; i <= numeroQuestoes - 1; i++) {
-                    notasQuestoes[i] = notaDividida;
-                }
+                notasQuestoes[i] = notaDividida;
+            }
             if (mult != 100) {
                 int i = 0, nroIndices = notasQuestoes.length;
                 int resto = 100 - mult;
@@ -274,7 +286,7 @@ public class IO extends javax.swing.JDialog {
             listaQuestoes.setSelectedIndex(0);
             
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Informe um número inteiro!", "Erro!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAlterarActionPerformed
 

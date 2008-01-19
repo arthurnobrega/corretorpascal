@@ -31,6 +31,17 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconImp = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);&#xa;java.awt.Image imgImp = iconImp.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemImportar.setIcon(new javax.swing.ImageIcon(imgImp));"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemSalvar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Salvar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSalvarActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSalvar = new javax.swing.ImageIcon(Imagens.SALVAR);&#xa;java.awt.Image imgSalvar = iconSalvar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSalvar.setIcon(new javax.swing.ImageIcon(imgSalvar));"/>
+              </AuxValues>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSair">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>
@@ -60,17 +71,6 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconEntradas = new javax.swing.ImageIcon(Imagens.ENTRADAS);&#xa;java.awt.Image imgEntradas = iconEntradas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemEntradas.setIcon(new javax.swing.ImageIcon(imgEntradas));"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemReverter">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Reverter Corre&#xe7;&#xe3;o"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemReverterActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);&#xa;java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));"/>
-              </AuxValues>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemNotas">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Notas das Quest&#xf5;es"/>
@@ -80,6 +80,28 @@
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconNotas = new javax.swing.ImageIcon(Imagens.NOTAS);&#xa;java.awt.Image imgNotas = iconNotas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemNotas.setIcon(new javax.swing.ImageIcon(imgNotas));"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemCopia">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="C&#xf3;pia de Arquivo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemCopiaActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconCopia = new javax.swing.ImageIcon(Imagens.COPIA);&#xa;java.awt.Image imgCopia = iconCopia.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemCopia.setIcon(new javax.swing.ImageIcon(imgCopia));"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemReverter">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reverter Corre&#xe7;&#xe3;o"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemReverterActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);&#xa;java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));"/>
               </AuxValues>
             </MenuItem>
           </SubComponents>
