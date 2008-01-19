@@ -20,10 +20,12 @@ public class Imagens {
     
     public static final String NOVACORRECAO = "imagens/novacorrecao.png";
     public static final String IMPCORRECAO = "imagens/impcorrecao.png";
+    public static final String SALVAR = "imagens/salvar.png";
     
     public static final String ENTRADAS = "imagens/entradas.png";
     public static final String REVERTER = "imagens/reverter.png";
     public static final String NOTAS = "imagens/notas.png";
+    public static final String COPIA = "imagens/copia.png";
     
     public static final String CORRIGIR = "imagens/corrigir.png";
     

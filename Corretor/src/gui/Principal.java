@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import log.GerenciaReversao;
+import log.GerenciaSerializacao;
 import log.TestaCorrecao;
 import log.TestaPreCorrecao;
 import log.Constantes;
@@ -24,6 +25,8 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_REV = 1;
     private static int OPCAO_COR = 2;
     private static int OPCAO_NOT = 3;
+    private static int OPCAO_COP = 4;
+    private static int OPCAO_SAL = 5;
     
     /** Creates new form Principal */
     public Principal() {
@@ -35,7 +38,7 @@ public class Principal extends javax.swing.JFrame {
         java.awt.Image img = icone.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
         this.setIconImage(img);
         limparContentPane();
-        desabilitarOpcoes(new int[] { 0, 1, 2, 3});
+        desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5});
     }
     
     private void inicializarJFileChooser() {
@@ -80,11 +83,13 @@ public class Principal extends javax.swing.JFrame {
         menuArquivo = new javax.swing.JMenu();
         itemNova = new javax.swing.JMenuItem();
         itemImportar = new javax.swing.JMenuItem();
+        itemSalvar = new javax.swing.JMenuItem();
         itemSair = new javax.swing.JMenuItem();
         menuFerramentas = new javax.swing.JMenu();
         itemEntradas = new javax.swing.JMenuItem();
-        itemReverter = new javax.swing.JMenuItem();
         itemNotas = new javax.swing.JMenuItem();
+        itemCopia = new javax.swing.JMenuItem();
+        itemReverter = new javax.swing.JMenuItem();
         menuConstruir = new javax.swing.JMenu();
         itemCorrigir = new javax.swing.JMenuItem();
         menuAjuda = new javax.swing.JMenu();
@@ -199,6 +204,18 @@ public class Principal extends javax.swing.JFrame {
 
         menuArquivo.add(itemImportar);
 
+        itemSalvar.setText("Salvar");
+        javax.swing.ImageIcon iconSalvar = new javax.swing.ImageIcon(Imagens.SALVAR);
+        java.awt.Image imgSalvar = iconSalvar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemSalvar.setIcon(new javax.swing.ImageIcon(imgSalvar));
+        itemSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSalvarActionPerformed(evt);
+            }
+        });
+
+        menuArquivo.add(itemSalvar);
+
         itemSair.setText("Sair");
         javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.BRANCO);
         java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
@@ -226,18 +243,6 @@ public class Principal extends javax.swing.JFrame {
 
         menuFerramentas.add(itemEntradas);
 
-        itemReverter.setText("Reverter Corre\u00e7\u00e3o");
-        javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);
-        java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
-        itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));
-        itemReverter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemReverterActionPerformed(evt);
-            }
-        });
-
-        menuFerramentas.add(itemReverter);
-
         itemNotas.setText("Notas das Quest\u00f5es");
         javax.swing.ImageIcon iconNotas = new javax.swing.ImageIcon(Imagens.NOTAS);
         java.awt.Image imgNotas = iconNotas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
@@ -249,6 +254,30 @@ public class Principal extends javax.swing.JFrame {
         });
 
         menuFerramentas.add(itemNotas);
+
+        itemCopia.setText("C\u00f3pia de Arquivo");
+        javax.swing.ImageIcon iconCopia = new javax.swing.ImageIcon(Imagens.COPIA);
+        java.awt.Image imgCopia = iconCopia.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemCopia.setIcon(new javax.swing.ImageIcon(imgCopia));
+        itemCopia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCopiaActionPerformed(evt);
+            }
+        });
+
+        menuFerramentas.add(itemCopia);
+
+        itemReverter.setText("Reverter Corre\u00e7\u00e3o");
+        javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);
+        java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));
+        itemReverter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemReverterActionPerformed(evt);
+            }
+        });
+
+        menuFerramentas.add(itemReverter);
 
         barraMenu.add(menuFerramentas);
 
@@ -326,6 +355,16 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalvarActionPerformed
+        GerenciaSerializacao gerSer = new GerenciaSerializacao(pastaCorrecao.getDiretorio());
+        gerSer.serializar(pastaCorrecao);
+        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Alterações Salvas!", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_itemSalvarActionPerformed
+
+    private void itemCopiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCopiaActionPerformed
+        new CopiaArquivo(this, pastaCorrecao).setVisible(true);
+    }//GEN-LAST:event_itemCopiaActionPerformed
+
     private void itemNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNotasActionPerformed
         new NotasQuestoes(this, pastaCorrecao).setVisible(true);
     }//GEN-LAST:event_itemNotasActionPerformed
@@ -352,9 +391,6 @@ public class Principal extends javax.swing.JFrame {
 
     public void limparContentPane() {
         JPanel container = new JPanel(new FlowLayout());
-        /*container.add(jToolBar1);
-        container.add(jToolBar2);
-        container.add(jToolBar3);*/
         this.setContentPane(container);
     }
     
@@ -374,7 +410,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 TestaPreCorrecao tc = new TestaPreCorrecao(diretorio);
                 pastaCorrecao = tc.preCorrigir();
-                habilitarOpcoes(new int[] { 0, 1, 2, 3 });
+                habilitarOpcoes(new int[] { 0, 1, 5 });
                 JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
@@ -400,7 +436,11 @@ public class Principal extends javax.swing.JFrame {
             TestaImportacao ti = new TestaImportacao(diretorio);
             try {
                 pastaCorrecao = ti.importar();
-                habilitarOpcoes(new int[] { 0, 1, 2, 3 });
+                if (pastaCorrecao.getArrayListIO().size() >= 1) {
+                    habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5 });
+                } else {
+                    habilitarOpcoes(new int[] { 0, 1, 5 });
+                }
                 JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
@@ -413,6 +453,11 @@ public class Principal extends javax.swing.JFrame {
     public void entradas() {
         IO ent = new IO(this, pastaCorrecao.getDiretorio(), pastaCorrecao);
         ent.setVisible(true);
+        if (pastaCorrecao.getArrayListIO().size() >= 1) {
+            habilitarOpcoes(new int[] { 2, 3, 4 });
+        } else {
+            desabilitarOpcoes(new int[] { 2, 3, 4 });
+        }
     }
     
     public void corrigir() {
@@ -440,7 +485,7 @@ public class Principal extends javax.swing.JFrame {
             gerRev.reverter();
             pastaCorrecao = null;
             limparContentPane();
-            desabilitarOpcoes(new int[] { 0, 1, 2, 3 });
+            desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4});
             JOptionPane.showMessageDialog(this, "Reversão Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
         }
@@ -490,6 +535,10 @@ public class Principal extends javax.swing.JFrame {
                 itemCorrigir.setEnabled(false);
             } else if (opcao == OPCAO_NOT) {
                 itemNotas.setEnabled(false);
+            } else if (opcao == OPCAO_COP) {
+                itemCopia.setEnabled(false);
+            } else if (opcao == OPCAO_SAL) {
+                itemSalvar.setEnabled(false);
             }
         }
     }
@@ -504,6 +553,10 @@ public class Principal extends javax.swing.JFrame {
                 itemCorrigir.setEnabled(true);
             } else if (opcao == OPCAO_NOT) {
                 itemNotas.setEnabled(true);
+            } else if (opcao == OPCAO_COP) {
+                itemCopia.setEnabled(true);
+            } else if (opcao == OPCAO_SAL) {
+                itemSalvar.setEnabled(true);
             }
         }
     }
@@ -528,6 +581,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnNova;
     private javax.swing.JButton btnReverter;
     private javax.swing.JMenuItem itemAjuda;
+    private javax.swing.JMenuItem itemCopia;
     private javax.swing.JMenuItem itemCorrigir;
     private javax.swing.JMenuItem itemEntradas;
     private javax.swing.JMenuItem itemImportar;
@@ -535,6 +589,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemNova;
     private javax.swing.JMenuItem itemReverter;
     private javax.swing.JMenuItem itemSair;
+    private javax.swing.JMenuItem itemSalvar;
     private javax.swing.JMenuItem itemSobre;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
