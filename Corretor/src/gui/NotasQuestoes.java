@@ -22,13 +22,12 @@ import dados.PastaCorrecao;
  */
 public class NotasQuestoes extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = null;
+    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     int[] notasQuestoes = null;
     
     /** Creates new form NotasQuestoes */
-    public NotasQuestoes(java.awt.Frame parent, PastaCorrecao pastaCorrecao) {
+    public NotasQuestoes(java.awt.Frame parent) {
         super(parent, true);
-        this.pastaCorrecao = pastaCorrecao;
         initComponents();
         Janelas.alinharContainer(this);
         iniciarCampos();

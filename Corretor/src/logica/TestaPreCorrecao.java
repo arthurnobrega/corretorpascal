@@ -22,22 +22,14 @@ import dados.PastaCorrecao;
  */
 public class TestaPreCorrecao {
     
-    File diretorio = null;
-    PastaCorrecao pastaCorrecao = null;
-    
-    /** Creates a new instance of TestaCorrecao */
-    public TestaPreCorrecao(File diretorio) {
-        this.diretorio = diretorio;
-    }
-    
-    public PastaCorrecao preCorrigir() throws IOException {
+    public PastaCorrecao preCorrigir(File diretorio) throws IOException {
+        PastaCorrecao pastaCorrecao = null;
         if (diretorio == null) {
              throw new IOException();
         }
         
         Configuracao config = new Configuracao(diretorio);
-        pastaCorrecao = config.escanearPastaCorrecao();
-        
+        pastaCorrecao = config.escanearPastaCorrecao(diretorio);
         try {
             Aluno[] alunos = pastaCorrecao.getAlunos();
             int i = 0;
@@ -53,12 +45,13 @@ public class TestaPreCorrecao {
              */
             for (Aluno aluno : alunos) {
                 i++;
-                Correcao cor = new Correcao(pastaCorrecao, aluno);
+                Correcao cor = new Correcao(aluno);
                 cor.criarDiretorios();
                 cor.compilarFontes();
             }
-            GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
-            gerSer.serializar(pastaCorrecao);
+            PastaCorrecao.getInstancia(pastaCorrecao);
+            GerenciaSerializacao gerSer = new GerenciaSerializacao();
+            gerSer.serializar();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

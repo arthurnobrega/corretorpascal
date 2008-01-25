@@ -13,8 +13,8 @@ package gui;
 public class Ajuda extends javax.swing.JDialog {
     
     /** Creates new form Ajuda */
-    public Ajuda(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public Ajuda(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
         Janelas.alinharContainer(this);
     }

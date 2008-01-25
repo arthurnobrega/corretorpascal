@@ -20,13 +20,12 @@ import dados.PastaCorrecao;
  */
 public class IO extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = null;
-    File diretorio = null;
+    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
+    File diretorio = pastaCorrecao.getDiretorio();
     
     /** Creates new form Entradas */
-    public IO(java.awt.Frame parent, File diretorio, PastaCorrecao pastaCorrecao) {
+    public IO(java.awt.Frame parent) {
         super(parent, true);
-        this.pastaCorrecao = pastaCorrecao;
         this.diretorio = diretorio;
         initComponents();
         Janelas.alinharContainer(this);
@@ -291,7 +290,7 @@ public class IO extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        GerenciaIO gerencia = new GerenciaIO(pastaCorrecao);
+        GerenciaIO gerencia = new GerenciaIO();
         gerencia.removerIO(listaQuestoes.getSelectedIndex(), listaEntradas.getSelectedIndex());
         atualizarListaIO();
     }//GEN-LAST:event_btnRemoverActionPerformed
@@ -300,7 +299,7 @@ public class IO extends javax.swing.JDialog {
         ListaIO listaIO = pastaCorrecao.getArrayListIO().get(listaQuestoes.getSelectedIndex());
         
         listaIO.alterarIO(listaEntradas.getSelectedIndex(), txtEntrada.getText(), txtGabarito.getText());
-        Arquivos.serializarCorrecao(pastaCorrecao);
+        Arquivos.serializarCorrecao();
         JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -317,7 +316,7 @@ public class IO extends javax.swing.JDialog {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         int indice = listaQuestoes.getSelectedIndex();
-        GerenciaIO gerIO = new GerenciaIO(pastaCorrecao);
+        GerenciaIO gerIO = new GerenciaIO();
         gerIO.adicionarIO(indice);
         atualizarListaIO();
     }//GEN-LAST:event_btnAdicionarActionPerformed
@@ -360,7 +359,7 @@ public class IO extends javax.swing.JDialog {
     private void atualizarListaIO() {
         txtEntrada.setText("");
         txtGabarito.setText("");
-        GerenciaIO gerencia = new GerenciaIO(pastaCorrecao);
+        GerenciaIO gerencia = new GerenciaIO();
         listaEntradas.setListData(gerencia.getVetorIO(listaQuestoes.getSelectedIndex()));
     }
     

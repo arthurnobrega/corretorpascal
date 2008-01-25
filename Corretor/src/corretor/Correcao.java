@@ -25,12 +25,10 @@ import dados.Saidas;
  */
 public class Correcao {
     
-    PastaCorrecao pastaCorrecao = null;
     Aluno aluno = null;
     
     /** Creates a new instance of Correcao */
-    public Correcao(PastaCorrecao pastaCorrecao, Aluno aluno) {
-        this.pastaCorrecao = pastaCorrecao;
+    public Correcao(Aluno aluno) {
         this.aluno = aluno;
     }
     
@@ -94,7 +92,8 @@ public class Correcao {
         }
     }
     
-    public void corrigir(ArrayList<ListaIO> listaIO) {
+    public void corrigir() {
+        ArrayList<ListaIO> listaIO = PastaCorrecao.getInstancia().getArrayListIO();
         ArquivoFonte[] arquivosFonte = aluno.getFontes();
         aluno.reiniciarContagem();
         int nroFontes = arquivosFonte.length;
@@ -112,7 +111,7 @@ public class Correcao {
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
                 }
-                int notaMax = pastaCorrecao.getArrayListIO().get(i).getNotaQuestao();
+                int notaMax = PastaCorrecao.getInstancia().getArrayListIO().get(i).getNotaQuestao();
                 aluno.addNotaQuestao((int) (arqFonte.getNotaTotal() * notaMax) / 100);
             } else {
                 aluno.addNotaQuestao(0);

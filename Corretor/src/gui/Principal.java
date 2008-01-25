@@ -28,6 +28,8 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_COP = 4;
     private static int OPCAO_SAL = 5;
     
+    private PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
+    
     /** Creates new form Principal */
     public Principal() {
         initComponents();
@@ -356,17 +358,17 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalvarActionPerformed
-        GerenciaSerializacao gerSer = new GerenciaSerializacao(pastaCorrecao.getDiretorio());
-        gerSer.serializar(pastaCorrecao);
+        GerenciaSerializacao gerSer = new GerenciaSerializacao();
+        gerSer.serializar();
         JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Alterações Salvas!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_itemSalvarActionPerformed
 
     private void itemCopiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCopiaActionPerformed
-        new CopiaArquivo(this, pastaCorrecao).setVisible(true);
+        new CopiaArquivo(this).setVisible(true);
     }//GEN-LAST:event_itemCopiaActionPerformed
 
     private void itemNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNotasActionPerformed
-        new NotasQuestoes(this, pastaCorrecao).setVisible(true);
+        new NotasQuestoes(this).setVisible(true);
     }//GEN-LAST:event_itemNotasActionPerformed
 
     private void btnCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigirActionPerformed
@@ -408,13 +410,13 @@ public class Principal extends javax.swing.JFrame {
         } else {
             diretorio = fc.getSelectedFile();
             try {
-                TestaPreCorrecao tc = new TestaPreCorrecao(diretorio);
-                pastaCorrecao = tc.preCorrigir();
+                TestaPreCorrecao tc = new TestaPreCorrecao();
+                pastaCorrecao = tc.preCorrigir(diretorio);
                 habilitarOpcoes(new int[] { 0, 1, 5 });
                 JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, log.Constantes.E_DIR, Constantes.ET_DIR,
+                JOptionPane.showMessageDialog(this, logica.Constantes.E_DIR, Constantes.ET_DIR,
                     JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -434,7 +436,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             diretorio = fc.getSelectedFile();
             try {
-                TestaImportacao ti = new TestaImportacao(diretorio);
+                TestaImportacao ti = new TestaImportacao();
                 pastaCorrecao = ti.importar();
                 if (pastaCorrecao.getArrayListIO().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5 });
@@ -444,14 +446,14 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, log.Constantes.E_IMP, Constantes.ET_DIR,
+                JOptionPane.showMessageDialog(this, logica.Constantes.E_IMP, Constantes.ET_DIR,
                         JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
     public void entradas() {
-        IO ent = new IO(this, pastaCorrecao.getDiretorio(), pastaCorrecao);
+        IO ent = new IO(this);
         ent.setVisible(true);
         if (pastaCorrecao.getArrayListIO().size() >= 1) {
             habilitarOpcoes(new int[] { 2, 3, 4 });
@@ -461,12 +463,12 @@ public class Principal extends javax.swing.JFrame {
     }
     
     public void corrigir() {
-        TestaCorrecao testaCor = new TestaCorrecao(pastaCorrecao);
+        TestaCorrecao testaCor = new TestaCorrecao();
         limparContentPane();
         try {
             testaCor.testar();
             this.getContentPane().setVisible(false);
-            this.setContentPane(new TabelaNotas(pastaCorrecao, this));
+            this.setContentPane(new TabelaNotas(this));
             this.getContentPane().setVisible(true);
             JOptionPane.showMessageDialog(this, "Correção Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -481,7 +483,7 @@ public class Principal extends javax.swing.JFrame {
         int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza que deseja " +
                 "reverter a correção?", "Confirmação!", JOptionPane.YES_NO_OPTION);
         if (opcao == 0) {
-            GerenciaReversao gerRev = new GerenciaReversao(pastaCorrecao);
+            GerenciaReversao gerRev = new GerenciaReversao();
             gerRev.reverter();
             pastaCorrecao = null;
             limparContentPane();
@@ -500,12 +502,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemReverterActionPerformed
 
     private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
-        Ajuda ajuda = new Ajuda(this, true);
+        Ajuda ajuda = new Ajuda(this);
         ajuda.setVisible(true);
     }//GEN-LAST:event_itemAjudaActionPerformed
 
     private void itemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSobreActionPerformed
-        Sobre sobre = new Sobre(this, true);
+        Sobre sobre = new Sobre(this);
         sobre.setVisible(true);
     }//GEN-LAST:event_itemSobreActionPerformed
 
@@ -572,7 +574,6 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     
-    PastaCorrecao pastaCorrecao = null;
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JButton btnCorrigir;

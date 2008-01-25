@@ -24,8 +24,8 @@ public class GerenciaIO {
     /** Cria uma nova instância de GerenciaIO. 
      * @param pastaCorrecao O objeto que guarda todas as configurações do programa.
      */ 
-    public GerenciaIO(PastaCorrecao pastaCorrecao) {
-        this.pastaCorrecao = pastaCorrecao;
+    public GerenciaIO() {
+        this.pastaCorrecao = PastaCorrecao.getInstancia();
     }
     
     /** Adiciona uma Entrada/Gabarito em branco na Questão fornecida. 

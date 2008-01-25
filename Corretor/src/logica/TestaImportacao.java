@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package log;
+package logica;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,15 +19,8 @@ import dados.PastaCorrecao;
  */
 public class TestaImportacao {
     
-    File diretorio = null;
-    
-    /** Creates a new instance of TestaCorrecao */
-    public TestaImportacao(File diretorio) {
-        this.diretorio = diretorio;
-    }
-    
     public PastaCorrecao importar() throws IOException {
-        GerenciaSerializacao gerSer = new GerenciaSerializacao(diretorio);
+        GerenciaSerializacao gerSer = new GerenciaSerializacao();
         return gerSer.desserializar();
     }
     

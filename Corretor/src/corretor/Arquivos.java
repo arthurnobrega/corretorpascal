@@ -98,23 +98,23 @@ public abstract class Arquivos {
         return dir.delete();  
     }
     
-    public static void serializarCorrecao(PastaCorrecao pastaCorrecao) {
-       File arq = new File(pastaCorrecao.getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
+    public static void serializarCorrecao() {
+       File arq = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
        FileOutputStream fos;
        ObjectOutputStream oos;
        
        try {
           fos = new FileOutputStream(arq);
           oos = new ObjectOutputStream(fos);
-          oos.writeObject((PastaCorrecao) pastaCorrecao);
+          oos.writeObject((PastaCorrecao) PastaCorrecao.getInstancia());
           oos.close();
        } catch (IOException e) {
           e.printStackTrace();
        }
     }
     
-    public static PastaCorrecao desserializarCorrecao(File diretorio) throws IOException {
-       File arq = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_SER);
+    public static PastaCorrecao desserializarCorrecao() throws IOException {
+       File arq = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
        InputStream is;
        ObjectInputStream ois;  
        PastaCorrecao pastaCorrecao = null;

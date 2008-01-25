@@ -18,13 +18,12 @@ import dados.Saidas;
  */
 public class Relatorio extends javax.swing.JDialog {
     
-    private PastaCorrecao pastaCorrecao = null;
+    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     private Aluno aluno;
     
     /** Creates new form Relatorio */
-    public Relatorio(PastaCorrecao pastaCorrecao, int alunoSelecionado, String titulo, JFrame pai) {
+    public Relatorio(int alunoSelecionado, String titulo, JFrame pai) {
         super(pai, titulo, true);
-        this.pastaCorrecao = pastaCorrecao;
         this.aluno = pastaCorrecao.getAlunos()[alunoSelecionado];
         initComponents();
         Janelas.alinharContainer(this);
