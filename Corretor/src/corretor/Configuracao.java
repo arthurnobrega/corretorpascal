@@ -7,11 +7,14 @@
  * and open the template in the editor.
  */
 
-package src;
+package corretor;
 
+import dados.Aluno;
+import dados.ArquivoFonte;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import dados.PastaCorrecao;
 
 /**
  *
@@ -34,9 +37,9 @@ public class Configuracao {
             String nomeArq = arq.getName();
             int tamarq = nomeArq.length();
             
-            if ((nomeArq.length() > 4) && (nomeArq.substring(tamarq - 4, tamarq).equals(".pas")) 
-                    && (arq.isFile())) {
-                File arquivoFonte = new File(arq.getParent() + "/" + 
+            if ((nomeArq.length() > 4) && (nomeArq.substring(tamarq - 4, tamarq).equals(".pas"))
+            && (arq.isFile())) {
+                File arquivoFonte = new File(arq.getParent() + "/" +
                         nomeArq.substring(0,tamarq - 4) + "/" + arq.getName());
                 listaPas.add(arquivoFonte);
             }
@@ -47,7 +50,7 @@ public class Configuracao {
         for (int i = 0; i <= tamLista - 1; i++) {
             arquivosFonte[i] = new ArquivoFonte(listaPas.get(i));
         }
-
+        
         return arquivosFonte;
     }
     
@@ -74,7 +77,7 @@ public class Configuracao {
         Aluno[] alunos = procurarAlunos();
         PastaCorrecao pastaCorrecao = null;
         if (alunos.length > 0) {
-            pastaCorrecao = new PastaCorrecao(diretorio, alunos);
+            pastaCorrecao = PastaCorrecao.getInstancia(diretorio, alunos);
         } else {
             throw new IOException();
         }

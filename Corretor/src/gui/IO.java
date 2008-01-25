@@ -9,10 +9,10 @@ package gui;
 import java.awt.Color;
 import java.io.File;
 import javax.swing.JOptionPane;
-import log.GerenciaIO;
-import src.Arquivos;
-import src.ListaIO;
-import src.PastaCorrecao;
+import logica.GerenciaIO;
+import corretor.Arquivos;
+import dados.ListaIO;
+import dados.PastaCorrecao;
 
 /**
  *

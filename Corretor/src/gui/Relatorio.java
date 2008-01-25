@@ -8,9 +8,9 @@ package gui;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import src.Aluno;
-import src.PastaCorrecao;
-import src.Saidas;
+import dados.Aluno;
+import dados.PastaCorrecao;
+import dados.Saidas;
 
 /**
  *

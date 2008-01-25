@@ -10,9 +10,9 @@
 package log;
 
 import java.io.IOException;
-import src.Aluno;
-import src.Correcao;
-import src.PastaCorrecao;
+import dados.Aluno;
+import corretor.Correcao;
+import dados.PastaCorrecao;
 
 /**
  *

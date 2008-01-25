@@ -7,10 +7,10 @@
  * and open the template in the editor.
  */
 
-package log;
+package logica;
 
-import src.ListaIO;
-import src.PastaCorrecao;
+import dados.ListaIO;
+import dados.PastaCorrecao;
 
 /**
  * Classe que gerencia as modificações nas Entradas e Gabaritos. Também gerencia

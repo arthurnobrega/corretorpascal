@@ -7,14 +7,14 @@
  * and open the template in the editor.
  */
 
-package log;
+package logica;
 
 import java.io.File;
 import java.io.IOException;
-import src.Aluno;
-import src.Correcao;
-import src.Configuracao;
-import src.PastaCorrecao;
+import dados.Aluno;
+import corretor.Correcao;
+import corretor.Configuracao;
+import dados.PastaCorrecao;
 
 /**
  *

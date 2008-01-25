@@ -1,4 +1,4 @@
-package src;
+package corretor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,7 +11,8 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
-import log.Constantes;
+import logica.Constantes;
+import dados.PastaCorrecao;
 
 public abstract class Arquivos {
 	
