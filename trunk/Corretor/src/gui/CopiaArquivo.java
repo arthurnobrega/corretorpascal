@@ -6,7 +6,9 @@
 
 package gui;
 
+import java.io.File;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import src.PastaCorrecao;
 
@@ -48,7 +50,7 @@ public class CopiaArquivo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc=" Código Gerado ">//GEN-BEGIN:initComponents
     private void initComponents() {
         btnPesquisar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtArquivo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -64,7 +66,7 @@ public class CopiaArquivo extends javax.swing.JDialog {
             }
         });
 
-        jTextField1.setEditable(false);
+        txtArquivo.setEditable(false);
 
         jLabel1.setText("Caminho do Arquivo");
 
@@ -94,7 +96,7 @@ public class CopiaArquivo extends javax.swing.JDialog {
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, cmbQuestao, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, txtArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnPesquisar)))
                 .addContainerGap())
@@ -108,7 +110,7 @@ public class CopiaArquivo extends javax.swing.JDialog {
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(txtArquivo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(btnPesquisar))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel2)
@@ -120,7 +122,19 @@ public class CopiaArquivo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
+        UIManager.put("FileChooser.openDialogTitleText", "Cópia de Arquivo");
+        File diretorio = null;
+        
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int resultado = fc.showOpenDialog(this);
+        Janelas.alinharContainer(fc);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            diretorio = null;
+        } else {
+            diretorio = fc.getSelectedFile();
+            txtArquivo.setText(diretorio.getAbsolutePath());
+        }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
@@ -130,7 +144,7 @@ public class CopiaArquivo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtArquivo;
     // Fim da declaração de variáveis//GEN-END:variables
     
 }
