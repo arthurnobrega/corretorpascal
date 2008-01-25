@@ -7,13 +7,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import log.GerenciaReversao;
-import log.GerenciaSerializacao;
-import log.TestaCorrecao;
-import log.TestaPreCorrecao;
-import log.Constantes;
-import log.TestaImportacao;
-import src.PastaCorrecao;
+import logica.GerenciaReversao;
+import logica.GerenciaSerializacao;
+import logica.TestaCorrecao;
+import logica.TestaPreCorrecao;
+import logica.Constantes;
+import logica.TestaImportacao;
+import dados.PastaCorrecao;
 
 /**
  *
@@ -433,8 +433,8 @@ public class Principal extends javax.swing.JFrame {
             diretorio = null;
         } else {
             diretorio = fc.getSelectedFile();
-            TestaImportacao ti = new TestaImportacao(diretorio);
             try {
+                TestaImportacao ti = new TestaImportacao(diretorio);
                 pastaCorrecao = ti.importar();
                 if (pastaCorrecao.getArrayListIO().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5 });

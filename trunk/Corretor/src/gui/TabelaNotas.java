@@ -9,8 +9,8 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import src.Aluno;
-import src.PastaCorrecao;
+import dados.Aluno;
+import dados.PastaCorrecao;
 
 /**
  *

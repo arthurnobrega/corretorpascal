@@ -7,8 +7,9 @@
  * and open the template in the editor.
  */
 
-package src;
+package dados;
 
+import dados.ArquivoFonte;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;

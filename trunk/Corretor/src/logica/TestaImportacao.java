@@ -11,7 +11,7 @@ package log;
 
 import java.io.File;
 import java.io.IOException;
-import src.PastaCorrecao;
+import dados.PastaCorrecao;
 
 /**
  *

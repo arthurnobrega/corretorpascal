@@ -10,7 +10,7 @@ import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
-import src.PastaCorrecao;
+import dados.PastaCorrecao;
 
 /**
  *

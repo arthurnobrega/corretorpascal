@@ -7,12 +7,17 @@
  * and open the template in the editor.
  */
 
-package src;
+package corretor;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import log.Constantes;
+import logica.Constantes;
+import dados.Aluno;
+import dados.ArquivoFonte;
+import dados.ListaIO;
+import dados.PastaCorrecao;
+import dados.Saidas;
 
 /**
  *

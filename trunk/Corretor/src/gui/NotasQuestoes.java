@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import src.ListaIO;
-import src.PastaCorrecao;
+import dados.ListaIO;
+import dados.PastaCorrecao;
 
 /**
  *

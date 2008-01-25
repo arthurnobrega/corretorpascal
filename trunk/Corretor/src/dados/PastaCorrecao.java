@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package src;
+package dados;
 
 import java.io.File;
 import java.io.Serializable;
@@ -23,11 +23,20 @@ public class PastaCorrecao implements Serializable {
     private Aluno[] alunos = null;
     private File diretorio = null;
     
+    private static PastaCorrecao instancia;
+    
     /** Creates a new instance of PastaCorrecao */
-    public PastaCorrecao(File diretorio, Aluno[] alunos) {
+    private PastaCorrecao(File diretorio, Aluno[] alunos) {
         this.diretorio = diretorio;
         this.alunos = alunos;
         io = new ArrayList<ListaIO>();
+    }
+    
+    public static PastaCorrecao getInstancia(File diretorio, Aluno[] alunos) {
+        if (instancia == null) {
+            instancia = new PastaCorrecao(diretorio, alunos);
+        }
+        return instancia;
     }
     
     public ArrayList<ListaIO> getArrayListIO() {
