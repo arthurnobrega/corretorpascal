@@ -1,4 +1,4 @@
-package log;
+package logica;
 
 /**
  * Classe que é utilizada para armazenar as constantes que serão chamadas no

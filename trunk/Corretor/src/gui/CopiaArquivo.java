@@ -18,12 +18,11 @@ import dados.PastaCorrecao;
  */
 public class CopiaArquivo extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = null;
+    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     
     /** Creates new form CopiaArquivo */
-    public CopiaArquivo(java.awt.Frame parent, PastaCorrecao pastaCorrecao) {
+    public CopiaArquivo(java.awt.Frame parent) {
         super(parent, true);
-        this.pastaCorrecao = pastaCorrecao;
         initComponents();
         iniciarCombo();
         Janelas.alinharContainer(this);

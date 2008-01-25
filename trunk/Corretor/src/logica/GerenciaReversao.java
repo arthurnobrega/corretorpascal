@@ -25,8 +25,8 @@ public class GerenciaReversao {
     PastaCorrecao pastaCorrecao = null;
     
     /** Creates a new instance of GerenciaReversao */
-    public GerenciaReversao(PastaCorrecao pastaCorrecao) {
-        this.pastaCorrecao = pastaCorrecao;
+    public GerenciaReversao() {
+        this.pastaCorrecao = PastaCorrecao.getInstancia();
     }
     
     public void reverter() {

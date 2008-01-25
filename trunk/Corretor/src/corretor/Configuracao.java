@@ -22,9 +22,8 @@ import dados.PastaCorrecao;
  */
 public class Configuracao {
     
-    File diretorio = null;
+    private File diretorio = null;
     
-    /** Creates a new instance of GerenciaPas */
     public Configuracao(File diretorio) {
         this.diretorio = diretorio;
     }
@@ -73,7 +72,7 @@ public class Configuracao {
         return alunos.toArray(new Aluno[] {});
     }
     
-    public PastaCorrecao escanearPastaCorrecao() throws IOException {
+    public PastaCorrecao escanearPastaCorrecao(File diretorio) throws IOException {
         Aluno[] alunos = procurarAlunos();
         PastaCorrecao pastaCorrecao = null;
         if (alunos.length > 0) {

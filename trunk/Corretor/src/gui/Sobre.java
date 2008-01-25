@@ -13,8 +13,8 @@ package gui;
 public class Sobre extends javax.swing.JDialog {
     
     /** Creates new form Sobre */
-    public Sobre(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public Sobre(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
         Janelas.alinharContainer(this);
     }

@@ -18,13 +18,12 @@ import dados.PastaCorrecao;
  */
 public class TabelaNotas extends javax.swing.JPanel {
     
-    PastaCorrecao pastaCorrecao = null;
+    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     JFrame pai = null;
     
     /** Creates new form TabelaNotas */
-    public TabelaNotas(PastaCorrecao pastaCorrecao, JFrame pai) {
+    public TabelaNotas(JFrame pai) {
         initComponents();
-        this.pastaCorrecao = pastaCorrecao;
         this.pai = pai;
         preencherTabela();
     }
@@ -125,7 +124,7 @@ public class TabelaNotas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-        new Relatorio(pastaCorrecao, tabela.getSelectedRow(), "Relatório do aluno " + (String)tabela.getValueAt(tabela.getSelectedRow(), 0), pai).setVisible(true);
+        new Relatorio(tabela.getSelectedRow(), "Relatório do aluno " + (String)tabela.getValueAt(tabela.getSelectedRow(), 0), pai).setVisible(true);
     }//GEN-LAST:event_tabelaMouseClicked
     
     

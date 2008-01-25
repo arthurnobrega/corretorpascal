@@ -23,7 +23,7 @@ public class PastaCorrecao implements Serializable {
     private Aluno[] alunos = null;
     private File diretorio = null;
     
-    private static PastaCorrecao instancia;
+    private static PastaCorrecao instancia = null;
     
     /** Creates a new instance of PastaCorrecao */
     private PastaCorrecao(File diretorio, Aluno[] alunos) {
@@ -32,15 +32,27 @@ public class PastaCorrecao implements Serializable {
         io = new ArrayList<ListaIO>();
     }
     
+    public static PastaCorrecao getInstancia() {
+        return instancia;
+    }
+    
     public static PastaCorrecao getInstancia(File diretorio, Aluno[] alunos) {
-        if (instancia == null) {
-            instancia = new PastaCorrecao(diretorio, alunos);
-        }
+        instancia = new PastaCorrecao(diretorio, alunos);
+        return instancia;
+    }
+    
+    public static PastaCorrecao getInstancia(PastaCorrecao pastaCorrecao) {
+        instancia = new PastaCorrecao(pastaCorrecao.getDiretorio(), pastaCorrecao.getAlunos());
+        instancia.setArrayListIO(pastaCorrecao.getArrayListIO());
         return instancia;
     }
     
     public ArrayList<ListaIO> getArrayListIO() {
         return io;
+    }
+    
+    public void setArrayListIO(ArrayList<ListaIO> io) {
+        this.io = io;
     }
     
     public Aluno[] getAlunos() {

@@ -19,20 +19,13 @@ import dados.PastaCorrecao;
  * @author e0631205
  */
 public class GerenciaSerializacao {
-    
-    File diretorio = null;
-    
-    /** Creates a new instance of GerenciaSerializacao */
-    public GerenciaSerializacao(File diretorio) {
-        this.diretorio = diretorio;
-    }
-    
-    public void serializar(PastaCorrecao pastaCorrecao) {
-        Arquivos.serializarCorrecao(pastaCorrecao);
+      
+    public void serializar() {
+        Arquivos.serializarCorrecao();
     }
     
     public PastaCorrecao desserializar() throws IOException {
-        return Arquivos.desserializarCorrecao(diretorio);
+        return Arquivos.desserializarCorrecao();
     }
     
 }
