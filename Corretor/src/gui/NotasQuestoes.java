@@ -35,18 +35,18 @@ public class NotasQuestoes extends javax.swing.JDialog {
     
     private void iniciarCampos() {
         int soma = 0;
-        int nroQuestoes = pastaCorrecao.getArrayListIO().size();
+        int nroQuestoes = pastaCorrecao.getQuestoes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         notasQuestoes = new int[nroQuestoes];
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);
-            notasQuestoes[i] = pastaCorrecao.getArrayListIO().get(i).getNotaQuestao();
+            notasQuestoes[i] = pastaCorrecao.getQuestoes().get(i).getNotaMax();
         }
         DefaultComboBoxModel modelQuestao = new DefaultComboBoxModel(vetorQuestao);        
         cmbQuestao.setModel(modelQuestao);
         cmbQuestao.setSelectedIndex(0);
-        txtMaxQuestao.setText("" + pastaCorrecao.getArrayListIO().get(0).getNotaQuestao());
+        txtMaxQuestao.setText("" + pastaCorrecao.getQuestoes().get(0).getNotaMax());
         
         for (int i = 0; i <= notasQuestoes.length - 1; i++) {
             soma += notasQuestoes[i];
@@ -189,7 +189,7 @@ public class NotasQuestoes extends javax.swing.JDialog {
         }
         if (opcao == 0) {
             for (int i = 0; i <= notasQuestoes.length - 1; i++) {
-                pastaCorrecao.getArrayListIO().get(i).setNotaQuestao(notasQuestoes[i]);
+                pastaCorrecao.getQuestoes().get(i).setNotaMax(notasQuestoes[i]);
             }
             JOptionPane.showMessageDialog(null, "Notas salvas com sucesso!", 
                     "Notas Salvas!", JOptionPane.INFORMATION_MESSAGE);

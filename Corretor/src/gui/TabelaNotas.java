@@ -56,7 +56,7 @@ public class TabelaNotas extends javax.swing.JPanel {
             
             public Object getValueAt(int rowIndex, int columnIndex) {
                 if (columnIndex == 0) {
-                    return pastaCorrecao.getAlunos()[rowIndex].getDiretorio().getName();
+                    return pastaCorrecao.getAlunos()[rowIndex].getDiretorioAluno().getName();
                 } else if (columnIndex == 1) {
                     return pastaCorrecao.getAlunos()[rowIndex].getNotaFinal();
                 }

@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import logica.Constantes;
 
+/**
+ * Classe que executa processos externos.
+ */
 public class Executador {
     
     private int exitVal = 0;
@@ -18,12 +21,21 @@ public class Executador {
     private String saida = null;
     private long tempoExecucao = 0;
  
+    /**
+     * Cria uma nova instância da classe Executador.
+     * @param diretorio O diretório padrão que terá o processo.
+     * @param args Um vetor de argumentos que serão executados no processo.
+     * @param entrada A entrada que o processo terá.
+     */
     public Executador(File diretorio, String[] args, String entrada) {
         this.diretorio = diretorio;
         this.args = args;
         this.entrada = entrada;
     }
 
+    /**
+     * Executa um determinado processo com os parâmetros passado no construtor.
+     */
     public void executar() {
         try {
             Runtime rt = Runtime.getRuntime();
@@ -38,11 +50,11 @@ public class Executador {
             
             // alguma mensagem de erro?
             StreamGobbler errorGobbler = new 
-                StreamGobbler(proc.getErrorStream(), Constantes.TS_ERR);
+                StreamGobbler(proc.getErrorStream(), "ERRO");
 
-            // alguma saï¿½da?
+            // alguma saída?
             StreamGobbler outputGobbler = new 
-                StreamGobbler(proc.getInputStream(), Constantes.TS_SAI);
+                StreamGobbler(proc.getInputStream(), "SAÍDA");
 
             tempoExecucao = System.currentTimeMillis();
             errorGobbler.start();
@@ -65,23 +77,31 @@ public class Executador {
         }
     }
     
+    /**
+     * Retorna o tempo de execução do processo.
+     */
     public long getTempoExecucao() {
         return tempoExecucao;
     }
     
+    /**
+     * Retorna a saída do processo.
+     */
     public String getSaida() {
         return saida;
     }
     
+    /**
+     * Retorna o valor de saída do processo.
+     */
     public int getValorSaida() {
         return exitVal;
-    }
+    }   
     
-    public BufferedReader getBufferSaida() {
-        return br;
-    }
-    
-    
+    /**
+     * Classe interna utilizada para capturar as saídas e mensagens de erro
+     * de um determinado processo.
+     */
     class StreamGobbler extends Thread {
         InputStream is = null;
         String type = null;
@@ -109,6 +129,9 @@ public class Executador {
             }
         }
 
+        /**
+         * Retorna a saída do processo.
+         */
         public String getSaida() {
             return saida;
         }

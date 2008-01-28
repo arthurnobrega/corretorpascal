@@ -1,12 +1,3 @@
-/*
- * GerenciaSerializacao.java
- *
- * Created on 28 de Setembro de 2007, 10:35
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package logica;
 
 import java.io.File;
@@ -15,17 +6,24 @@ import corretor.Arquivos;
 import dados.PastaCorrecao;
 
 /**
- *
- * @author e0631205
+ * Classe que gerencia a serialização do objeto que é utilizado para a importação
+ * da correção posteriormente.
  */
 public class GerenciaSerializacao {
-      
+    
+    /**
+     * Serializa o objeto padrão na pasta da correção.
+     */
     public void serializar() {
         Arquivos.serializarCorrecao();
     }
     
-    public PastaCorrecao desserializar() throws IOException {
-        return Arquivos.desserializarCorrecao();
+    /**
+     * Desserializa o objeto padrão e o tras para a memória na forma do objeto
+     * PastaCorrecao.
+     */
+    public PastaCorrecao desserializar(File diretorio) throws IOException {
+        return Arquivos.desserializarCorrecao(diretorio);
     }
     
 }

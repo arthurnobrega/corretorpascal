@@ -14,13 +14,17 @@ import java.io.OutputStreamWriter;
 import logica.Constantes;
 import dados.PastaCorrecao;
 
+
+/**
+ * Esta classe contém métodos que manipulam arquivos de diversas formas.
+ */
 public abstract class Arquivos {
 	
     /** 
-     * Este mÃ©todo retorna o texto que estÃ¡ contido em um determinado arquivo
+     * Retorna o texto que está contido em um determinado arquivo.
      * na forma de String. 
-     * @param filename O Nome do Arquivo.
-     * @return Uma String que contÃ©m o texto do arquivo.
+     * @param arquivo O Nome do Arquivo.
+     * @return O texto do arquivo em forma de String.
      */
     public static String getTextoArquivo(File arquivo) throws IOException {
         StringBuffer buffer = new StringBuffer();
@@ -35,9 +39,9 @@ public abstract class Arquivos {
     }
 
     /** 
-     * Este mÃ©todo grava os dados que sÃ£o passados dentro do arquivo e o fecha.
-     * @param caminhoArquivo O caminho completo do arquivo no qual serÃ¡ gravado os dados.
-     * @param texto O texto que serÃ¡ gravado no arquivo.
+     * Grava os dados que são passados dentro do arquivo e o fecha.
+     * @param arquivo O caminho completo do arquivo no qual será gravado os dados.
+     * @param texto O texto que será gravado no arquivo.
      */
     public static void salvarArquivo(File arquivo, String texto) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
@@ -46,58 +50,72 @@ public abstract class Arquivos {
         out.close();
     }
 
+    /** 
+     * Deleta um determinado arquivo.
+     * @param arquivo O arquivo que será deletado.
+     */
     public static void deletarArquivo(File arquivo) throws IOException {
         if (!arquivo.delete()) {
             throw new IOException();
         }
     }
     
-    public static boolean deletarDiretorio(File dir) {
-        // to see if this directory is actually a symbolic link to a directory,
-        // we want to get its canonical path - that is, we follow the link to
-        // the file it's actually linked to
+    /**
+     * Deleta um determinado dirétorio e todos os arquivos e subdiretórios contidos nele.
+     * @param diretorio O diretório que será deletado.
+     * @return Um valor true se foi bem sucedido e falso caso contrário.
+     */
+    public static boolean deletarDiretorio(File diretorio) {
+        // Para ver se o diretório é atualmente um link simbólico para um diretório,
+        // nós precisamos pegar o caminho Canônico - isto é, nós seguimos o link para
+        // o arquivo que ele está atualmente linkado.
         File candir;
         try {
-            candir = dir.getCanonicalFile();
+            candir = diretorio.getCanonicalFile();
         } catch (IOException e) {
             return false;
         }
   
-        // a symbolic link has a different canonical path than its actual path,
-        // unless it's a link to itself
-        if (!candir.equals(dir.getAbsoluteFile())) {
-            // this file is a symbolic link, and there's no reason for us to
-            // follow it, because then we might be deleting something outside of
-            // the directory we were told to delete
+        // Um link simbólico tem um caminho canônico diferente do que o seu
+        // caminho atual, a menos que seja um link para si mesmo.
+        if (!candir.equals(diretorio.getAbsoluteFile())) {
+            // Este arquivo é um link simbólico, e não há nenhuma razão para
+            // seguí-lo, porque poderíamos apagar algo que não deveria ser apagado.
             return false;
         }
   
-        // now we go through all of the files and subdirectories in the
-        // directory and delete them one by one
+        // Agora temos de passar por todos os arquivos e subdiretórios no
+        // diretório e eliminá-los um por um.
         File[] files = candir.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
   
-                // in case this directory is actually a symbolic link, or it's
-                // empty, we want to try to delete the link before we try
-                // anything
+                	
+                // No caso deste diretório ser realmente uma ligação simbólica,
+                // ou ele está vazio, queremos tentar apagar o link antes de 
+                // tentarmos qualquer coisa.
                 boolean deleted = file.delete();
                 if (!deleted) {
-                    // deleting the file failed, so maybe it's a non-empty
-                    // directory
-                    if (file.isDirectory()) deletarDiretorio(file);
+                    // Deletar o arquivo falhou, talvez seja um diretório não vazio.
+                    if (file.isDirectory()) {
+                        deletarDiretorio(file);
+                    }
   
-                    // otherwise, there's nothing else we can do
+                   // Caso contrário, não há nada mais que possamos fazer.
                 }
             }
         }
   
-        // now that we tried to clear the directory out, we can try to delete it
-        // again
-        return dir.delete();  
+        // Agora que tentamos limpar o diretório de fora, podemos tentar apagá-lo
+        // novamente.
+        return diretorio.delete();  
     }
     
+    /**
+     * Salva os dados armazenados na variável de classe PastaCorrecao em um arquivo
+     * que será utilizado para a importação posteriormente.
+     */
     public static void serializarCorrecao() {
        File arq = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
        FileOutputStream fos;
@@ -113,8 +131,14 @@ public abstract class Arquivos {
        }
     }
     
-    public static PastaCorrecao desserializarCorrecao() throws IOException {
-       File arq = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
+    /**
+     * Importa os dados armazenados no arquivo para a memória na forma da variável
+     * de classe PastaCorrecao.
+     * @return A instância da variável que foi desserializada, ou seja, importada de
+     * um arquivo.
+     */
+    public static PastaCorrecao desserializarCorrecao(File diretorio) throws IOException {
+       File arq = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_SER);
        InputStream is;
        ObjectInputStream ois;  
        PastaCorrecao pastaCorrecao = null;

@@ -9,10 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import logica.GerenciaReversao;
 import logica.GerenciaSerializacao;
-import logica.TestaCorrecao;
-import logica.TestaPreCorrecao;
+import logica.GerenciaCorrecao;
+import logica.TestaConfiguracao;
 import logica.Constantes;
-import logica.TestaImportacao;
 import dados.PastaCorrecao;
 
 /**
@@ -28,7 +27,7 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_COP = 4;
     private static int OPCAO_SAL = 5;
     
-    private PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
+    private PastaCorrecao pastaCorrecao = null;
     
     /** Creates new form Principal */
     public Principal() {
@@ -391,12 +390,12 @@ public class Principal extends javax.swing.JFrame {
         novaCorrecao();
     }//GEN-LAST:event_btnNovaActionPerformed
 
-    public void limparContentPane() {
+    private void limparContentPane() {
         JPanel container = new JPanel(new FlowLayout());
         this.setContentPane(container);
     }
     
-    public void novaCorrecao() {
+    private void novaCorrecao() {
         UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
         File diretorio = null;
         
@@ -410,19 +409,20 @@ public class Principal extends javax.swing.JFrame {
         } else {
             diretorio = fc.getSelectedFile();
             try {
-                TestaPreCorrecao tc = new TestaPreCorrecao();
-                pastaCorrecao = tc.preCorrigir(diretorio);
+                TestaConfiguracao tc = new TestaConfiguracao();
+                pastaCorrecao = tc.testarConfiguracao(diretorio);
                 habilitarOpcoes(new int[] { 0, 1, 5 });
-                JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", "Concluído!",
-                    JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", 
+                        "Concluído!", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, logica.Constantes.E_DIR, Constantes.ET_DIR,
-                    JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "O diret\u00f3rio informado n\u00e3o " +
+            "\u00e9 v\u00e1lido,\n pois n\u00e3o cont\u00e9m os .pas!", 
+                        "Diret\u00f3rio Inv\u00e1lido!", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
-    public void importarCorrecao() {
+    private void importarCorrecao() {
         UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
         File diretorio = null;
         
@@ -436,9 +436,9 @@ public class Principal extends javax.swing.JFrame {
         } else {
             diretorio = fc.getSelectedFile();
             try {
-                TestaImportacao ti = new TestaImportacao();
-                pastaCorrecao = ti.importar();
-                if (pastaCorrecao.getArrayListIO().size() >= 1) {
+                GerenciaSerializacao gerSer = new GerenciaSerializacao();
+                pastaCorrecao = PastaCorrecao.getInstancia(gerSer.desserializar(diretorio));
+                if (pastaCorrecao.getQuestoes().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5 });
                 } else {
                     habilitarOpcoes(new int[] { 0, 1, 5 });
@@ -446,40 +446,35 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, logica.Constantes.E_IMP, Constantes.ET_DIR,
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "O diret\u00f3rio informado n\u00e3o " +
+            "\u00e9 v\u00e1lido,\n pois n\u00e3o foi feita uma corre\u00e7\u00e3o nele!", 
+                        "Diret\u00f3rio Inv\u00e1lido!", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
-    public void entradas() {
+    private void entradas() {
         IO ent = new IO(this);
         ent.setVisible(true);
-        if (pastaCorrecao.getArrayListIO().size() >= 1) {
+        if (pastaCorrecao.getQuestoes().size() >= 1) {
             habilitarOpcoes(new int[] { 2, 3, 4 });
         } else {
             desabilitarOpcoes(new int[] { 2, 3, 4 });
         }
     }
     
-    public void corrigir() {
-        TestaCorrecao testaCor = new TestaCorrecao();
+    private void corrigir() {
+        GerenciaCorrecao testaCor = new GerenciaCorrecao();
         limparContentPane();
-        try {
-            testaCor.testar();
-            this.getContentPane().setVisible(false);
-            this.setContentPane(new TabelaNotas(this));
-            this.getContentPane().setVisible(true);
-            JOptionPane.showMessageDialog(this, "Correção Concluída!", "Concluído!",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Antes informe as Entradas e " +
-                    "Gabaritos para corrigir os programas.", "Foi encontrado um " +
-                    "erro!", JOptionPane.INFORMATION_MESSAGE);
-        }
+        testaCor.corrigir();
+        this.getContentPane().setVisible(false);
+        this.setContentPane(new TabelaNotas(this));
+        this.getContentPane().setVisible(true);
+        JOptionPane.showMessageDialog(this, "Correção Concluída!", "Concluído!",
+                JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public void reverter() {
+    private void reverter() {
         int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza que deseja " +
                 "reverter a correção?", "Confirmação!", JOptionPane.YES_NO_OPTION);
         if (opcao == 0) {

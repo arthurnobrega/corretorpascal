@@ -1,12 +1,3 @@
-/*
- * ArquivoFonte.java
- *
- * Created on 22 de Setembro de 2007, 16:34
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package dados;
 
 import dados.ArquivoFonte;
@@ -15,53 +6,82 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
- * @author UltraXP
+ * Classe que guarda todas as informações de um determinado aluno, incluindo todos
+ * os arquivos fontes, as notas de cada arquivo e o diretório do aluno.
  */
 public class Aluno implements Serializable {
     private ArquivoFonte[] fontes = null;
     private File diretorio = null;
     private ArrayList<Integer> notaQuestoes;
     
-    /** Creates a new instance of ArquivoFonte */
+    /** 
+     * Cria uma nova instância da classe ArquivoFonte.
+     * @param diretorio O diretório do aluno.
+     * @param fontes Vetor de arquivos fontes do aluno.
+     */
     public Aluno(File diretorio, ArquivoFonte[] fontes) {
         this.diretorio = diretorio;
         this.fontes = fontes;
         notaQuestoes = new ArrayList<Integer>();
     }
     
-    public void reiniciarContagem() {
-        notaQuestoes = new ArrayList<Integer>();
-        for (ArquivoFonte fonte : fontes) {
-            fonte.reiniciarContagem();
-        }
-    }
-
-    public void setFontes(ArquivoFonte[] fontes) {
-        this.fontes = fontes;
-    }
-    
+    /**
+     * Retorna o vetor de arquivos fontes do aluno.
+     */
     public ArquivoFonte[] getFontes() {
         return fontes;
     }
     
-    public File getDiretorio() {
+    /**
+     * Modifica o vetor de arquivos fontes do aluno.
+     * @param fontes O novo vetor de arquivos fontes do aluno.
+     */
+    public void setFontes(ArquivoFonte[] fontes) {
+        this.fontes = fontes;
+    }
+    
+    /**
+     * Retorna o File para o diretório do aluno.
+     */
+    public File getDiretorioAluno() {
         return diretorio;
     }
     
+    /**
+     * Retorna a nota de uma determinada questão do aluno.
+     */
     public int getNotaQuestao(int nroQuestao) {
         return notaQuestoes.get(nroQuestao).intValue();
     }
     
+    /**
+     * Adiciona uma nova nota de uma questão na lista. A questão que a nota
+     * se refere é exatamente o índice desta nota na lista.
+     */
     public void addNotaQuestao(int notaQuestao) {
         this.notaQuestoes.add(new Integer(notaQuestao));
     }
     
+    /**
+     * Retorna a nota final do aluno, que é a soma da nota de cada
+     * questão deste aluno.
+     */
     public int getNotaFinal() {
         int soma = 0;
         for (Integer inteiro : notaQuestoes) {
             soma += inteiro.intValue();
         }
         return soma;
+    }
+        
+    /**
+     * Reinicia a contagem da nota do aluno.
+     */
+    public void reiniciarContagem() {
+        notaQuestoes = new ArrayList<Integer>();
+        for (ArquivoFonte fonte : fontes) {
+            //reinicia a contagem da nota de cada arquivo fonte do aluno.
+            fonte.reiniciarContagem();
+        }
     }
 }

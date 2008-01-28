@@ -14,27 +14,29 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
 /**
- *
- * @author UltraXP
+ * Classe que extende JTextField e deixa o usuário informar apenas números.
  */
 public class TextoNumeros extends JTextField {
-        
+    
+    /**
+     * Cria uma nova instância da classe TextoNumeros.
+     */
     public TextoNumeros() {
         super();
         EventoTeclado evento = new EventoTeclado(this);
         this.addKeyListener(evento);
     }
 
-    public TextoNumeros(String texto) {
-        super(texto);
-        EventoTeclado evento = new EventoTeclado(this);
-        this.addKeyListener(evento);
-    }
-
+    /**
+     * Retorna o texto contido no campo.
+     */
     public String getText() {
         return super.getText();
     }
 
+    /**
+     * Seta o texto que irá existir dentro do campo.
+     */
     public void setText(String texto) {
         String numeros = new String();
         for (int i = 0; i <= texto.length() - 1; i++) {
@@ -48,6 +50,9 @@ public class TextoNumeros extends JTextField {
         super.setText(numeros);
     }
 
+    /**
+     * Classe que gerencia os eventos no campo.
+     */
     class EventoTeclado implements KeyListener {
 
         JTextField jtext = null;
@@ -70,13 +75,9 @@ public class TextoNumeros extends JTextField {
             jtext.setText(numeros);
         }
 
-        public void keyPressed(KeyEvent e) {
+        public void keyPressed(KeyEvent e) { }
 
-        }
-
-        public void keyTyped(KeyEvent e) {
-            
-        }
+        public void keyTyped(KeyEvent e) { }
 
     }
 

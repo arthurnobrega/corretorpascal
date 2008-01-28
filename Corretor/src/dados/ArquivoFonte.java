@@ -1,12 +1,3 @@
-/*
- * ArquivoFonte.java
- *
- * Created on 20 de Outubro de 2007, 23:28
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package dados;
 
 import corretor.Executador;
@@ -16,80 +7,114 @@ import java.util.ArrayList;
 import dados.Saidas;
 
 /**
- *
- * @author UltraXP
+ * Classe que guarda informações de um determinado arquivo fonte de um aluno.
  */
 public class ArquivoFonte implements Serializable {
     
     private boolean erroCompilacao = false;
-    private File arquivoFonte = null;
+    private File arquivo = null;
     private ArrayList<Saidas> saidas = null;
     private ArrayList<Integer> notas = null;
-    private long tempoExecucao = 0;
+    private ArrayList<Long> tempoExecucao = null;
     
-    /** Creates a new instance of ArquivoFonte */
-    public ArquivoFonte(File arquivoFonte) {
-        this.arquivoFonte = arquivoFonte;
+    /**
+     * Cria uma nova instância da classe ArquivoFonte.
+     * @param arquivo O endereço do arquivo fonte.
+     */
+    public ArquivoFonte(File arquivo) {
+        this.arquivo = arquivo;
         notas = new ArrayList<Integer>();
     }
     
-    public void reiniciarContagem() {
-        notas = new ArrayList<Integer>();
-    }
-    
-    public long getTempoExecucao() {
-        return tempoExecucao;
-    }
-    
+    /**
+     * Retorna o objeto File para o arquivo fonte.
+     */
     public File getArquivo() {
-        return arquivoFonte;
+        return arquivo;
     }
     
-    public void setErroCompilacao(boolean erroCompilacao) {
-        this.erroCompilacao = erroCompilacao;
-    }
-    
+    /**
+     * Retorna true se ocorreu erro de compilação no arquivo e false caso contrário.
+     */
     public boolean getErroCompilacao() {
         return erroCompilacao;
     }
     
-    public void setSaidas(ArrayList<Saidas> saidas) {
-        this.saidas = saidas;
+    /**
+     * Seta se ocorreu um erro de compilação para este arquivo fonte.
+     * @param erroCompilacao O valor booleano que diz se ocorreu um erro de compilação.
+     */
+    public void setErroCompilacao(boolean erroCompilacao) {
+        this.erroCompilacao = erroCompilacao;
     }
     
+    /**
+     * Retorna a lista de saídas que tem o mesmo tamanho do número de entradas
+     * fornecidas.
+     */
     public ArrayList<Saidas> getSaidas() {
         return saidas;
     }
     
+    /**
+     * Seta a lista de saidas para este arquivo fonte.
+     */
+    public void setSaidas(ArrayList<Saidas> saidas) {
+        this.saidas = saidas;
+    }
+    
+    /**
+     * Retorna a nota de uma determinada entrada para este arquivo fonte.
+     * @param indice O índice da nota que se quer ter acesso.
+     */
     public int getNota(int indice) {
         return notas.get(indice).intValue();
     }
     
+    
+    /**
+     * Adiciona uma nota para este arquivo fonte. Lembrando que o índice da nota
+     * está ligado diretamente à ordem das entradas fornecidas.
+     */    
     public void addNota(int nota) {
         notas.add(new Integer(nota));
     }
     
+    /**
+     * Retorna a nota total deste arquivo fonte que é a soma das notas dividida
+     * pelo número delas. 
+     */
     public int getNotaTotal() {
         int somaNotas = 0;
-        int nroTestes = notas.size();
-        for (int i = 0; i <= nroTestes - 1; i++) {
+        int nroNotas = notas.size();
+        for (int i = 0; i <= nroNotas - 1; i++) {
             somaNotas += notas.get(i).intValue();
         }
-        return somaNotas/nroTestes;
+        return somaNotas/nroNotas;
     }
     
+    /**
+     * Corrige o arquivo fonte para uma determinada entrada fornecida.
+     * @return A saída que o programa gerou para a entrada em forma de String.
+     */
     public String corrigir(String entrada) {
         String saida = null;
         String[] args = new String[] { "cmd", "/C",
-            arquivoFonte.getName().substring(0, arquivoFonte.getName().length() - 4) + ".exe" };
-        Executador ex = new Executador(arquivoFonte.getParentFile(), args, entrada);
+            arquivo.getName().substring(0, arquivo.getName().length() - 4) + ".exe" };
+        Executador ex = new Executador(arquivo.getParentFile(), args, entrada);
         ex.executar();
-        tempoExecucao = ex.getTempoExecucao();
+        tempoExecucao.add(ex.getTempoExecucao());
         saida = ex.getSaida();
         
         return saida;
     }
     
+    
+    /**
+     * Testa se a saida e o gabarito informados são equivalentes.
+     * @param saida A saida que se deseja testar com o gabarito.
+     * @param gabarito O gabarito para se testar a saida.
+     */
     public String testarGabarito(String saida, String gabarito) {
         String relatorio = new String();
         String[] linhasSaida = saida.split("\n"), linhasGabarito = gabarito.split("\n");
@@ -119,6 +144,24 @@ public class ArquivoFonte implements Serializable {
         this.addNota(nota);
         
         return relatorio;
+    }
+    
+    /**
+     * Retorna o tempo de execução de acordo com o número da entrada.
+     * @param indice Número da entrada para o arquivo fonte que gerou o tempo.
+     */
+    public long getTempoExecucao(int indice) {
+        return tempoExecucao.get(indice);
+    }
+        
+    /**
+     * Reinicia a contagem das notas deste arquivo fonte. Lembrando que para
+     * cada entrada/gabarito o arquivo fonte tem uma nota.
+     */
+    public void reiniciarContagem() {
+        ArrayList<Saidas> saidas = new ArrayList<Saidas>();
+        ArrayList<Integer> notas = new ArrayList<Integer>();
+        ArrayList<Long> tempoExecucao = new ArrayList<Long>();
     }
     
 }

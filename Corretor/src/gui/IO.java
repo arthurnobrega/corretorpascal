@@ -6,8 +6,10 @@
 
 package gui;
 
+import dados.Questao;
 import java.awt.Color;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import logica.GerenciaIO;
 import corretor.Arquivos;
@@ -247,7 +249,7 @@ public class IO extends javax.swing.JDialog {
                 txtEntrada.setText("");
                 txtGabarito.setText("");
                 mudarCorEditor(0);
-                pastaCorrecao.getArrayListIO().clear();
+                pastaCorrecao.getQuestoes().clear();
                 return;
             } else if (numeroQuestoes < 0) {
                 JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -273,14 +275,16 @@ public class IO extends javax.swing.JDialog {
                 }
             }
             String[] vetorQuestoes = new String[numeroQuestoes];
-            pastaCorrecao.getArrayListIO().clear();
+            pastaCorrecao.getQuestoes().clear();
+            ArrayList<Questao> questoes = new ArrayList<Questao>();
             for (int i = 0; i <= numeroQuestoes - 1; i++) {
-                String questao = "Questão " + (i+1);
-                vetorQuestoes[i] = questao;
-                ListaIO listaIO = new ListaIO();
-                listaIO.setNotaQuestao(notasQuestoes[i]);
-                pastaCorrecao.getArrayListIO().add(listaIO);
+                String nomeQuestao = "Questão " + (i+1);
+                vetorQuestoes[i] = nomeQuestao;
+                Questao questao = new Questao();
+                questao.setNotaMax(notasQuestoes[i]);
+                questoes.add(questao);
             }
+            pastaCorrecao.setQuestoes(questoes);
             listaQuestoes.setListData(vetorQuestoes);
             listaQuestoes.setSelectedIndex(0);
             
@@ -296,7 +300,7 @@ public class IO extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        ListaIO listaIO = pastaCorrecao.getArrayListIO().get(listaQuestoes.getSelectedIndex());
+        ListaIO listaIO = pastaCorrecao.getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO();
         
         listaIO.alterarIO(listaEntradas.getSelectedIndex(), txtEntrada.getText(), txtGabarito.getText());
         Arquivos.serializarCorrecao();
@@ -304,8 +308,8 @@ public class IO extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void listaEntradasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEntradasValueChanged
-        String entrada = pastaCorrecao.getArrayListIO().get(listaQuestoes.getSelectedIndex()).getEntrada(listaEntradas.getSelectedIndex());
-        String gabarito = pastaCorrecao.getArrayListIO().get(listaQuestoes.getSelectedIndex()).getGabarito(listaEntradas.getSelectedIndex());
+        String entrada = pastaCorrecao.getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO().getEntrada(listaEntradas.getSelectedIndex());
+        String gabarito = pastaCorrecao.getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO().getGabarito(listaEntradas.getSelectedIndex());
         
         if (entrada != null) {
             mudarCorEditor(1);
@@ -343,7 +347,7 @@ public class IO extends javax.swing.JDialog {
     }
     
     private String[] getCorrecoes() {
-        int numeroQuestoes = pastaCorrecao.getArrayListIO().size();
+        int numeroQuestoes = pastaCorrecao.getQuestoes().size();
         String[] vetorQuestoes = null;
         if (numeroQuestoes != 0) {
             vetorQuestoes = new String[numeroQuestoes];

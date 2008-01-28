@@ -29,8 +29,8 @@ public class CopiaArquivo extends javax.swing.JDialog {
     }
     
     private void iniciarCombo() {
-        int nroQuestoes = pastaCorrecao.getArrayListIO().size();
-        int nroTestes1 = pastaCorrecao.getArrayListIO().get(0).getTamLista();
+        int nroQuestoes = pastaCorrecao.getQuestoes().size();
+        int nroTestes1 = pastaCorrecao.getQuestoes().get(0).getListaIO().getTamLista();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTestes1 = new String[nroTestes1];
         

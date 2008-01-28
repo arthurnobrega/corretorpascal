@@ -1,12 +1,3 @@
-/*
- * GerenciaReversao.java
- *
- * Created on 5 de Outubro de 2007, 23:04
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package logica;
 
 import java.io.File;
@@ -17,18 +8,25 @@ import corretor.Arquivos;
 import dados.PastaCorrecao;
 
 /**
- *
- * @author UltraXP
+ * Classe que gerencia a reversão da correção corrente, ou seja, retorna os arquivos
+ * para a forma inicial.
  */
 public class GerenciaReversao {
     
     PastaCorrecao pastaCorrecao = null;
     
-    /** Creates a new instance of GerenciaReversao */
+    /** 
+     * Cria uma nova instância da classe GerenciaReversao.
+     */
     public GerenciaReversao() {
         this.pastaCorrecao = PastaCorrecao.getInstancia();
     }
     
+    /**
+     * Retorna todas as pastas da correção para a forma inicial, ou seja, todos
+     * os arquivos fonte dos alunos nas pastas dos mesmos e não em um subdiretório
+     * com o nome do arquivo fonte.
+     */
     public void reverter() {
         try {
             Aluno[] alunos = pastaCorrecao.getAlunos();
@@ -38,7 +36,7 @@ public class GerenciaReversao {
                     File arquivoAntigo = arquivosFontes[i].getArquivo();
                     if (arquivoAntigo != null) {
                         String texto = Arquivos.getTextoArquivo(arquivoAntigo);
-                        Arquivos.salvarArquivo(new File(aluno.getDiretorio() + 
+                        Arquivos.salvarArquivo(new File(aluno.getDiretorioAluno() + 
                                 "/" + arquivoAntigo.getName()), texto);
                         Arquivos.deletarDiretorio(arquivoAntigo.getParentFile());
                     }
