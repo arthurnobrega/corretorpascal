@@ -31,8 +31,8 @@ public class Relatorio extends javax.swing.JDialog {
     }
     
     private void iniciarCombos() {
-        int nroQuestoes = pastaCorrecao.getArrayListIO().size();
-        int nroTestes1 = pastaCorrecao.getArrayListIO().get(0).getTamLista();
+        int nroQuestoes = pastaCorrecao.getQuestoes().size();
+        int nroTestes1 = pastaCorrecao.getQuestoes().get(0).getListaIO().getTamLista();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTestes1 = new String[nroTestes1];
         
@@ -177,7 +177,7 @@ public class Relatorio extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbTesteActionPerformed
 
     private void cmbQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbQuestaoActionPerformed
-        int nroTestes = pastaCorrecao.getArrayListIO().get(cmbQuestao.getSelectedIndex()).getTamLista();
+        int nroTestes = pastaCorrecao.getQuestoes().get(cmbQuestao.getSelectedIndex()).getListaIO().getTamLista();
         String[] vetorTestes = new String[nroTestes];
         
         for (int i = 0; i <= nroTestes - 1; i++) {

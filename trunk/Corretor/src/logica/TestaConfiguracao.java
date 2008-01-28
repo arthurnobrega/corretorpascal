@@ -1,12 +1,3 @@
-/*
- * TestaCorrecao.java
- *
- * Created on 15 de Setembro de 2007, 23:01
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package logica;
 
 import java.io.File;
@@ -17,19 +8,23 @@ import corretor.Configuracao;
 import dados.PastaCorrecao;
 
 /**
- *
- * @author UltraXP
+ * Esta classe testa a configuração do programa de acordo com o diretorio informado
+ * pelo usuário, ou seja, testa se o diretório está nos padrões que o programa exige.
  */
-public class TestaPreCorrecao {
+public class TestaConfiguracao {
     
-    public PastaCorrecao preCorrigir(File diretorio) throws IOException {
+    /**
+     * Testa se a configuração das pastas e arquivos no diretório informado segue
+     * os padrões que o programa exige.
+     */
+    public PastaCorrecao testarConfiguracao(File diretorio) throws IOException {
         PastaCorrecao pastaCorrecao = null;
         if (diretorio == null) {
              throw new IOException();
         }
         
         Configuracao config = new Configuracao(diretorio);
-        pastaCorrecao = config.escanearPastaCorrecao(diretorio);
+        pastaCorrecao = config.escanearPastaCorrecao();
         try {
             Aluno[] alunos = pastaCorrecao.getAlunos();
             int i = 0;

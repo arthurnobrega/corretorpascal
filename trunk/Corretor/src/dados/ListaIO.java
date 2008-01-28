@@ -1,20 +1,11 @@
-/*
- * ListaEntradas.java
- *
- * Created on 25 de Setembro de 2007, 00:46
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package dados;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
- * @author UltraXP
+ * Classe que armazena as listas de Entradas e Gabaritos para testar os arquivos
+ * fontes.
  */
 public class ListaIO implements Serializable {
     
@@ -22,18 +13,39 @@ public class ListaIO implements Serializable {
     private ArrayList<String> gabaritos = null;
     private int notaQuestao = 0;
     
-    
-    /** Creates a new instance of ListaEntradas */
+    /** 
+     * Cria uma nova instância da classe ListaIO. 
+     */
     public ListaIO() {
         entradas = new ArrayList<String>();
         gabaritos = new ArrayList<String>();
     }
     
+    /**
+     * Adiciona um conjunto de Entrada/Gabarito.
+     * @param entrada A entrada que se deseja adicionar.
+     * @param gabarito O gabarito que se deseja adicionar.
+     */
     public void adicionarIO(String entrada, String gabarito) {
         entradas.add(entrada);
         gabaritos.add(gabarito);
     }
     
+    /**
+     * Remove um conjunto de Entrada/Gabarito.
+     * @param indice O índice da Entrada/Gabarito na lista.
+     */
+    public void removerIO(int indice) {
+        if (indice >= 0) {
+            entradas.remove(indice);
+            gabaritos.remove(indice);
+        }
+    }
+    
+    /**
+     * Altera um conjunto de Entrada/Gabarito.
+     * @param indice O índice na lista da Entrada/Gabarito que se deseja alterar.
+     */
     public void alterarIO(int indice, String entrada, String gabarito) {
         if (indice >= 0) {
             String ent = entradas.get(indice);
@@ -45,13 +57,10 @@ public class ListaIO implements Serializable {
         }
     }
     
-    public void removerIO(int indice) {
-        if (indice >= 0) {
-            entradas.remove(indice);
-            gabaritos.remove(indice);
-        }
-    }
-    
+    /**
+     * Retorna a entrada com o índice informada.
+     * @param indice O índice da entrada que se deseja ter acesso.
+     */
     public String getEntrada(int indice){
         if (indice >= 0) {
             return entradas.get(indice);
@@ -59,6 +68,10 @@ public class ListaIO implements Serializable {
             return null;
     }
     
+    /**
+     * Retorna o gabarito com o índice informada.
+     * @param indice O índice do gabarito que se deseja ter acesso.
+     */
     public String getGabarito(int indice) {
         if (indice >= 0) {
             return gabaritos.get(indice);
@@ -66,16 +79,18 @@ public class ListaIO implements Serializable {
         return null;
     }
     
+    /**
+     * Retorna o tamanho da lista de Entradas/Gabaritos.
+     */
     public int getTamLista() {
         return entradas.size();
     }
     
-    public int getNotaQuestao() {
-        return notaQuestao;
+    /**
+     * Limpa a lista de Entradas/Gabaritos.
+     */
+    public void limparLista() {
+        entradas.clear();
+        gabaritos.clear();
     }
-    
-    public void setNotaQuestao(int notaQuestao) {
-        this.notaQuestao = notaQuestao;
-    }
-    
 }

@@ -1,14 +1,6 @@
-/*
- * Correcao.java
- *
- * Created on 15 de Setembro de 2007, 22:24
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package corretor;
 
+import dados.Questao;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,18 +12,20 @@ import dados.PastaCorrecao;
 import dados.Saidas;
 
 /**
- *
- * @author UltraXP
+ * 
  */
 public class Correcao {
     
     Aluno aluno = null;
     
-    /** Creates a new instance of Correcao */
+    /** Cria uma nova instância da classe Correcao. */
     public Correcao(Aluno aluno) {
         this.aluno = aluno;
     }
     
+    /**
+     * Cria um diretório para cada questão do aluno passado no construtor.
+     */
     public void criarDiretorios() throws IOException {
         ArquivoFonte[] arquivosFontes = aluno.getFontes();
         ArrayList<ArquivoFonte> novosArquivosFontes = new ArrayList<ArquivoFonte>();
@@ -40,7 +34,7 @@ public class Correcao {
             ArquivoFonte arquivoFonte = arquivosFontes[i];
             File arqFonte = arquivoFonte.getArquivo();
             
-            File diretorio = aluno.getDiretorio();
+            File diretorio = aluno.getDiretorioAluno();
             File pastaFonte = new File(diretorio.getAbsolutePath() + "/" + 
                     arqFonte.getName().substring(0, arqFonte.getName().length()- 4));
             
@@ -72,6 +66,9 @@ public class Correcao {
         aluno.setFontes((ArquivoFonte[])novosArquivosFontes.toArray(new ArquivoFonte[] {}));
     }
     
+    /**
+     * Compila todos os arquivos de um determinado aluno.
+     */
     public void compilarFontes() throws IOException {
         ArquivoFonte[] arquivosFontes = aluno.getFontes();
         
@@ -92,8 +89,12 @@ public class Correcao {
         }
     }
     
+    /**
+     * Corrige todos os arquivos .pas de um determinado aluno, tendo em vista que
+     * já foram inseridos as Entradas e Gabaritos para cada questão.
+     */
     public void corrigir() {
-        ArrayList<ListaIO> listaIO = PastaCorrecao.getInstancia().getArrayListIO();
+        ArrayList<Questao> questoes = PastaCorrecao.getInstancia().getQuestoes();
         ArquivoFonte[] arquivosFonte = aluno.getFontes();
         aluno.reiniciarContagem();
         int nroFontes = arquivosFonte.length;
@@ -102,16 +103,16 @@ public class Correcao {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
             if (arqFonte != null) {
-                ListaIO io = listaIO.get(i);
+                ListaIO io = questoes.get(i).getListaIO();
                 saidas = new ArrayList<Saidas>();
                 for (int j = 0; j <= io.getTamLista() - 1; j++) {
                     String textoSaida = arqFonte.corrigir(io.getEntrada(j));
-                    System.out.println("TEMPO DECORRIDO: " + arqFonte.getTempoExecucao() + "ms");
+                    System.out.println("TEMPO DECORRIDO: " + arqFonte.getTempoExecucao(j) + "ms");
                     String textoRelatorio = arqFonte.testarGabarito(textoSaida, io.getGabarito(j));
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
                 }
-                int notaMax = PastaCorrecao.getInstancia().getArrayListIO().get(i).getNotaQuestao();
+                int notaMax = PastaCorrecao.getInstancia().getQuestoes().get(i).getNotaMax();
                 aluno.addNotaQuestao((int) (arqFonte.getNotaTotal() * notaMax) / 100);
             } else {
                 aluno.addNotaQuestao(0);
