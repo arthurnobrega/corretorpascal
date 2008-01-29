@@ -2,7 +2,7 @@ package logica;
 
 import java.io.File;
 import java.io.IOException;
-import corretor.Arquivos;
+import logica.Arquivos;
 import dados.PastaCorrecao;
 
 /**
@@ -16,14 +16,16 @@ public class GerenciaSerializacao {
      */
     public void serializar() {
         Arquivos.serializarCorrecao();
+        PastaCorrecao.setModificado(false);
     }
     
     /**
      * Desserializa o objeto padrão e o tras para a memória na forma do objeto
      * PastaCorrecao.
      */
-    public PastaCorrecao desserializar(File diretorio) throws IOException {
-        return Arquivos.desserializarCorrecao(diretorio);
+    public void desserializar(File diretorio) throws IOException {
+        PastaCorrecao.getInstancia(Arquivos.desserializarCorrecao(diretorio));
+        PastaCorrecao.setModificado(false);
     }
     
 }

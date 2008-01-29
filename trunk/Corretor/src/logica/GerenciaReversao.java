@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import dados.Aluno;
 import dados.ArquivoFonte;
-import corretor.Arquivos;
+import logica.Arquivos;
 import dados.PastaCorrecao;
 
 /**
@@ -13,13 +13,10 @@ import dados.PastaCorrecao;
  */
 public class GerenciaReversao {
     
-    PastaCorrecao pastaCorrecao = null;
-    
     /** 
      * Cria uma nova instância da classe GerenciaReversao.
      */
     public GerenciaReversao() {
-        this.pastaCorrecao = PastaCorrecao.getInstancia();
     }
     
     /**
@@ -29,7 +26,7 @@ public class GerenciaReversao {
      */
     public void reverter() {
         try {
-            Aluno[] alunos = pastaCorrecao.getAlunos();
+            Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
             for (Aluno aluno : alunos) {
                 ArquivoFonte[] arquivosFontes = aluno.getFontes();
                 for (int i = 0; i <= arquivosFontes.length - 1; i++) {
@@ -43,9 +40,9 @@ public class GerenciaReversao {
                 }
             }
             
-            File arqSer = new File(pastaCorrecao.getDiretorio().getAbsolutePath() +
+            File arqSer = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() +
                                 "/" + Constantes.NARQ_SER);
-            pastaCorrecao = null;
+            PastaCorrecao.getInstancia(null);
             Arquivos.deletarArquivo(arqSer);
             System.out.println("Reversão Concluída!!");
         } catch (IOException ex) {

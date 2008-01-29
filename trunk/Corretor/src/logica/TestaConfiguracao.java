@@ -17,16 +17,15 @@ public class TestaConfiguracao {
      * Testa se a configuração das pastas e arquivos no diretório informado segue
      * os padrões que o programa exige.
      */
-    public PastaCorrecao testarConfiguracao(File diretorio) throws IOException {
-        PastaCorrecao pastaCorrecao = null;
+    public void testarConfiguracao(File diretorio) throws IOException {
         if (diretorio == null) {
              throw new IOException();
         }
         
         Configuracao config = new Configuracao(diretorio);
-        pastaCorrecao = config.escanearPastaCorrecao();
+        PastaCorrecao.getInstancia(config.escanearPastaCorrecao());
         try {
-            Aluno[] alunos = pastaCorrecao.getAlunos();
+            Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
             int i = 0;
             /*
             Thread conc = new Thread(new Runnable() {
@@ -44,13 +43,10 @@ public class TestaConfiguracao {
                 cor.criarDiretorios();
                 cor.compilarFontes();
             }
-            PastaCorrecao.getInstancia(pastaCorrecao);
             GerenciaSerializacao gerSer = new GerenciaSerializacao();
             gerSer.serializar();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
-        return pastaCorrecao;
     }
 }

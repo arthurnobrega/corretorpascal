@@ -15,8 +15,7 @@ public class GerenciaCorrecao {
      * Corrige todos os arquivos chamando métodos mais internos.
      */
     public void corrigir() {
-        PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
-        Aluno[] alunos = pastaCorrecao.getAlunos();
+        Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
         for (Aluno aluno : alunos) {
             // Corrige todos os arquivos fontes de cada aluno.
             Correcao cor = new Correcao(aluno);

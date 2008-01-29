@@ -46,6 +46,7 @@ public class ArquivoFonte implements Serializable {
      */
     public void setErroCompilacao(boolean erroCompilacao) {
         this.erroCompilacao = erroCompilacao;
+        PastaCorrecao.setModificado(true);
     }
     
     /**
@@ -61,6 +62,7 @@ public class ArquivoFonte implements Serializable {
      */
     public void setSaidas(ArrayList<Saidas> saidas) {
         this.saidas = saidas;
+        PastaCorrecao.setModificado(true);
     }
     
     /**
@@ -142,7 +144,7 @@ public class ArquivoFonte implements Serializable {
         nota = (int) (100 * ((double)nroAcertos / (double)nroGabarito));
         relatorio += "\nNota (0-100): " + nota;
         this.addNota(nota);
-        
+        PastaCorrecao.setModificado(true);
         return relatorio;
     }
     
@@ -162,6 +164,7 @@ public class ArquivoFonte implements Serializable {
         ArrayList<Saidas> saidas = new ArrayList<Saidas>();
         ArrayList<Integer> notas = new ArrayList<Integer>();
         ArrayList<Long> tempoExecucao = new ArrayList<Long>();
+        PastaCorrecao.setModificado(true);
     }
     
 }

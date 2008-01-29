@@ -31,6 +31,8 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconImp = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);&#xa;java.awt.Image imgImp = iconImp.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemImportar.setIcon(new javax.swing.ImageIcon(imgImp));"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSalvar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
@@ -42,6 +44,19 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSalvar = new javax.swing.ImageIcon(Imagens.SALVAR);&#xa;java.awt.Image imgSalvar = iconSalvar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSalvar.setIcon(new javax.swing.ImageIcon(imgSalvar));"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemFechar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Fechar Corre&#xe7;&#xe3;o"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemFecharActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconFechar = new javax.swing.ImageIcon(Imagens.ESPACO);&#xa;java.awt.Image imgFechar = iconFechar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemFechar.setIcon(new javax.swing.ImageIcon(imgFechar));"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSair">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>
@@ -50,7 +65,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSairActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.BRANCO);&#xa;java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSair.setIcon(new javax.swing.ImageIcon(imgSair));"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.ESPACO);&#xa;java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSair.setIcon(new javax.swing.ImageIcon(imgSair));"/>
               </AuxValues>
             </MenuItem>
           </SubComponents>

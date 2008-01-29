@@ -4,6 +4,7 @@ import dados.Questao;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import logica.Arquivos;
 import logica.Constantes;
 import dados.Aluno;
 import dados.ArquivoFonte;

@@ -1,23 +1,52 @@
-/*
- * PainelLista.java
- *
- * Created on 24 de Agosto de 2007, 16:28
- */
-
 package gui;
 
+import dados.Aluno;
+import dados.PastaCorrecao;
+import gui.modelos.EditorTexto;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 import javax.swing.JTextArea;
+import logica.Arquivos;
+import logica.Utilitarios;
 
 /**
- *
- * @author  UltraXP
+ * 
  */
 public class PastaCorrigida extends javax.swing.JPanel {
+    
+    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
+    Aluno[] alunos = null;
     
     /** Creates new form PainelLista */
     public PastaCorrigida() {
         initComponents();
+        iniciarCampos();
+    }
+    
+    private void iniciarCampos() {
+        int nroQuestoes = pastaCorrecao.getQuestoes().size();
+        String[] vetorQuestao = new String[nroQuestoes];
+        
+        for (int i = 0; i <= nroQuestoes - 1; i++) {
+            vetorQuestao[i] = "Questão " + (i + 1);
+        }
+        
+        DefaultComboBoxModel modelQuestao = new DefaultComboBoxModel(vetorQuestao);
+        cmbQuestao.setModel(modelQuestao);
+        cmbQuestao.setSelectedIndex(0);
+        alunos = Utilitarios.encontrarAlunos(0);
+        String[] nomeAlunos = new String[alunos.length];
+        int i = 0;
+        for (Aluno aluno : alunos) {
+            nomeAlunos[i] = alunos[i].getDiretorioAluno().getName();
+            i++;
+        }
+        listaAlunos.setListData(nomeAlunos);
+        if (alunos.length > 0) {
+            listaAlunos.setSelectedIndex(0);
+        }
     }
     
     /** This method is called from within the constructor to
@@ -28,72 +57,70 @@ public class PastaCorrigida extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc=" Código Gerado ">//GEN-BEGIN:initComponents
     private void initComponents() {
         jSplitPane = new javax.swing.JSplitPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listaAlunos = new javax.swing.JList();
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        btnFonte = new javax.swing.JButton();
-        btnRelatorio = new javax.swing.JButton();
-        btnSaidas = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtTexto = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        editorTexto = new gui.modelos.EditorTexto();
+        jPanel1 = new javax.swing.JPanel();
+        cmbQuestao = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listaAlunos = new javax.swing.JList();
 
         jSplitPane.setDividerLocation(120);
         jSplitPane.setDividerSize(10);
-        listaAlunos.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listaAlunos);
+        jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jSplitPane.setLeftComponent(jScrollPane1);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel1.setText("C\u00f3digo Fonte do Aluno");
+        jPanel3.add(jLabel1, new java.awt.GridBagConstraints());
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 351, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(10, 10, 10)
+                .add(editorTexto, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editorTexto, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
         );
+        jSplitPane.setRightComponent(jPanel2);
 
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        cmbQuestao.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbQuestaoItemStateChanged(evt);
+            }
+        });
 
-        btnFonte.setText("Fonte");
-        jPanel3.add(btnFonte, new java.awt.GridBagConstraints());
+        listaAlunos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaAlunosValueChanged(evt);
+            }
+        });
 
-        btnRelatorio.setText("Relat\u00f3rio");
-        jPanel3.add(btnRelatorio, new java.awt.GridBagConstraints());
-
-        btnSaidas.setText("Sa\u00eddas");
-        jPanel3.add(btnSaidas, new java.awt.GridBagConstraints());
-
-        txtTexto.setColumns(20);
-        txtTexto.setRows(5);
-        jScrollPane2.setViewportView(txtTexto);
+        jScrollPane1.setViewportView(listaAlunos);
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
-            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+            .add(cmbQuestao, 0, 100, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(cmbQuestao, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 266, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
         );
-        jSplitPane.setRightComponent(jPanel1);
+        jSplitPane.setLeftComponent(jPanel1);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -112,27 +139,49 @@ public class PastaCorrigida extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void listaAlunosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAlunosValueChanged
+        int alunoSelecionado = listaAlunos.getSelectedIndex();
+        if(alunoSelecionado < 0) {
+            return;
+        }
+        int questaoSelecionada = cmbQuestao.getSelectedIndex();
+        File fonteAluno = alunos[alunoSelecionado].getFontes()[questaoSelecionada].getArquivo();
+        try {
+            String textoArquivo = Arquivos.getTextoArquivo(fonteAluno);
+            editorTexto = new EditorTexto(textoArquivo);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_listaAlunosValueChanged
+
+    private void cmbQuestaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbQuestaoItemStateChanged
+        listaAlunos.setListData(new Object[0]);
+        int indiceQuestao = cmbQuestao.getSelectedIndex();
+        alunos = Utilitarios.encontrarAlunos(indiceQuestao);
+        String[] nomeAlunos = new String[alunos.length];
+        int i = 0;
+        for (Aluno aluno : alunos) {
+            nomeAlunos[i] = alunos[i].getDiretorioAluno().getName();
+            i++;
+        }
+        listaAlunos.setListData(nomeAlunos);
+        if (alunos.length > 0) {
+            listaAlunos.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_cmbQuestaoItemStateChanged
+
     
-    public JList getListaAlunos() {
-        return listaAlunos;
-    }
-    
-    public JTextArea getTxtTexto() {
-        return txtTexto;
-    }
-       
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
-    private javax.swing.JButton btnFonte;
-    private javax.swing.JButton btnRelatorio;
-    private javax.swing.JButton btnSaidas;
+    private javax.swing.JComboBox cmbQuestao;
+    private gui.modelos.EditorTexto editorTexto;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane;
     private javax.swing.JList listaAlunos;
-    private javax.swing.JTextArea txtTexto;
     // Fim da declaração de variáveis//GEN-END:variables
     
 }
