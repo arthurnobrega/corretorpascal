@@ -11,20 +11,11 @@ import dados.Questao;
  */
 public class GerenciaIO {
     
-    PastaCorrecao pastaCorrecao = null;
-    
-    /** 
-     * Cria uma nova instância de GerenciaIO. 
-     */ 
-    public GerenciaIO() {
-        this.pastaCorrecao = PastaCorrecao.getInstancia();
-    }
-    
     /** Adiciona uma Entrada/Gabarito em branco na Questão fornecida. 
      * @param indice O índice da Questão onde serão adicionados a Entrada/Gabarito.
      */    
     public void adicionarIO(int indice) {
-        pastaCorrecao.getQuestoes().get(indice).getListaIO().adicionarIO("", "");
+        PastaCorrecao.getInstancia().getQuestoes().get(indice).getListaIO().adicionarIO("", "");
     }
     
     /**
@@ -33,7 +24,7 @@ public class GerenciaIO {
      * @param indice O índice do conjunto de Entrada/Gabarito que se deseja remover.
      */
     public void removerIO(int nroQuestao, int indice) {
-        pastaCorrecao.getQuestoes().get(nroQuestao).getListaIO().removerIO(indice);
+        PastaCorrecao.getInstancia().getQuestoes().get(nroQuestao).getListaIO().removerIO(indice);
     }
     
     /** Este método retorna o vetor de Entradas/Gabaritos de uma Questão.
@@ -41,7 +32,7 @@ public class GerenciaIO {
      * @return Um vetor com Strings no número de Entradas/Gabaritos da Questão.
      */
     public String[] getVetorIO(int indice) {
-        ListaIO listaIO = pastaCorrecao.getQuestoes().get(indice).getListaIO();
+        ListaIO listaIO = PastaCorrecao.getInstancia().getQuestoes().get(indice).getListaIO();
         String[] nomesIO = new String[listaIO.getTamLista()];
         for (int i = 0; i <= nomesIO.length - 1; i++) {
             nomesIO[i] = "Teste " + (i + 1);

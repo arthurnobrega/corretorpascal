@@ -26,9 +26,7 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_NOT = 3;
     private static int OPCAO_COP = 4;
     private static int OPCAO_SAL = 5;
-    
-    private PastaCorrecao pastaCorrecao = null;
-    
+        
     /** Creates new form Principal */
     public Principal() {
         initComponents();
@@ -63,6 +61,7 @@ public class Principal extends javax.swing.JFrame {
     private void inicializarJOptionPane() {
         UIManager.put("OptionPane.yesButtonText", "Sim");
         UIManager.put("OptionPane.noButtonText", "Não");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
     }
     
     /** This method is called from within the constructor to
@@ -84,7 +83,10 @@ public class Principal extends javax.swing.JFrame {
         menuArquivo = new javax.swing.JMenu();
         itemNova = new javax.swing.JMenuItem();
         itemImportar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JSeparator();
         itemSalvar = new javax.swing.JMenuItem();
+        itemFechar = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JSeparator();
         itemSair = new javax.swing.JMenuItem();
         menuFerramentas = new javax.swing.JMenu();
         itemEntradas = new javax.swing.JMenuItem();
@@ -205,6 +207,8 @@ public class Principal extends javax.swing.JFrame {
 
         menuArquivo.add(itemImportar);
 
+        menuArquivo.add(jSeparator1);
+
         itemSalvar.setText("Salvar");
         javax.swing.ImageIcon iconSalvar = new javax.swing.ImageIcon(Imagens.SALVAR);
         java.awt.Image imgSalvar = iconSalvar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
@@ -217,8 +221,22 @@ public class Principal extends javax.swing.JFrame {
 
         menuArquivo.add(itemSalvar);
 
+        itemFechar.setText("Fechar Corre\u00e7\u00e3o");
+        javax.swing.ImageIcon iconFechar = new javax.swing.ImageIcon(Imagens.ESPACO);
+        java.awt.Image imgFechar = iconFechar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
+        itemFechar.setIcon(new javax.swing.ImageIcon(imgFechar));
+        itemFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemFecharActionPerformed(evt);
+            }
+        });
+
+        menuArquivo.add(itemFechar);
+
+        menuArquivo.add(jSeparator2);
+
         itemSair.setText("Sair");
-        javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.BRANCO);
+        javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.ESPACO);
         java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
         itemSair.setIcon(new javax.swing.ImageIcon(imgSair));
         itemSair.addActionListener(new java.awt.event.ActionListener() {
@@ -356,10 +374,12 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemFecharActionPerformed
+        fecharCorrecao();
+    }//GEN-LAST:event_itemFecharActionPerformed
+
     private void itemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalvarActionPerformed
-        GerenciaSerializacao gerSer = new GerenciaSerializacao();
-        gerSer.serializar();
-        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Alterações Salvas!", JOptionPane.INFORMATION_MESSAGE);
+        salvar();
     }//GEN-LAST:event_itemSalvarActionPerformed
 
     private void itemCopiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCopiaActionPerformed
@@ -389,17 +409,11 @@ public class Principal extends javax.swing.JFrame {
     private void btnNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaActionPerformed
         novaCorrecao();
     }//GEN-LAST:event_btnNovaActionPerformed
-
-    private void limparContentPane() {
-        JPanel container = new JPanel(new FlowLayout());
-        this.setContentPane(container);
-    }
     
     private void novaCorrecao() {
         UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
         File diretorio = null;
         
-        limparContentPane();
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
@@ -410,7 +424,7 @@ public class Principal extends javax.swing.JFrame {
             diretorio = fc.getSelectedFile();
             try {
                 TestaConfiguracao tc = new TestaConfiguracao();
-                pastaCorrecao = tc.testarConfiguracao(diretorio);
+                tc.testarConfiguracao(diretorio);
                 habilitarOpcoes(new int[] { 0, 1, 5 });
                 JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", 
                         "Concluído!", JOptionPane.INFORMATION_MESSAGE);
@@ -426,7 +440,6 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
         File diretorio = null;
         
-        limparContentPane();
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
@@ -437,9 +450,12 @@ public class Principal extends javax.swing.JFrame {
             diretorio = fc.getSelectedFile();
             try {
                 GerenciaSerializacao gerSer = new GerenciaSerializacao();
-                pastaCorrecao = PastaCorrecao.getInstancia(gerSer.desserializar(diretorio));
-                if (pastaCorrecao.getQuestoes().size() >= 1) {
+                gerSer.desserializar(diretorio);
+                if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5 });
+                    this.getContentPane().setVisible(false);
+                    this.setContentPane(new PastaCorrigida());
+                    this.getContentPane().setVisible(true);
                 } else {
                     habilitarOpcoes(new int[] { 0, 1, 5 });
                 }
@@ -453,14 +469,43 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    private void salvar() {
+        GerenciaSerializacao gerSer = new GerenciaSerializacao();
+        gerSer.serializar();
+        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Alterações Salvas!", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void fecharCorrecao() {
+        if(PastaCorrecao.getModificado()) {
+            int opcao = JOptionPane.showConfirmDialog(this, "Existem alterações não " +
+                    "salvas, \n gostaria de salvá-las antes de fechar?", "Confirmação!",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+            if (opcao == 0) {
+                salvar();
+                desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5});
+            } else if (opcao == 1) {
+                PastaCorrecao.getInstancia(null);
+            } else {
+                return;
+            }
+        } else {
+            PastaCorrecao.getInstancia(null);
+        }
+        limparContentPane();
+    }
+    
     private void entradas() {
         IO ent = new IO(this);
         ent.setVisible(true);
-        if (pastaCorrecao.getQuestoes().size() >= 1) {
+        this.getContentPane().setVisible(false);
+        if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
             habilitarOpcoes(new int[] { 2, 3, 4 });
+            this.setContentPane(new PastaCorrigida());
         } else {
             desabilitarOpcoes(new int[] { 2, 3, 4 });
+            this.setContentPane(new JPanel());
         }
+        this.getContentPane().setVisible(true);
     }
     
     private void corrigir() {
@@ -480,12 +525,17 @@ public class Principal extends javax.swing.JFrame {
         if (opcao == 0) {
             GerenciaReversao gerRev = new GerenciaReversao();
             gerRev.reverter();
-            pastaCorrecao = null;
             limparContentPane();
-            desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4});
+            desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5});
             JOptionPane.showMessageDialog(this, "Reversão Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+    
+    private void limparContentPane() {
+        this.getContentPane().setVisible(false);
+        this.setContentPane(new JPanel());
+        this.getContentPane().setVisible(true);
     }
 
     private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
@@ -580,6 +630,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemCopia;
     private javax.swing.JMenuItem itemCorrigir;
     private javax.swing.JMenuItem itemEntradas;
+    private javax.swing.JMenuItem itemFechar;
     private javax.swing.JMenuItem itemImportar;
     private javax.swing.JMenuItem itemNotas;
     private javax.swing.JMenuItem itemNova;
@@ -587,6 +638,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemSair;
     private javax.swing.JMenuItem itemSalvar;
     private javax.swing.JMenuItem itemSobre;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;

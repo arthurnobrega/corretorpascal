@@ -15,6 +15,7 @@ public class PastaCorrecao implements Serializable {
     private Aluno[] alunos = null;
     private File diretorio = null;
     
+    private static boolean modificado = false;
     private static PastaCorrecao instancia = null;
     
     /** 
@@ -42,6 +43,7 @@ public class PastaCorrecao implements Serializable {
      */
     public static PastaCorrecao getInstancia(File diretorio, Aluno[] alunos) {
         instancia = new PastaCorrecao(diretorio, alunos);
+        setModificado(true);
         return instancia;
     }
     
@@ -51,8 +53,13 @@ public class PastaCorrecao implements Serializable {
      * para o objeto de classe singleton.
      */
     public static PastaCorrecao getInstancia(PastaCorrecao pastaCorrecao) {
-        instancia = new PastaCorrecao(pastaCorrecao.getDiretorio(), pastaCorrecao.getAlunos());
-        instancia.setQuestoes(pastaCorrecao.getQuestoes());
+        if (pastaCorrecao != null) {
+            instancia = new PastaCorrecao(pastaCorrecao.getDiretorio(), pastaCorrecao.getAlunos());
+            instancia.setQuestoes(pastaCorrecao.getQuestoes());
+        } else {
+            instancia = null;
+        }
+        setModificado(true);
         return instancia;
     }
     
@@ -76,6 +83,7 @@ public class PastaCorrecao implements Serializable {
      */
     public void setQuestoes(ArrayList<Questao> questoes) {
         this.questoes = questoes;
+        setModificado(true);
     }
     
     /**
@@ -83,5 +91,21 @@ public class PastaCorrecao implements Serializable {
      */
     public Aluno[] getAlunos() {
         return alunos;
+    }
+    
+    /**
+     * Retorna se o objeto PastaCorrecao foi modificado.
+     */
+    public static boolean getModificado() {
+        return modificado;
+    }
+    
+    /**
+     * Altera o estado de modificado para o valor passado.
+     * @param mod Um valor true, se o objeto foi modificado e um valor false
+     * caso contrario.
+     */
+    public static void setModificado(boolean mod) {
+        modificado = mod;
     }
 }

@@ -18,6 +18,8 @@ public class Imagens {
     public static final String CORRETOR_I = "imagens/corretor.png";
     public static final String CORRETOR_G = "imagens/corretor_g.png";
     
+    public static final String ESPACO = "imagens/espaco.png";
+    
     public static final String NOVACORRECAO = "imagens/novacorrecao.png";
     public static final String IMPCORRECAO = "imagens/impcorrecao.png";
     public static final String SALVAR = "imagens/salvar.png";
@@ -31,6 +33,4 @@ public class Imagens {
     
     public static final String CONTAJUDA = "imagens/contajuda.png";
     public static final String SOBRE = "imagens/sobre.png";
-    
-    public static final String BRANCO = "imagens/branco.png";
 }

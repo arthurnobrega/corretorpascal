@@ -11,7 +11,6 @@ public class ListaIO implements Serializable {
     
     private ArrayList<String> entradas = null;
     private ArrayList<String> gabaritos = null;
-    private int notaQuestao = 0;
     
     /** 
      * Cria uma nova instância da classe ListaIO. 

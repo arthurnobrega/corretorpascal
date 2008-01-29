@@ -32,6 +32,7 @@ public class Questao implements Serializable {
      */
     public void setListaIO(ListaIO io) {
         this.io = io;
+        PastaCorrecao.setModificado(true);
     }
     
     /**
@@ -45,7 +46,8 @@ public class Questao implements Serializable {
      * Seta a nota máxima que esta questão pode ter.
      */
     public void setNotaMax(int notaQuestao) {
-        this.notaMax = notaMax;
+        this.notaMax = notaQuestao;
+        PastaCorrecao.setModificado(true);
     }
     
 }
