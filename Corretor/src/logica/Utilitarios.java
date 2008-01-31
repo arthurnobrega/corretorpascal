@@ -3,6 +3,8 @@ package logica;
 import dados.Aluno;
 import dados.ArquivoFonte;
 import dados.PastaCorrecao;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +30,11 @@ public abstract class Utilitarios {
         }
         
         return (Aluno[]) selecionados.toArray(new Aluno[0]);
+    }
+    
+    public static boolean compararInteiros(String n1, String n2) {
+        double teste = Double.parseDouble("7.500000000000000E+001");
+        return true;
     }
     
 }

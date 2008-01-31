@@ -13,6 +13,7 @@ import logica.GerenciaCorrecao;
 import logica.TestaConfiguracao;
 import logica.Constantes;
 import dados.PastaCorrecao;
+import logica.Utilitarios;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_NOT = 3;
     private static int OPCAO_COP = 4;
     private static int OPCAO_SAL = 5;
+    private static int OPCAO_FEC = 6;
         
     /** Creates new form Principal */
     public Principal() {
@@ -37,7 +39,7 @@ public class Principal extends javax.swing.JFrame {
         java.awt.Image img = icone.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
         this.setIconImage(img);
         limparContentPane();
-        desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5});
+        desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
     }
     
     private void inicializarJFileChooser() {
@@ -409,6 +411,38 @@ public class Principal extends javax.swing.JFrame {
     private void btnNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaActionPerformed
         novaCorrecao();
     }//GEN-LAST:event_btnNovaActionPerformed
+
+    private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
+        corrigir();
+    }//GEN-LAST:event_itemCorrigirActionPerformed
+
+    private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
+        reverter();
+    }//GEN-LAST:event_itemReverterActionPerformed
+
+    private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
+        new Ajuda(this).setVisible(true);
+    }//GEN-LAST:event_itemAjudaActionPerformed
+
+    private void itemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSobreActionPerformed
+        new Sobre(this).setVisible(true);
+    }//GEN-LAST:event_itemSobreActionPerformed
+
+    private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
+        importarCorrecao();
+    }//GEN-LAST:event_itemImportarActionPerformed
+
+    private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
+        novaCorrecao();
+    }//GEN-LAST:event_itemNovaActionPerformed
+
+    private void itemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSairActionPerformed
+        sair();
+    }//GEN-LAST:event_itemSairActionPerformed
+
+    private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
+        entradas();
+    }//GEN-LAST:event_itemEntradasActionPerformed
     
     private void novaCorrecao() {
         UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
@@ -425,7 +459,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 TestaConfiguracao tc = new TestaConfiguracao();
                 tc.testarConfiguracao(diretorio);
-                habilitarOpcoes(new int[] { 0, 1, 5 });
+                habilitarOpcoes(new int[] { 0, 1, 5, 6 });
                 JOptionPane.showMessageDialog(this, "Organização das pastas concluída!", 
                         "Concluído!", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
@@ -452,12 +486,12 @@ public class Principal extends javax.swing.JFrame {
                 GerenciaSerializacao gerSer = new GerenciaSerializacao();
                 gerSer.desserializar(diretorio);
                 if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
-                    habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5 });
+                    habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6 });
                     this.getContentPane().setVisible(false);
                     this.setContentPane(new PastaCorrigida());
                     this.getContentPane().setVisible(true);
                 } else {
-                    habilitarOpcoes(new int[] { 0, 1, 5 });
+                    habilitarOpcoes(new int[] { 0, 1, 5, 6 });
                 }
                 JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -482,16 +516,31 @@ public class Principal extends javax.swing.JFrame {
                     JOptionPane.YES_NO_CANCEL_OPTION);
             if (opcao == 0) {
                 salvar();
-                desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5});
+                desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
             } else if (opcao == 1) {
                 PastaCorrecao.getInstancia(null);
             } else {
                 return;
             }
         } else {
+            desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
             PastaCorrecao.getInstancia(null);
         }
         limparContentPane();
+    }
+    
+    private void sair() {
+        if(PastaCorrecao.getModificado()) {
+            int opcao = JOptionPane.showConfirmDialog(this, "Existem alterações não " +
+                    "salvas, \n gostaria de salvá-las antes de sair?", "Confirmação!",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+            if (opcao == 0) {
+                salvar();
+            } else if (opcao == 2) {
+                return;
+            }
+        }
+        this.dispose();
     }
     
     private void entradas() {
@@ -526,52 +575,12 @@ public class Principal extends javax.swing.JFrame {
             GerenciaReversao gerRev = new GerenciaReversao();
             gerRev.reverter();
             limparContentPane();
-            desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5});
+            desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
             JOptionPane.showMessageDialog(this, "Reversão Concluída!", "Concluído!",
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    private void limparContentPane() {
-        this.getContentPane().setVisible(false);
-        this.setContentPane(new JPanel());
-        this.getContentPane().setVisible(true);
-    }
-
-    private void itemCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCorrigirActionPerformed
-        corrigir();
-    }//GEN-LAST:event_itemCorrigirActionPerformed
-
-    private void itemReverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReverterActionPerformed
-        reverter();
-    }//GEN-LAST:event_itemReverterActionPerformed
-
-    private void itemAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAjudaActionPerformed
-        Ajuda ajuda = new Ajuda(this);
-        ajuda.setVisible(true);
-    }//GEN-LAST:event_itemAjudaActionPerformed
-
-    private void itemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSobreActionPerformed
-        Sobre sobre = new Sobre(this);
-        sobre.setVisible(true);
-    }//GEN-LAST:event_itemSobreActionPerformed
-
-    private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
-        importarCorrecao();
-    }//GEN-LAST:event_itemImportarActionPerformed
-
-    private void itemNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNovaActionPerformed
-        novaCorrecao();
-    }//GEN-LAST:event_itemNovaActionPerformed
-
-    private void itemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSairActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_itemSairActionPerformed
-
-    private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
-        entradas();
-    }//GEN-LAST:event_itemEntradasActionPerformed
-    
+       
     private void desabilitarOpcoes(int[] opcoes) {
         for (int opcao : opcoes) {
             if (opcao == OPCAO_ENT) {
@@ -586,6 +595,8 @@ public class Principal extends javax.swing.JFrame {
                 itemCopia.setEnabled(false);
             } else if (opcao == OPCAO_SAL) {
                 itemSalvar.setEnabled(false);
+            } else if (opcao == OPCAO_FEC) {
+                itemFechar.setEnabled(false);
             }
         }
     }
@@ -604,8 +615,16 @@ public class Principal extends javax.swing.JFrame {
                 itemCopia.setEnabled(true);
             } else if (opcao == OPCAO_SAL) {
                 itemSalvar.setEnabled(true);
+            } else if (opcao == OPCAO_FEC) {
+                itemFechar.setEnabled(true);
             }
         }
+    }
+    
+    private void limparContentPane() {
+        this.getContentPane().setVisible(false);
+        this.setContentPane(new JPanel());
+        this.getContentPane().setVisible(true);
     }
     
     /**

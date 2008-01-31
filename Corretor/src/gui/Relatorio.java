@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import dados.Aluno;
 import dados.PastaCorrecao;
 import dados.Saidas;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -55,6 +56,7 @@ public class Relatorio extends javax.swing.JDialog {
         cmbTeste.setSelectedIndex(0);
         txtSaida.setText(saidas.getSaida());
         txtRelatorio.setText(saidas.getRelatorio());
+        txtTempo.setText(aluno.getFontes()[0].getTempoExecucao(0) + "ms");
     }
     
     /** This method is called from within the constructor to
@@ -75,6 +77,8 @@ public class Relatorio extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtRelatorio = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtTempo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         btnVoltar.setText("Voltar");
@@ -114,6 +118,10 @@ public class Relatorio extends javax.swing.JDialog {
 
         jLabel4.setText("Relat\u00f3rio");
 
+        jLabel5.setText("Tempo de Execu\u00e7\u00e3o:");
+
+        txtTempo.setEditable(false);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,8 +131,8 @@ public class Relatorio extends javax.swing.JDialog {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(btnVoltar)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jLabel3)
                                     .add(layout.createSequentialGroup()
@@ -134,14 +142,20 @@ public class Relatorio extends javax.swing.JDialog {
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                     .add(cmbQuestao, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(cmbTeste, 0, 85, Short.MAX_VALUE)))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel1)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                            .add(jLabel1)
+                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                             .add(layout.createSequentialGroup()
                                 .add(jLabel4)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 272, Short.MAX_VALUE))
-                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 252, Short.MAX_VALUE))
+                            .add(layout.createSequentialGroup()
+                                .add(2, 2, 2)
+                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))))
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel5)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(txtTempo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 93, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -161,8 +175,12 @@ public class Relatorio extends javax.swing.JDialog {
                     .add(jLabel4))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel5)
+                    .add(txtTempo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnVoltar)
                 .addContainerGap())
@@ -174,23 +192,31 @@ public class Relatorio extends javax.swing.JDialog {
         Saidas saidas = aluno.getFontes()[cmbQuestao.getSelectedIndex()].getSaidas().get(cmbTeste.getSelectedIndex());
         txtSaida.setText(saidas.getSaida());
         txtRelatorio.setText(saidas.getRelatorio());
+        txtTempo.setText(aluno.getFontes()[cmbQuestao.getSelectedIndex()].getTempoExecucao(cmbTeste.getSelectedIndex()) + "ms");
     }//GEN-LAST:event_cmbTesteActionPerformed
 
     private void cmbQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbQuestaoActionPerformed
-        int nroTestes = pastaCorrecao.getQuestoes().get(cmbQuestao.getSelectedIndex()).getListaIO().getTamLista();
-        String[] vetorTestes = new String[nroTestes];
+        if (cmbQuestao.getSelectedIndex() < aluno.getFontes().length) {
+            int nroTestes = pastaCorrecao.getQuestoes().get(cmbQuestao.getSelectedIndex()).getListaIO().getTamLista();
+            String[] vetorTestes = new String[nroTestes];
+
+            for (int i = 0; i <= nroTestes - 1; i++) {
+                vetorTestes[i] = "Teste " + (i + 1);
+            }
+
+            DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(vetorTestes);
+            cmbTeste.setModel(modelTeste);        
         
-        for (int i = 0; i <= nroTestes - 1; i++) {
-            vetorTestes[i] = "Teste " + (i + 1);
+            Saidas saidas = aluno.getFontes()[cmbQuestao.getSelectedIndex()].getSaidas().get(0);
+            cmbTeste.setSelectedIndex(0);
+            txtTempo.setText(aluno.getFontes()[cmbQuestao.getSelectedIndex()].getTempoExecucao(0) + "ms");
+            txtSaida.setText(saidas.getSaida());
+            txtRelatorio.setText(saidas.getRelatorio());
+        } else {
+            cmbQuestao.setSelectedIndex(0);
+            JOptionPane.showMessageDialog(null, "O Aluno não fez esta questão!", 
+                    "Questão inexistente!", JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(vetorTestes);
-        cmbTeste.setModel(modelTeste);
-        
-        Saidas saidas = aluno.getFontes()[cmbQuestao.getSelectedIndex()].getSaidas().get(0);
-        cmbTeste.setSelectedIndex(0);
-        txtSaida.setText(saidas.getSaida());
-        txtRelatorio.setText(saidas.getRelatorio());
     }//GEN-LAST:event_cmbQuestaoActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -206,10 +232,12 @@ public class Relatorio extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea txtRelatorio;
     private javax.swing.JTextArea txtSaida;
+    private javax.swing.JTextField txtTempo;
     // Fim da declaração de variáveis//GEN-END:variables
     
 }

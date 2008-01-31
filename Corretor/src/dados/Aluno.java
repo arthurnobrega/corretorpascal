@@ -80,7 +80,7 @@ public class Aluno implements Serializable {
      * Reinicia a contagem da nota do aluno.
      */
     public void reiniciarContagem() {
-        notaQuestoes = new ArrayList<Integer>();
+        notaQuestoes.clear();
         for (ArquivoFonte fonte : fontes) {
             //reinicia a contagem da nota de cada arquivo fonte do aluno.
             fonte.reiniciarContagem();

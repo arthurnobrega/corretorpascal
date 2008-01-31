@@ -98,9 +98,16 @@ public class Correcao {
         ArrayList<Questao> questoes = PastaCorrecao.getInstancia().getQuestoes();
         ArquivoFonte[] arquivosFonte = aluno.getFontes();
         aluno.reiniciarContagem();
-        int nroFontes = arquivosFonte.length;
+        int nroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
+        int limite = 0;
         
-        for (int i = 0; i <= nroFontes - 1; i++) {
+        if (nroQuestoes > arquivosFonte.length) {
+            limite = arquivosFonte.length;
+        } else {
+            limite = nroQuestoes;
+        }
+        
+        for (int i = 0; i <= limite - 1; i++) {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
             if (arqFonte != null) {

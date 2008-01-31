@@ -7,10 +7,13 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import dados.PastaCorrecao;
+import logica.Arquivos;
 
 /**
  *
@@ -18,7 +21,7 @@ import dados.PastaCorrecao;
  */
 public class CopiaArquivo extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
+    File arquivo = null;
     
     /** Creates new form CopiaArquivo */
     public CopiaArquivo(java.awt.Frame parent) {
@@ -29,8 +32,8 @@ public class CopiaArquivo extends javax.swing.JDialog {
     }
     
     private void iniciarCombo() {
-        int nroQuestoes = pastaCorrecao.getQuestoes().size();
-        int nroTestes1 = pastaCorrecao.getQuestoes().get(0).getListaIO().getTamLista();
+        int nroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
+        int nroTestes1 = PastaCorrecao.getInstancia().getQuestoes().get(0).getListaIO().getTamLista();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTestes1 = new String[nroTestes1];
         
@@ -55,6 +58,8 @@ public class CopiaArquivo extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         cmbQuestao = new javax.swing.JComboBox();
+        btnConfirmar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("C\u00f3pia de Arquivo");
@@ -71,8 +76,9 @@ public class CopiaArquivo extends javax.swing.JDialog {
 
         jLabel2.setText("Quest\u00e3o");
 
-        jTextArea1.setBackground(new java.awt.Color(229, 227, 216));
+        jTextArea1.setBackground(new java.awt.Color(238, 238, 238));
         jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
         jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 11));
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
@@ -82,6 +88,20 @@ public class CopiaArquivo extends javax.swing.JDialog {
 
         cmbQuestao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,15 +109,19 @@ public class CopiaArquivo extends javax.swing.JDialog {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                     .add(jLabel2)
                     .add(jLabel1)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, cmbQuestao, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, txtArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnPesquisar)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(btnCancelar)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 175, Short.MAX_VALUE)
+                        .add(btnConfirmar))
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, cmbQuestao, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                            .add(txtArquivo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 278, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(btnPesquisar))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -115,28 +139,48 @@ public class CopiaArquivo extends javax.swing.JDialog {
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cmbQuestao, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 60, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnConfirmar)
+                    .add(btnCancelar))
+                .addContainerGap())
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        try {
+            Arquivos.copiarArquivo(arquivo, cmbQuestao.getSelectedIndex());
+            JOptionPane.showMessageDialog(null, "Arquivo copiado com sucesso!", 
+                    "Copiado!", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         UIManager.put("FileChooser.openDialogTitleText", "Cópia de Arquivo");
-        File diretorio = null;
         
         JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int resultado = fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
         if (resultado == JFileChooser.CANCEL_OPTION) {
-            diretorio = null;
+            arquivo = null;
         } else {
-            diretorio = fc.getSelectedFile();
-            txtArquivo.setText(diretorio.getAbsolutePath());
+            arquivo = fc.getSelectedFile();
+            txtArquivo.setText(arquivo.getAbsolutePath());
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JComboBox cmbQuestao;
     private javax.swing.JLabel jLabel1;
