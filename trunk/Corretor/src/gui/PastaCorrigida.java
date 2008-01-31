@@ -60,7 +60,8 @@ public class PastaCorrigida extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        editorTexto = new gui.modelos.EditorTexto();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtFonte = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         cmbQuestao = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -74,21 +75,26 @@ public class PastaCorrigida extends javax.swing.JPanel {
         jLabel1.setText("C\u00f3digo Fonte do Aluno");
         jPanel3.add(jLabel1, new java.awt.GridBagConstraints());
 
+        txtFonte.setColumns(20);
+        txtFonte.setEditable(false);
+        txtFonte.setRows(5);
+        jScrollPane2.setViewportView(txtFonte);
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
             .add(jPanel2Layout.createSequentialGroup()
                 .add(10, 10, 10)
-                .add(editorTexto, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editorTexto, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
         );
         jSplitPane.setRightComponent(jPanel2);
 
@@ -110,8 +116,8 @@ public class PastaCorrigida extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(cmbQuestao, 0, 100, Short.MAX_VALUE)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .add(cmbQuestao, 0, 119, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -149,7 +155,7 @@ public class PastaCorrigida extends javax.swing.JPanel {
         File fonteAluno = alunos[alunoSelecionado].getFontes()[questaoSelecionada].getArquivo();
         try {
             String textoArquivo = Arquivos.getTextoArquivo(fonteAluno);
-            editorTexto = new EditorTexto(textoArquivo);
+            txtFonte.setText(textoArquivo);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -157,6 +163,7 @@ public class PastaCorrigida extends javax.swing.JPanel {
 
     private void cmbQuestaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbQuestaoItemStateChanged
         listaAlunos.setListData(new Object[0]);
+        txtFonte.setText("");
         int indiceQuestao = cmbQuestao.getSelectedIndex();
         alunos = Utilitarios.encontrarAlunos(indiceQuestao);
         String[] nomeAlunos = new String[alunos.length];
@@ -174,14 +181,15 @@ public class PastaCorrigida extends javax.swing.JPanel {
     
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbQuestao;
-    private gui.modelos.EditorTexto editorTexto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane;
     private javax.swing.JList listaAlunos;
+    private javax.swing.JTextArea txtFonte;
     // Fim da declaração de variáveis//GEN-END:variables
     
 }

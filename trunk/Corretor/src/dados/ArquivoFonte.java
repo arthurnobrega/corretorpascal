@@ -24,6 +24,8 @@ public class ArquivoFonte implements Serializable {
     public ArquivoFonte(File arquivo) {
         this.arquivo = arquivo;
         notas = new ArrayList<Integer>();
+        saidas = new ArrayList<Saidas>();
+        tempoExecucao = new ArrayList<Long>();
     }
     
     /**
@@ -141,8 +143,13 @@ public class ArquivoFonte implements Serializable {
                         ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
         }
         
-        nota = (int) (100 * ((double)nroAcertos / (double)nroGabarito));
-        relatorio += "\nNota (0-100): " + nota;
+        if (nroAcertos == nroGabarito) {
+            nota = 100;
+        } else {
+            nota = 0;
+        }
+        //nota = (int) (100 * ((double)nroAcertos / (double)nroGabarito));
+        relatorio += "\nNota (0 ou 100): " + nota;
         this.addNota(nota);
         PastaCorrecao.setModificado(true);
         return relatorio;
@@ -161,9 +168,9 @@ public class ArquivoFonte implements Serializable {
      * cada entrada/gabarito o arquivo fonte tem uma nota.
      */
     public void reiniciarContagem() {
-        ArrayList<Saidas> saidas = new ArrayList<Saidas>();
-        ArrayList<Integer> notas = new ArrayList<Integer>();
-        ArrayList<Long> tempoExecucao = new ArrayList<Long>();
+        saidas.clear();
+        notas.clear();
+        tempoExecucao.clear();
         PastaCorrecao.setModificado(true);
     }
     

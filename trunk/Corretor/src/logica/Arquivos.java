@@ -1,5 +1,7 @@
 package logica;
 
+import dados.Aluno;
+import dados.ArquivoFonte;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import dados.PastaCorrecao;
 
@@ -27,7 +30,7 @@ public abstract class Arquivos {
      */
     public static String getTextoArquivo(File arquivo) throws IOException {
         StringBuffer buffer = new StringBuffer();
-                BufferedReader in = new BufferedReader (new InputStreamReader (
+        BufferedReader in = new BufferedReader (new InputStreamReader (
                                 new FileInputStream (arquivo), "UTF-8"));
         String line;
         while((line = in.readLine()) != null) {
@@ -44,9 +47,36 @@ public abstract class Arquivos {
      */
     public static void salvarArquivo(File arquivo, String texto) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(arquivo), "UTF8"));
+                        new FileOutputStream(arquivo), "UTF-8"));
         out.write(texto);
         out.close();
+    }
+    
+    /**
+     * Copia um arquivo para determinada questão dos alunos.
+     * @param arquivo O arquivo que será copiado.
+     * @param indiceQuestao O índice da questão para onde o arquivo será copiado.
+     */
+    public static void copiarArquivo(File arquivo, int indiceQuestao) throws IOException {
+        Aluno[] todosAlunos = PastaCorrecao.getInstancia().getAlunos();
+        for (Aluno aluno : todosAlunos) {
+            ArquivoFonte[] fontes = aluno.getFontes();
+            if ((fontes.length > indiceQuestao) && (fontes[indiceQuestao] != null)) {
+                String diretorio = fontes[indiceQuestao].getArquivo().getParentFile().getAbsolutePath();
+                File novoArquivo = new File(diretorio + "/" + arquivo.getName());
+                InputStream in = new FileInputStream(arquivo);
+                OutputStream out = new FileOutputStream(novoArquivo);
+
+                // Transfere os bytes de um arquivo para o outro.
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.close();
+            }
+        }
     }
 
     /** 

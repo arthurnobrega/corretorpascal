@@ -66,9 +66,9 @@ public class Executador {
                 out.close();
                 
                 while(outputGobbler.isAlive()) { }
-                tempoExecucao = System.currentTimeMillis() - tempoExecucao;
                 saida = outputGobbler.getSaida();
             }
+            tempoExecucao = System.currentTimeMillis() - tempoExecucao;
             exitVal = proc.waitFor();
             
             System.out.println("Valor de Saída: " + exitVal);
