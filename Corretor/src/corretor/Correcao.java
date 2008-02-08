@@ -8,7 +8,7 @@ import logica.Arquivos;
 import logica.Constantes;
 import dados.Aluno;
 import dados.ArquivoFonte;
-import dados.ListaIO;
+import dados.Teste;
 import dados.PastaCorrecao;
 import dados.Saidas;
 
@@ -111,7 +111,7 @@ public class Correcao {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
             if (arqFonte != null) {
-                ListaIO io = questoes.get(i).getListaIO();
+                Teste io = questoes.get(i).getListaIO();
                 saidas = new ArrayList<Saidas>();
                 for (int j = 0; j <= io.getTamLista() - 1; j++) {
                     String textoSaida = arqFonte.corrigir(io.getEntradaConcatenada());
