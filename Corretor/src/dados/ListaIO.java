@@ -9,15 +9,15 @@ import java.util.ArrayList;
  */
 public class ListaIO implements Serializable {
     
-    private ArrayList<String> entradas = null;
-    private ArrayList<String> gabaritos = null;
+    private ArrayList<Teste> entradas = null;
+    private ArrayList<Teste> gabaritos = null;
     
     /** 
      * Cria uma nova instância da classe ListaIO. 
      */
     public ListaIO() {
-        entradas = new ArrayList<String>();
-        gabaritos = new ArrayList<String>();
+        entradas = new ArrayList<Teste>();
+        gabaritos = new ArrayList<Teste>();
     }
     
     /**
@@ -25,7 +25,7 @@ public class ListaIO implements Serializable {
      * @param entrada A entrada que se deseja adicionar.
      * @param gabarito O gabarito que se deseja adicionar.
      */
-    public void adicionarIO(String entrada, String gabarito) {
+    public void adicionarIO(Teste entrada, Teste gabarito) {
         entradas.add(entrada);
         gabaritos.add(gabarito);
     }
@@ -45,13 +45,9 @@ public class ListaIO implements Serializable {
      * Altera um conjunto de Entrada/Gabarito.
      * @param indice O índice na lista da Entrada/Gabarito que se deseja alterar.
      */
-    public void alterarIO(int indice, String entrada, String gabarito) {
+    public void alterarIO(int indice, Teste entrada, Teste gabarito) {
         if (indice >= 0) {
-            String ent = entradas.get(indice);
-            String gab = gabaritos.get(indice);
-            entradas.get(indice);
             entradas.set(indice, entrada);
-            gabaritos.get(indice);
             gabaritos.set(indice, gabarito);
         }
     }
@@ -60,22 +56,34 @@ public class ListaIO implements Serializable {
      * Retorna a entrada com o índice informada.
      * @param indice O índice da entrada que se deseja ter acesso.
      */
-    public String getEntrada(int indice){
+    public Teste getEntrada(int indice){
         if (indice >= 0) {
             return entradas.get(indice);
         }
             return null;
     }
     
+    public String getEntradaConcatenada() {
+        String conc = new String();
+        for (int i = 0; i <= entradas.size() - 1; i++) {
+            conc += entradas.get(i).getValor() + "\n";
+        }
+        return conc;
+    }
+    
     /**
      * Retorna o gabarito com o índice informada.
      * @param indice O índice do gabarito que se deseja ter acesso.
      */
-    public String getGabarito(int indice) {
+    public Teste getGabarito(int indice) {
         if (indice >= 0) {
             return gabaritos.get(indice);
         }
         return null;
+    }
+    
+    public ArrayList<Teste> getListaGabarito() {
+        return gabaritos;
     }
     
     /**

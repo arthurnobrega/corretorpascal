@@ -119,11 +119,11 @@ public class ArquivoFonte implements Serializable {
      * @param saida A saida que se deseja testar com o gabarito.
      * @param gabarito O gabarito para se testar a saida.
      */
-    public String testarGabarito(String saida, String gabarito) {
+    public String testarGabarito(String saida, ArrayList<Teste> gabaritos) {
         String relatorio = new String();
-        String[] linhasSaida = saida.split("\n"), linhasGabarito = gabarito.split("\n");
-        int nroSaida = linhasSaida.length, nroGabarito = linhasGabarito.length, 
-                limite, nroAcertos = 0, nota;        
+        String[] linhasSaida = saida.split("\n");
+        int nroSaida = linhasSaida.length, nroGabarito = gabaritos.size(), 
+                limite, nroAcertos = 0, nota;
         
         limite = nroGabarito;
         
@@ -132,14 +132,14 @@ public class ArquivoFonte implements Serializable {
         }
         
         for (int i = 0; i <= limite - 1; i++) {
-            if (linhasSaida[i].contains(linhasGabarito[i])) {
+            if (linhasSaida[i].contains(gabaritos.get(i).getValor())) {
                 relatorio += "Acertou o quesito " + (i + 1) + "\n";
                         
                 nroAcertos += 1;
             } else {
                 relatorio += "Errou o quesito " + (i + 1) + "\n";
             }
-            relatorio += "          Gabarito: (" + linhasGabarito[i] +
+            relatorio += "          Gabarito: (" + gabaritos.get(i).getValor() +
                         ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
         }
         
@@ -149,7 +149,7 @@ public class ArquivoFonte implements Serializable {
             nota = 0;
         }
         //nota = (int) (100 * ((double)nroAcertos / (double)nroGabarito));
-        relatorio += "\nNota (0 ou 100): " + nota;
+        relatorio += "\nNota (0 ou 100)%: " + nota;
         this.addNota(nota);
         PastaCorrecao.setModificado(true);
         return relatorio;

@@ -18,7 +18,6 @@ import dados.PastaCorrecao;
  */
 public class TabelaNotas extends javax.swing.JPanel {
     
-    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     JFrame pai = null;
     
     /** Creates new form TabelaNotas */
@@ -29,7 +28,7 @@ public class TabelaNotas extends javax.swing.JPanel {
     }
     
     private void preencherTabela() {
-        Aluno[] alunos = pastaCorrecao.getAlunos();
+        Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
         tabela.setModel(new TableModel() {
             public void addTableModelListener(TableModelListener l) {
             }
@@ -51,14 +50,14 @@ public class TabelaNotas extends javax.swing.JPanel {
                 return "";
             }
             public int getRowCount() {
-                return pastaCorrecao.getAlunos().length;
+                return PastaCorrecao.getInstancia().getAlunos().length;
             }
             
             public Object getValueAt(int rowIndex, int columnIndex) {
                 if (columnIndex == 0) {
-                    return pastaCorrecao.getAlunos()[rowIndex].getDiretorioAluno().getName();
+                    return PastaCorrecao.getInstancia().getAlunos()[rowIndex].getDiretorioAluno().getName();
                 } else if (columnIndex == 1) {
-                    return pastaCorrecao.getAlunos()[rowIndex].getNotaFinal();
+                    return PastaCorrecao.getInstancia().getAlunos()[rowIndex].getNotaFinal();
                 }
                 return "";
             }

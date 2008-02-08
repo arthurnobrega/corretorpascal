@@ -114,9 +114,8 @@ public class Correcao {
                 ListaIO io = questoes.get(i).getListaIO();
                 saidas = new ArrayList<Saidas>();
                 for (int j = 0; j <= io.getTamLista() - 1; j++) {
-                    String textoSaida = arqFonte.corrigir(io.getEntrada(j));
-                    System.out.println("TEMPO DECORRIDO: " + arqFonte.getTempoExecucao(j) + "ms");
-                    String textoRelatorio = arqFonte.testarGabarito(textoSaida, io.getGabarito(j));
+                    String textoSaida = arqFonte.corrigir(io.getEntradaConcatenada());
+                    String textoRelatorio = arqFonte.testarGabarito(textoSaida, io.getListaGabarito());
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
                 }
