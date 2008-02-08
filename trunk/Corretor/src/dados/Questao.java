@@ -10,29 +10,33 @@ import java.util.ArrayList;
  */
 public class Questao implements Serializable {
     
-    private ListaIO io = null;
+    private ArrayList<Teste> testes = null;
     private int notaMax = 0;
     
     /** 
      * Cria uma nova instância da classe Questao.
      */
     public Questao() {
-        io = new ListaIO();
+        testes = new ArrayList<Teste>();
     }
     
     /**
-     * Retorna a lista de entradas e gabaritos para esta questão.
+     * Retorna o índice da lista de entradas e gabaritos para esta questão.
      */
-    public ListaIO getListaIO() {
-        return io;
+    public Teste getTeste(int indice) {
+        return testes.get(indice);
     }
     
     /**
      * Seta a lista de entradas e gabaritos para esta questão.
-     */
+     *
     public void setListaIO(ListaIO io) {
         this.io = io;
         PastaCorrecao.setModificado(true);
+    }*/
+    
+    public void limparListaTestes() {
+        testes = new ArrayList<Teste>();
     }
     
     /**

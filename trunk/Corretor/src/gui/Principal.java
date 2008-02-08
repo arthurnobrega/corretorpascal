@@ -544,7 +544,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void entradas() {
-        IO ent = new IO(this);
+        Testes ent = new Testes(this);
         ent.setVisible(true);
         this.getContentPane().setVisible(false);
         if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {

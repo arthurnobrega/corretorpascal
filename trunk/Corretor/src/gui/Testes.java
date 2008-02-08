@@ -1,32 +1,20 @@
 /*
- * Testes.java
+ * Entradas.java
  *
- * Created on 31 de Janeiro de 2008, 14:48
+ * Created on 15 de Setembro de 2007, 21:09
  */
 
 package gui;
 
-import dados.ListaIO;
-import dados.PastaCorrecao;
 import dados.Questao;
-import dados.Teste;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.FontMetrics;
+import java.io.File;
 import java.util.ArrayList;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
+import javax.swing.JOptionPane;
+import logica.GerenciaIO;
+import logica.Arquivos;
+import dados.Teste;
+import dados.PastaCorrecao;
 
 /**
  *
@@ -34,50 +22,14 @@ import javax.swing.table.TableModel;
  */
 public class Testes extends javax.swing.JDialog {
     
-    private Questao questao = null;
-    private int indiceTeste = 0;
+    File diretorio = PastaCorrecao.getInstancia().getDiretorio();
     
-    /** Creates new form Testes */
-    public Testes(java.awt.Frame parent, Questao questao, int indiceTeste) {
-        super(parent, "Teste número " + (indiceTeste + 1), true);
-        this.questao = questao;
-        this.indiceTeste = indiceTeste;
+    /** Creates new form Entradas */
+    public Testes(java.awt.Frame parent) {
+        super(parent, true);
+        this.diretorio = diretorio;
         initComponents();
-        configurarTabela(tabEntradas);
-        configurarTabela(tabGabaritos);
         Janelas.alinharContainer(this);
-    }
-    
-    private void configurarTabela(JTable tabela) {
-        DefaultTableModel model = (DefaultTableModel)tabela.getModel();
-        ListaIO lista = questao.getListaIO();
-        int tam = lista.getTamLista();
-        // Adiciona algumas colunas
-        if (tabela == tabEntradas) {
-            model.addColumn("Entrada");
-            if (tam > 0) {
-                for (int i = 0; i <= tam - 1; i++) {
-                    Teste entrada = lista.getEntrada(i);
-                    model.addRow((new Object[] {entrada.getValor(), entrada.getTipo()}));
-                }
-            }
-        } else {
-            model.addColumn("Gabarito");
-            if (tam > 0) {
-                for (int i = 0; i <= tam - 1; i++) {
-                    Teste gabarito = lista.getGabarito(i);
-                    model.addRow((new Object[] {gabarito.getValor(), gabarito.getTipo()}));
-                }
-            }
-            
-        }
-        model.addColumn("Tipo");
-
-        tabela.setRowHeight(20);
-        // Configura o combobox na primeira coluna visível
-        TableColumn col = tabela.getColumnModel().getColumn(1);
-        col.setCellEditor(new ComboBoxEditor(Teste.TIPOS));
-        col.setCellRenderer(new ComboBoxRenderer(Teste.TIPOS));
     }
     
     /** This method is called from within the constructor to
@@ -87,73 +39,125 @@ public class Testes extends javax.swing.JDialog {
      */
     // <editor-fold defaultstate="collapsed" desc=" Código Gerado ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jScrollPaneGab = new javax.swing.JScrollPane();
-        tabGabaritos = new javax.swing.JTable();
-        btnInserir = new javax.swing.JButton();
-        btnExcluir = new javax.swing.JButton();
-        btnConfirmar = new javax.swing.JButton();
-        jScrollPaneEnt = new javax.swing.JScrollPane();
-        tabEntradas = new javax.swing.JTable();
-        btnCancelar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listaQuestoes = new javax.swing.JList();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listaEntradas = new javax.swing.JList();
+        jLabel3 = new javax.swing.JLabel();
+        txtNroQuestoes = new javax.swing.JTextField();
+        btnAdicionar = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        tabGabaritos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tabGabaritos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tabGabaritosMouseReleased(evt);
-            }
-        });
-
-        jScrollPaneGab.setViewportView(tabGabaritos);
-
-        btnInserir.setIcon(new javax.swing.ImageIcon("F:\\Arthur\\Projetos\\NetBeans\\Corretor\\imagens\\adicionar.png"));
-        btnInserir.addActionListener(new java.awt.event.ActionListener() {
+        setTitle("Entradas e Gabaritos");
+        btnSalvar.setText("Salvar Altera\u00e7\u00f5es");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInserirActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
-        btnExcluir.setIcon(new javax.swing.ImageIcon("F:\\Arthur\\Projetos\\NetBeans\\Corretor\\imagens\\remover.png"));
-        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Lista (Entradas / Gabaritos)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
+        String[] questoes = getCorrecoes();
+        if (questoes != null) {
+            listaQuestoes.setListData(questoes);
+            listaQuestoes.setSelectedIndex(0);
+            atualizarListaIO();
+        }
+
+        listaQuestoes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaQuestoesValueChanged(evt);
+            }
+        });
+
+        jScrollPane4.setViewportView(listaQuestoes);
+
+        listaEntradas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaEntradasValueChanged(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(listaEntradas);
+
+        jLabel3.setText("N\u00famero de Quest\u00f5es:");
+
+        btnAdicionar.setText("Adicionar Teste");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirActionPerformed(evt);
+                btnAdicionarActionPerformed(evt);
             }
         });
 
-        btnConfirmar.setText("Confirmar");
-        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        btnRemover.setText("Remover Teste");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmarActionPerformed(evt);
+                btnRemoverActionPerformed(evt);
             }
         });
 
-        tabEntradas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tabEntradas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tabEntradasMouseReleased(evt);
-            }
-        });
-
-        jScrollPaneEnt.setViewportView(tabEntradas);
-
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnAlterarActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel3)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(txtNroQuestoes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnAlterar))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(btnRemover)
+                            .add(btnAdicionar))))
+                .addContainerGap())
+        );
+
+        jPanel1Layout.linkSize(new java.awt.Component[] {btnAdicionar, btnRemover}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel3)
+                    .add(txtNroQuestoes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(btnAlterar))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(btnAdicionar)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnRemover))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel1Layout.linkSize(new java.awt.Component[] {btnAdicionar, btnRemover}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
+        btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
             }
         });
 
@@ -164,145 +168,154 @@ public class Testes extends javax.swing.JDialog {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jScrollPaneGab, 0, 397, Short.MAX_VALUE)
-                            .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnExcluir, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnInserir, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, Short.MAX_VALUE)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(btnCancelar)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 296, Short.MAX_VALUE)
-                        .add(btnConfirmar)))
+                        .add(btnVoltar)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 211, Short.MAX_VALUE)
+                        .add(btnSalvar)))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {btnExcluir, btnInserir}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(btnInserir, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnExcluir))
-                    .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnConfirmar)
-                    .add(btnCancelar))
+                    .add(btnVoltar)
+                    .add(btnSalvar))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {btnExcluir, btnInserir}, org.jdesktop.layout.GroupLayout.VERTICAL);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tabEntradasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabEntradasMouseReleased
-        tabGabaritos.setSelectionModel(tabEntradas.getSelectionModel());
-    }//GEN-LAST:event_tabEntradasMouseReleased
-
-    private void tabGabaritosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabGabaritosMouseReleased
-        tabEntradas.setSelectionModel(tabGabaritos.getSelectionModel());
-    }//GEN-LAST:event_tabGabaritosMouseReleased
-
-    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
-        int nroLinhas = tabEntradas.getModel().getRowCount();
-        questao.getListaIO().limparLista();
-        for (int i = 0; i <= nroLinhas - 1; i++) {
-            String valor = (String) tabEntradas.getValueAt(i, 0);
-            String tipo = (String) tabEntradas.getValueAt(i, 1);
-            Teste entrada = new Teste(valor, tipo);
-            
-            valor = (String) tabGabaritos.getValueAt(i, 0);
-            tipo = (String) tabGabaritos.getValueAt(i, 1);
-            Teste gabarito = new Teste(valor,tipo);
-            
-            questao.getListaIO().adicionarIO(entrada, gabarito);
-        }
-    }//GEN-LAST:event_btnConfirmarActionPerformed
-
-    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
-        DefaultTableModel model = (DefaultTableModel)tabEntradas.getModel();
-        model.addRow(new Object[] {"", "String"});
-        model = (DefaultTableModel)tabGabaritos.getModel();
-        model.addRow(new Object[] {"", "String"});
-        tabEntradas.getSelectionModel().setSelectionInterval(0,0);
-        tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
-        btnExcluir.setEnabled(true);
-    }//GEN-LAST:event_btnInserirActionPerformed
-
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int[] selecionadas = tabEntradas.getSelectedRows();
-        DefaultTableModel model1 = (DefaultTableModel)tabEntradas.getModel();
-        DefaultTableModel model2 = (DefaultTableModel)tabGabaritos.getModel();
-        int tam = selecionadas.length;
-        for (int i = tam - 1; i >= 0; i--) {
-            int linha = selecionadas[i];
-            model1.removeRow(linha);
-            model2.removeRow(linha);
-        }
-        if (model1.getRowCount() > 0) {
-            tabEntradas.getSelectionModel().setSelectionInterval(0,0);
-            tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
-        } else {
-            btnExcluir.setEnabled(false);
-        }
-    }//GEN-LAST:event_btnExcluirActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        try {
+            int numeroQuestoes = Integer.parseInt(txtNroQuestoes.getText());
+            if (numeroQuestoes == 0) {
+                listaQuestoes.setListData(new String[0]);
+                listaEntradas.setListData(new String[0]);
+                PastaCorrecao.getInstancia().getQuestoes().clear();
+                return;
+            } else if (numeroQuestoes < 0) {
+                JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int notasQuestoes[] = new int[numeroQuestoes];
+            int notaDividida = 100 / numeroQuestoes;
+            int mult = notaDividida * numeroQuestoes;
+            for (int i = 0; i <= numeroQuestoes - 1; i++) {
+                notasQuestoes[i] = notaDividida;
+            }
+            if (mult != 100) {
+                int i = 0, nroIndices = notasQuestoes.length;
+                int resto = 100 - mult;
+                while(resto != 0) {
+                    notasQuestoes[i] += 1;
+                    resto--;
+                    if (i < nroIndices) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                }
+            }
+            String[] vetorQuestoes = new String[numeroQuestoes];
+            PastaCorrecao.getInstancia().getQuestoes().clear();
+            ArrayList<Questao> questoes = new ArrayList<Questao>();
+            for (int i = 0; i <= numeroQuestoes - 1; i++) {
+                String nomeQuestao = "Questão " + (i+1);
+                vetorQuestoes[i] = nomeQuestao;
+                Questao questao = new Questao();
+                questao.setNotaMax(notasQuestoes[i]);
+                questoes.add(questao);
+            }
+            PastaCorrecao.getInstancia().setQuestoes(questoes);
+            listaQuestoes.setListData(vetorQuestoes);
+            listaQuestoes.setSelectedIndex(0);
+            
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        GerenciaIO gerencia = new GerenciaIO();
+        gerencia.removerIO(listaQuestoes.getSelectedIndex(), listaEntradas.getSelectedIndex());
+        atualizarListaIO();
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        Teste listaIO = PastaCorrecao.getInstancia().getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO();
+        
+        listaIO.alterarIO(listaEntradas.getSelectedIndex(), txtEntrada.getText(), txtGabarito.getText());
+        Arquivos.serializarCorrecao();
+        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void listaEntradasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEntradasValueChanged
+        String entrada = PastaCorrecao.getInstancia().getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO().getEntrada(listaEntradas.getSelectedIndex());
+        String gabarito = PastaCorrecao.getInstancia().getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO().getGabarito(listaEntradas.getSelectedIndex());
+        
+        if (entrada != null) {
+            mudarCorEditor(1);
+            txtEntrada.setText(entrada);
+            txtGabarito.setText(gabarito);
+        }
+    }//GEN-LAST:event_listaEntradasValueChanged
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        int indice = listaQuestoes.getSelectedIndex();
+        GerenciaIO gerIO = new GerenciaIO();
+        gerIO.adicionarIO(indice);
+        atualizarListaIO();
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void listaQuestoesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaQuestoesValueChanged
+        if (listaQuestoes.getSelectedIndex() >= 0) {
+            atualizarListaIO();
+            mudarCorEditor(0);
+        }
+    }//GEN-LAST:event_listaQuestoesValueChanged
+ 
+    private String[] getCorrecoes() {
+        int numeroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
+        String[] vetorQuestoes = null;
+        if (numeroQuestoes != 0) {
+            vetorQuestoes = new String[numeroQuestoes];
+            for (int i = 0; i <= numeroQuestoes - 1; i++) {
+                String questao = "Questão " + (i+1);
+                vetorQuestoes[i] = questao;
+            }
+        }
+        
+        return vetorQuestoes;
+    }
+    
+    private void atualizarListaIO() {
+        txtEntrada.setText("");
+        txtGabarito.setText("");
+        GerenciaIO gerencia = new GerenciaIO();
+        listaEntradas.setListData(gerencia.getVetorIO(listaQuestoes.getSelectedIndex()));
+    }
+    
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnInserir;
-    private javax.swing.JScrollPane jScrollPaneEnt;
-    private javax.swing.JScrollPane jScrollPaneGab;
-    private javax.swing.JTable tabEntradas;
-    private javax.swing.JTable tabGabaritos;
+    private javax.swing.JButton btnAdicionar;
+    private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnRemover;
+    private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnVoltar;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JList listaEntradas;
+    private javax.swing.JList listaQuestoes;
+    private javax.swing.JTextField txtNroQuestoes;
     // Fim da declaração de variáveis//GEN-END:variables
     
-    
-    public static void main(String args[]) {
-        new Testes(null, new Questao(), 0).setVisible(true);
-    }
-    
-    class ComboBoxRenderer extends JComboBox implements TableCellRenderer {
-        public ComboBoxRenderer(String[] items) {
-            super(items);
-        }    
-
-        public Component getTableCellRendererComponent(JTable table, 
-              Object value, boolean isSelected, boolean hasFocus, int row,
-              int column) {
-            
-            if (isSelected) {
-                setForeground(table.getSelectionForeground());
-                super.setBackground(table.getSelectionBackground());
-            } else {
-                setForeground(table.getForeground());
-                setBackground(table.getBackground());
-            }    
-
-            setSelectedItem(value);
-            return this;
-        }
-    }    
-
-    class ComboBoxEditor extends DefaultCellEditor {
-        public ComboBoxEditor(String[] items) {
-            super(new JComboBox(items));
-        }
-    }
 }

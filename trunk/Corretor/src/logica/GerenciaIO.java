@@ -1,6 +1,6 @@
 package logica;
 
-import dados.ListaIO;
+import dados.Teste;
 import dados.PastaCorrecao;
 import dados.Questao;
 
@@ -32,7 +32,7 @@ public class GerenciaIO {
      * @return Um vetor com Strings no número de Entradas/Gabaritos da Questão.
      */
     public String[] getVetorIO(int indice) {
-        ListaIO listaIO = PastaCorrecao.getInstancia().getQuestoes().get(indice).getListaIO();
+        Teste listaIO = PastaCorrecao.getInstancia().getQuestoes().get(indice).getListaIO();
         String[] nomesIO = new String[listaIO.getTamLista()];
         for (int i = 0; i <= nomesIO.length - 1; i++) {
             nomesIO[i] = "Teste " + (i + 1);
