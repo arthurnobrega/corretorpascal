@@ -73,6 +73,10 @@ public class PastaCorrecao implements Serializable {
     /**
      * Retorna a lista de questões.
      */
+    public Questao getQuestao(int indice) {
+        return questoes.get(indice);
+    }
+    
     public ArrayList<Questao> getQuestoes() {
         return questoes;
     }

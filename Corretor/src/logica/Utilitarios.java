@@ -32,9 +32,41 @@ public abstract class Utilitarios {
         return (Aluno[]) selecionados.toArray(new Aluno[0]);
     }
     
-    public static boolean compararInteiros(String n1, String n2) {
-        double teste = Double.parseDouble("7.500000000000000E+001");
-        return true;
+    public static boolean compararStrings(String saida, String gabarito) {
+        if (saida.contains(gabarito)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean compararInteiros(String saida, String gabarito) {
+        try {
+            int nro1 = Integer.parseInt(saida);
+            int nro2 = Integer.parseInt(gabarito);
+            if (nro1 == nro2) {
+                return true;
+            }
+        } catch (NumberFormatException ex) {
+            if (saida.contains(gabarito)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean compararReais(String saida, String gabarito) {
+        try {
+            double nro1 = Double.parseDouble(saida);
+            double nro2 = Double.parseDouble(gabarito);
+            if (Double.compare(nro1, nro2) == 0) {
+                return true;
+            }
+        } catch (NumberFormatException ex) {
+            if (saida.contains(gabarito)) {
+                return true;
+            }
+        }
+        return false;
     }
     
 }

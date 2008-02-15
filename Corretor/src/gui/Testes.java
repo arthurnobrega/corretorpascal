@@ -7,11 +7,13 @@
 package gui;
 
 import dados.Questao;
+import gui.modelos.KeyListenerJanela;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import logica.GerenciaIO;
+import logica.GerenciaTestes;
 import logica.Arquivos;
 import dados.Teste;
 import dados.PastaCorrecao;
@@ -20,16 +22,45 @@ import dados.PastaCorrecao;
  *
  * @author  UltraXP
  */
-public class Testes extends javax.swing.JDialog {
+public class Testes extends javax.swing.JFrame {
     
-    File diretorio = PastaCorrecao.getInstancia().getDiretorio();
+    private File diretorio = PastaCorrecao.getInstancia().getDiretorio();
+    private ArrayList<Questao> questoes = null;
     
     /** Creates new form Entradas */
-    public Testes(java.awt.Frame parent) {
-        super(parent, true);
+    public Testes() {
+        super("Testes dos programas");
         this.diretorio = diretorio;
+        this.questoes = new ArrayList<Questao>();
         initComponents();
         Janelas.alinharContainer(this);
+        btnAdicionar.setEnabled(false);
+        btnRemover.setEnabled(false);
+        btnEditar.setEnabled(false);
+        iniciarListas();
+        this.addKeyListener(new KeyListenerJanela());
+    }
+    
+    private void iniciarListas() {
+        if (!PastaCorrecao.getInstancia().getQuestoes().isEmpty()) {
+            questoes = (ArrayList<Questao>) PastaCorrecao.getInstancia().getQuestoes().clone();
+            GerenciaTestes ger = new GerenciaTestes(questoes);
+            listaQuestoes.setListData(ger.getVetorQuestoes());
+            listaQuestoes.setSelectedIndex(0);
+            
+            listaTestes.setListData(ger.getVetorTestes(listaQuestoes.getSelectedIndex()));
+            if (listaTestes.getModel().getSize() > 0) { 
+                listaTestes.setSelectedIndex(0);
+                
+                btnRemover.setEnabled(true);
+                btnEditar.setEnabled(true);
+            } else {
+                btnRemover.setEnabled(false);
+                btnEditar.setEnabled(false);
+            }
+            
+            btnAdicionar.setEnabled(true);
+        }
     }
     
     /** This method is called from within the constructor to
@@ -44,13 +75,14 @@ public class Testes extends javax.swing.JDialog {
         jScrollPane4 = new javax.swing.JScrollPane();
         listaQuestoes = new javax.swing.JList();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaEntradas = new javax.swing.JList();
+        listaTestes = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
         txtNroQuestoes = new javax.swing.JTextField();
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
-        btnVoltar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Entradas e Gabaritos");
@@ -62,13 +94,6 @@ public class Testes extends javax.swing.JDialog {
         });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Lista (Entradas / Gabaritos)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
-        String[] questoes = getCorrecoes();
-        if (questoes != null) {
-            listaQuestoes.setListData(questoes);
-            listaQuestoes.setSelectedIndex(0);
-            atualizarListaIO();
-        }
-
         listaQuestoes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listaQuestoesValueChanged(evt);
@@ -77,13 +102,7 @@ public class Testes extends javax.swing.JDialog {
 
         jScrollPane4.setViewportView(listaQuestoes);
 
-        listaEntradas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listaEntradasValueChanged(evt);
-            }
-        });
-
-        jScrollPane1.setViewportView(listaEntradas);
+        jScrollPane1.setViewportView(listaTestes);
 
         jLabel3.setText("N\u00famero de Quest\u00f5es:");
 
@@ -108,6 +127,13 @@ public class Testes extends javax.swing.JDialog {
             }
         });
 
+        btnEditar.setText("Editar Teste");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -126,13 +152,14 @@ public class Testes extends javax.swing.JDialog {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(btnRemover)
-                            .add(btnAdicionar))))
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(btnRemover, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(btnAdicionar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(btnEditar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(new java.awt.Component[] {btnAdicionar, btnRemover}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+        jPanel1Layout.linkSize(new java.awt.Component[] {btnAdicionar, btnEditar, btnRemover}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -146,18 +173,20 @@ public class Testes extends javax.swing.JDialog {
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(btnAdicionar)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnRemover))
+                        .add(btnRemover)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnEditar))
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                     .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(new java.awt.Component[] {btnAdicionar, btnRemover}, org.jdesktop.layout.GroupLayout.VERTICAL);
+        jPanel1Layout.linkSize(new java.awt.Component[] {btnAdicionar, btnEditar, btnRemover}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
-        btnVoltar.setText("Voltar");
-        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -170,8 +199,8 @@ public class Testes extends javax.swing.JDialog {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(btnVoltar)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 211, Short.MAX_VALUE)
+                        .add(btnCancelar)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 197, Short.MAX_VALUE)
                         .add(btnSalvar)))
                 .addContainerGap())
         );
@@ -182,24 +211,33 @@ public class Testes extends javax.swing.JDialog {
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnVoltar)
+                    .add(btnCancelar)
                     .add(btnSalvar))
                 .addContainerGap())
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int testeSelecionado = listaTestes.getSelectedIndex();
+        Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
+        TabelasTeste tab = new TabelasTeste(this, testeSelecionado, questao.getTeste(testeSelecionado));
+        tab.setVisible(true);
+        questao.editarTeste(testeSelecionado, tab.getTeste());
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnVoltarActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         try {
             int numeroQuestoes = Integer.parseInt(txtNroQuestoes.getText());
             if (numeroQuestoes == 0) {
-                listaQuestoes.setListData(new String[0]);
-                listaEntradas.setListData(new String[0]);
-                PastaCorrecao.getInstancia().getQuestoes().clear();
+                questoes.clear();
+                btnAdicionar.setEnabled(false);
+                btnRemover.setEnabled(false);
+                btnEditar.setEnabled(false);
                 return;
             } else if (numeroQuestoes < 0) {
                 JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -225,96 +263,87 @@ public class Testes extends javax.swing.JDialog {
                 }
             }
             String[] vetorQuestoes = new String[numeroQuestoes];
-            PastaCorrecao.getInstancia().getQuestoes().clear();
-            ArrayList<Questao> questoes = new ArrayList<Questao>();
+            questoes.clear();
+            ArrayList<Questao> novasQuestoes = new ArrayList<Questao>();
             for (int i = 0; i <= numeroQuestoes - 1; i++) {
                 String nomeQuestao = "Questão " + (i+1);
                 vetorQuestoes[i] = nomeQuestao;
                 Questao questao = new Questao();
                 questao.setNotaMax(notasQuestoes[i]);
-                questoes.add(questao);
+                novasQuestoes.add(questao);
             }
-            PastaCorrecao.getInstancia().setQuestoes(questoes);
+            questoes = novasQuestoes;
             listaQuestoes.setListData(vetorQuestoes);
             listaQuestoes.setSelectedIndex(0);
-            
+            btnAdicionar.setEnabled(true);
+            txtNroQuestoes.setText("");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Informe um número inteiro maior ou igual a 0!", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        GerenciaIO gerencia = new GerenciaIO();
-        gerencia.removerIO(listaQuestoes.getSelectedIndex(), listaEntradas.getSelectedIndex());
-        atualizarListaIO();
+        int testeSelecionado = listaTestes.getSelectedIndex();
+        int questaoSelecionada = listaQuestoes.getSelectedIndex();
+        questoes.get(questaoSelecionada).removerTeste(testeSelecionado);
+        
+        GerenciaTestes ger = new GerenciaTestes(questoes);
+        listaTestes.setListData(ger.getVetorTestes(questaoSelecionada));
+        if (listaTestes.getModel().getSize() == 0) {
+            btnRemover.setEnabled(false);
+            btnEditar.setEnabled(false);
+        } else {
+            listaTestes.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Teste listaIO = PastaCorrecao.getInstancia().getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO();
-        
-        listaIO.alterarIO(listaEntradas.getSelectedIndex(), txtEntrada.getText(), txtGabarito.getText());
-        Arquivos.serializarCorrecao();
+        PastaCorrecao.getInstancia().setQuestoes(questoes);
         JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void listaEntradasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEntradasValueChanged
-        String entrada = PastaCorrecao.getInstancia().getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO().getEntrada(listaEntradas.getSelectedIndex());
-        String gabarito = PastaCorrecao.getInstancia().getQuestoes().get(listaQuestoes.getSelectedIndex()).getListaIO().getGabarito(listaEntradas.getSelectedIndex());
-        
-        if (entrada != null) {
-            mudarCorEditor(1);
-            txtEntrada.setText(entrada);
-            txtGabarito.setText(gabarito);
-        }
-    }//GEN-LAST:event_listaEntradasValueChanged
-
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        int indice = listaQuestoes.getSelectedIndex();
-        GerenciaIO gerIO = new GerenciaIO();
-        gerIO.adicionarIO(indice);
-        atualizarListaIO();
+        Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
+        questao.adicionarTeste();
+        TabelasTeste tab = new TabelasTeste(this, listaTestes.getModel().getSize());
+        tab.setVisible(true);
+        questao.editarTeste(listaTestes.getModel().getSize(), tab.getTeste());
+        GerenciaTestes ger = new GerenciaTestes(questoes);
+        listaTestes.setListData(ger.getVetorTestes(listaQuestoes.getSelectedIndex()));
+        listaTestes.setSelectedIndex(0);
+        btnRemover.setEnabled(true);
+        btnEditar.setEnabled(true);
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void listaQuestoesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaQuestoesValueChanged
         if (listaQuestoes.getSelectedIndex() >= 0) {
-            atualizarListaIO();
-            mudarCorEditor(0);
-        }
-    }//GEN-LAST:event_listaQuestoesValueChanged
- 
-    private String[] getCorrecoes() {
-        int numeroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
-        String[] vetorQuestoes = null;
-        if (numeroQuestoes != 0) {
-            vetorQuestoes = new String[numeroQuestoes];
-            for (int i = 0; i <= numeroQuestoes - 1; i++) {
-                String questao = "Questão " + (i+1);
-                vetorQuestoes[i] = questao;
+            GerenciaTestes ger = new GerenciaTestes(questoes);
+            listaTestes.setListData(ger.getVetorTestes(listaQuestoes.getSelectedIndex()));
+            if (listaTestes.getModel().getSize() > 0) {
+                listaTestes.setSelectedIndex(0);
+                btnRemover.setEnabled(true);
+                btnEditar.setEnabled(true);
+            } else {
+                btnRemover.setEnabled(false);
+                btnEditar.setEnabled(false);
             }
         }
-        
-        return vetorQuestoes;
-    }
-    
-    private void atualizarListaIO() {
-        txtEntrada.setText("");
-        txtGabarito.setText("");
-        GerenciaIO gerencia = new GerenciaIO();
-        listaEntradas.setListData(gerencia.getVetorIO(listaQuestoes.getSelectedIndex()));
-    }
+    }//GEN-LAST:event_listaQuestoesValueChanged
     
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JList listaEntradas;
     private javax.swing.JList listaQuestoes;
+    private javax.swing.JList listaTestes;
     private javax.swing.JTextField txtNroQuestoes;
     // Fim da declaração de variáveis//GEN-END:variables
     

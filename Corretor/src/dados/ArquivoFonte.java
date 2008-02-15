@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import dados.Saidas;
+import logica.Utilitarios;
 
 /**
  * Classe que guarda informações de um determinado arquivo fonte de um aluno.
@@ -119,11 +120,14 @@ public class ArquivoFonte implements Serializable {
      * @param saida A saida que se deseja testar com o gabarito.
      * @param gabarito O gabarito para se testar a saida.
      */
-    public String testarGabarito(String saida, ArrayList<Teste> gabaritos) {
+    public String testarGabarito(String saida, ArrayList<LinhaTeste> gabaritos) {
         String relatorio = new String();
         String[] linhasSaida = saida.split("\n");
-        int nroSaida = linhasSaida.length, nroGabarito = gabaritos.size(), 
-                limite, nroAcertos = 0, nota;
+        int nroSaida = linhasSaida.length;
+        int nroGabarito = gabaritos.size();
+        int limite = 0;
+        int nroAcertos = 0;
+        int nota = 0;
         
         limite = nroGabarito;
         
@@ -132,15 +136,32 @@ public class ArquivoFonte implements Serializable {
         }
         
         for (int i = 0; i <= limite - 1; i++) {
-            if (linhasSaida[i].contains(gabaritos.get(i).getValor())) {
-                relatorio += "Acertou o quesito " + (i + 1) + "\n";
-                        
-                nroAcertos += 1;
-            } else {
-                relatorio += "Errou o quesito " + (i + 1) + "\n";
+            String tipo = gabaritos.get(i).getTipo();
+            if (tipo.equals(LinhaTeste.TIPOS[0])) { //String
+                if (Utilitarios.compararStrings(linhasSaida[i], gabaritos.get(i).getValor())) {
+                    relatorio += "Acertou a linha " + (i + 1) + "\n";
+                    nroAcertos += 1;
+                } else {
+                    relatorio += "Errou a linha " + (i + 1) + "\n";
+                }
+            } else if (tipo.equals(LinhaTeste.TIPOS[1])) { //Inteiro
+                if (Utilitarios.compararInteiros(linhasSaida[i], gabaritos.get(i).getValor())) {
+                    relatorio += "Acertou a linha " + (i + 1) + "\n";
+                    nroAcertos += 1;
+                } else {
+                    relatorio += "Errou a linha " + (i + 1) + "\n";
+                }
+            } else if (tipo.equals(LinhaTeste.TIPOS[2])) { //Real
+                if (Utilitarios.compararReais(linhasSaida[i], gabaritos.get(i).getValor())) {
+                    relatorio += "Acertou a linha " + (i + 1) + "\n";
+                    nroAcertos += 1;
+                } else {
+                    relatorio += "Errou a linha " + (i + 1) + "\n";
+                }
             }
+            
             relatorio += "          Gabarito: (" + gabaritos.get(i).getValor() +
-                        ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
+                    ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
         }
         
         if (nroAcertos == nroGabarito) {

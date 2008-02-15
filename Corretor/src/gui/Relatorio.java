@@ -6,6 +6,7 @@
 
 package gui;
 
+import gui.modelos.KeyListenerJanela;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import dados.Aluno;
@@ -29,11 +30,12 @@ public class Relatorio extends javax.swing.JDialog {
         initComponents();
         Janelas.alinharContainer(this);
         iniciarCombos();
+        this.addKeyListener(new KeyListenerJanela());
     }
     
     private void iniciarCombos() {
         int nroQuestoes = pastaCorrecao.getQuestoes().size();
-        int nroTestes1 = pastaCorrecao.getQuestoes().get(0).getListaIO().getTamLista();
+        int nroTestes1 = pastaCorrecao.getQuestao(0).getTestes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTestes1 = new String[nroTestes1];
         
@@ -197,7 +199,7 @@ public class Relatorio extends javax.swing.JDialog {
 
     private void cmbQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbQuestaoActionPerformed
         if (cmbQuestao.getSelectedIndex() < aluno.getFontes().length) {
-            int nroTestes = pastaCorrecao.getQuestoes().get(cmbQuestao.getSelectedIndex()).getListaIO().getTamLista();
+            int nroTestes = pastaCorrecao.getQuestao(cmbQuestao.getSelectedIndex()).getTestes().size();
             String[] vetorTestes = new String[nroTestes];
 
             for (int i = 0; i <= nroTestes - 1; i++) {
