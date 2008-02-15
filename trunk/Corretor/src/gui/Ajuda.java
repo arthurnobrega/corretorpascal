@@ -6,6 +6,8 @@
 
 package gui;
 
+import gui.modelos.KeyListenerJanela;
+
 /**
  *
  * @author  UltraXP
@@ -17,6 +19,7 @@ public class Ajuda extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
         Janelas.alinharContainer(this);
+        this.addKeyListener(new KeyListenerJanela());
     }
     
     /** This method is called from within the constructor to

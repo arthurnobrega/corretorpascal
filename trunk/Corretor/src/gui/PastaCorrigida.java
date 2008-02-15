@@ -3,6 +3,7 @@ package gui;
 import dados.Aluno;
 import dados.PastaCorrecao;
 import gui.modelos.EditorTexto;
+import gui.modelos.KeyListenerJanela;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
@@ -23,6 +24,7 @@ public class PastaCorrigida extends javax.swing.JPanel {
     public PastaCorrigida() {
         initComponents();
         iniciarCampos();
+        this.addKeyListener(new KeyListenerJanela());
     }
     
     private void iniciarCampos() {

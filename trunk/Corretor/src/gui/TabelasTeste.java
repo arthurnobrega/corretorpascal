@@ -6,10 +6,12 @@
 
 package gui;
 
+import dados.LinhaTeste;
 import dados.Teste;
 import dados.PastaCorrecao;
 import dados.Questao;
 import dados.Teste;
+import gui.modelos.KeyListenerJanela;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FontMetrics;
@@ -32,16 +34,27 @@ import javax.swing.table.TableModel;
  *
  * @author  UltraXP
  */
-public class TabelasTestes extends javax.swing.JDialog {
-    
-    private int indiceQuestao = 0;
+public class TabelasTeste extends javax.swing.JDialog {
+
     private int indiceTeste = 0;
+    private Teste esteTeste = null;
     
     /** Creates new form Testes */
-    public TabelasTestes(java.awt.Frame parent, int indiceQuestao, int indiceTeste) {
+    public TabelasTeste(java.awt.Frame parent, int indiceTeste) {
         super(parent, "Teste número " + (indiceTeste + 1), true);
-        this.indiceQuestao = indiceQuestao;
         this.indiceTeste = indiceTeste;
+        this.esteTeste = new Teste();
+        initComponents();
+        configurarTabela(tabEntradas);
+        configurarTabela(tabGabaritos);
+        Janelas.alinharContainer(this);
+        this.addKeyListener(new KeyListenerJanela());
+    }
+    
+    public TabelasTeste(java.awt.Frame parent, int indiceTeste, Teste teste) {
+        super(parent, "Teste número " + (indiceTeste + 1), true);
+        this.indiceTeste = indiceTeste;
+        this.esteTeste = teste;
         initComponents();
         configurarTabela(tabEntradas);
         configurarTabela(tabGabaritos);
@@ -50,34 +63,40 @@ public class TabelasTestes extends javax.swing.JDialog {
     
     private void configurarTabela(JTable tabela) {
         DefaultTableModel model = (DefaultTableModel)tabela.getModel();
-        ListaIO lista = PastaCorrecao.getInstancia().getQuestoes().get(indiceQuestao).getListaIO();
-        int tam = lista.getTamLista();
+        
         // Adiciona algumas colunas
         if (tabela == tabEntradas) {
             model.addColumn("Entrada");
+            model.addColumn("Tipo");
+            int tam = esteTeste.getTamListaEntradas();
             if (tam > 0) {
                 for (int i = 0; i <= tam - 1; i++) {
-                    Teste entrada = lista.getEntrada(i);
+                    LinhaTeste entrada = esteTeste.getEntrada(i);
                     model.addRow((new Object[] {entrada.getValor(), entrada.getTipo()}));
                 }
             }
         } else {
             model.addColumn("Gabarito");
+            model.addColumn("Tipo");
+            int tam = esteTeste.getTamListaGabaritos();
             if (tam > 0) {
                 for (int i = 0; i <= tam - 1; i++) {
-                    Teste gabarito = lista.getGabarito(i);
+                    LinhaTeste gabarito = esteTeste.getGabarito(i);
                     model.addRow((new Object[] {gabarito.getValor(), gabarito.getTipo()}));
                 }
             }
             
         }
-        model.addColumn("Tipo");
 
         tabela.setRowHeight(20);
         // Configura o combobox na primeira coluna visível
         TableColumn col = tabela.getColumnModel().getColumn(1);
-        col.setCellEditor(new ComboBoxEditor(Teste.TIPOS));
-        col.setCellRenderer(new ComboBoxRenderer(Teste.TIPOS));
+        col.setCellEditor(new ComboBoxEditor(LinhaTeste.TIPOS));
+        col.setCellRenderer(new ComboBoxRenderer(LinhaTeste.TIPOS));
+    }
+    
+    public Teste getTeste() {
+        return esteTeste;
     }
     
     /** This method is called from within the constructor to
@@ -217,19 +236,29 @@ public class TabelasTestes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        esteTeste = new Teste();
+        
+        ArrayList<LinhaTeste> entradas = new ArrayList<LinhaTeste>();
         int nroLinhas = tabEntradas.getModel().getRowCount();
-        questao.limparListaIO();
         for (int i = 0; i <= nroLinhas - 1; i++) {
             String valor = (String) tabEntradas.getValueAt(i, 0);
             String tipo = (String) tabEntradas.getValueAt(i, 1);
-            Teste entrada = new Teste(valor, tipo);
-            
-            valor = (String) tabGabaritos.getValueAt(i, 0);
-            tipo = (String) tabGabaritos.getValueAt(i, 1);
-            Teste gabarito = new Teste(valor,tipo);
-            
-            questao.getListaIO().adicionarIO(entrada, gabarito);
+            LinhaTeste entrada = new LinhaTeste(valor, tipo);
+            entradas.add(entrada);
         }
+        
+        ArrayList<LinhaTeste> gabaritos = new ArrayList<LinhaTeste>();
+        nroLinhas = tabGabaritos.getModel().getRowCount();
+        for (int i = 0; i <= nroLinhas - 1; i++) {            
+            String valor = (String) tabGabaritos.getValueAt(i, 0);
+            String tipo = (String) tabGabaritos.getValueAt(i, 1);
+            LinhaTeste gabarito = new LinhaTeste(valor,tipo);
+            gabaritos.add(gabarito);
+        }
+        
+        esteTeste.setLinhasEntrada(entradas);
+        esteTeste.setLinhasGabarito(gabaritos);
+        this.dispose();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnExcluirGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirGabActionPerformed
@@ -292,11 +321,6 @@ public class TabelasTestes extends javax.swing.JDialog {
     private javax.swing.JTable tabEntradas;
     private javax.swing.JTable tabGabaritos;
     // Fim da declaração de variáveis//GEN-END:variables
-    
-    
-    public static void main(String args[]) {
-        new Teste(null, 0, 0).setVisible(true);
-    }
     
     class ComboBoxRenderer extends JComboBox implements TableCellRenderer {
         public ComboBoxRenderer(String[] items) {

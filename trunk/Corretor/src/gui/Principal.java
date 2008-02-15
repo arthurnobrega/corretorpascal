@@ -1,5 +1,6 @@
 package gui;
 
+import gui.modelos.KeyListenerJanela;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         this.setIconImage(img);
         limparContentPane();
         desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
+        this.addKeyListener(new KeyListenerJanela());
     }
     
     private void inicializarJFileChooser() {
@@ -487,9 +489,9 @@ public class Principal extends javax.swing.JFrame {
                 gerSer.desserializar(diretorio);
                 if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6 });
-                    this.getContentPane().setVisible(false);
+                    /*this.getContentPane().setVisible(false);
                     this.setContentPane(new PastaCorrigida());
-                    this.getContentPane().setVisible(true);
+                    this.getContentPane().setVisible(true);*/
                 } else {
                     habilitarOpcoes(new int[] { 0, 1, 5, 6 });
                 }
@@ -544,12 +546,12 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void entradas() {
-        Testes ent = new Testes(this);
+        Testes ent = new Testes();
         ent.setVisible(true);
         this.getContentPane().setVisible(false);
         if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
             habilitarOpcoes(new int[] { 2, 3, 4 });
-            this.setContentPane(new PastaCorrigida());
+            //this.setContentPane(new PastaCorrigida());
         } else {
             desabilitarOpcoes(new int[] { 2, 3, 4 });
             this.setContentPane(new JPanel());

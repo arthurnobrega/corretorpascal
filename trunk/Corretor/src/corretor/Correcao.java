@@ -111,11 +111,11 @@ public class Correcao {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
             if (arqFonte != null) {
-                Teste io = questoes.get(i).getListaIO();
+                ArrayList<Teste> testes = questoes.get(i).getTestes();
                 saidas = new ArrayList<Saidas>();
-                for (int j = 0; j <= io.getTamLista() - 1; j++) {
-                    String textoSaida = arqFonte.corrigir(io.getEntradaConcatenada());
-                    String textoRelatorio = arqFonte.testarGabarito(textoSaida, io.getListaGabarito());
+                for (int j = 0; j <= testes.size() - 1; j++) {
+                    String textoSaida = arqFonte.corrigir(testes.get(j).getEntradaConcatenada());
+                    String textoRelatorio = arqFonte.testarGabarito(textoSaida, testes.get(j).getLinhasGabarito());
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
                 }

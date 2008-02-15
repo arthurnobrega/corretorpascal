@@ -6,6 +6,7 @@
 
 package gui;
 
+import gui.modelos.KeyListenerJanela;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -31,6 +32,7 @@ public class NotasQuestoes extends javax.swing.JDialog {
         initComponents();
         Janelas.alinharContainer(this);
         iniciarCampos();
+        this.addKeyListener(new KeyListenerJanela());
     }
     
     private void iniciarCampos() {

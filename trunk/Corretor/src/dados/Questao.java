@@ -27,6 +27,22 @@ public class Questao implements Serializable {
         return testes.get(indice);
     }
     
+    public ArrayList<Teste> getTestes() {
+        return testes;
+    }
+    
+    public void adicionarTeste() {
+        testes.add(new Teste());
+    }
+    
+    public void editarTeste(int indice, Teste teste) {
+        testes.set(indice, teste);
+    }
+    
+    public void removerTeste(int indice) {
+        testes.remove(indice);
+    }
+    
     /**
      * Seta a lista de entradas e gabaritos para esta questão.
      *

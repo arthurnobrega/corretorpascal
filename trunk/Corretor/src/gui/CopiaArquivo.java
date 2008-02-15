@@ -6,6 +6,7 @@
 
 package gui;
 
+import gui.modelos.KeyListenerJanela;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
@@ -29,14 +30,12 @@ public class CopiaArquivo extends javax.swing.JDialog {
         initComponents();
         iniciarCombo();
         Janelas.alinharContainer(this);
+        this.addKeyListener(new KeyListenerJanela());
     }
     
     private void iniciarCombo() {
         int nroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
-        int nroTestes1 = PastaCorrecao.getInstancia().getQuestoes().get(0).getListaIO().getTamLista();
         String[] vetorQuestao = new String[nroQuestoes];
-        String[] vetorTestes1 = new String[nroTestes1];
-        
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);
         }
