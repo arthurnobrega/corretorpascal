@@ -1,13 +1,13 @@
 Program EncontraMaior;
 
 Var
-    nome1 nome2 nome3: string[10];
-    idade1 idade2 idade3: integer;
+    nome1, nome2, nome3: string[10];
+    idade1, idade2, idade3: integer;
 Begin
     readln(nome1);
     readln(idade1);
     readln(nome2);
-    readln(idade2);;
+    readln(idade2);
     readln(nome3);
     readln(idade3);
     if(idade1>idade2)and(idade2>idade3)then
