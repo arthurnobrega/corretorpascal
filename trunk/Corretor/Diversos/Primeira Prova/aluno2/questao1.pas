@@ -32,9 +32,9 @@ Begin
     end;
     
     { Escreve o resultado na tela. }
-    writeln('A pessoa mais velha é ', maiorNome);
-    writeln('. Sua idade é ', maiorIdade);
-    writeln('A pessoa mais nova é ', menorNome);
-    writeln('. Sua idade é ', menorIdade);
+    writeln(maiorNome);
+    writeln(maiorIdade);
+    writeln(menorNome);
+    writeln(menorIdade);
     writeln;
 End.
