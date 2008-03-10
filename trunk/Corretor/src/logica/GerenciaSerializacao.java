@@ -16,7 +16,7 @@ public class GerenciaSerializacao {
      */
     public void serializar() {
         Arquivos.serializarCorrecao();
-        PastaCorrecao.setModificado(false);
+        PastaCorrecao.getInstancia().setModificado(false);
     }
     
     /**
@@ -25,7 +25,7 @@ public class GerenciaSerializacao {
      */
     public void desserializar(File diretorio) throws IOException {
         PastaCorrecao.getInstancia(Arquivos.desserializarCorrecao(diretorio));
-        PastaCorrecao.setModificado(false);
+        PastaCorrecao.getInstancia().setModificado(false);
     }
     
 }

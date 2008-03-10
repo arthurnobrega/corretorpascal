@@ -38,7 +38,7 @@ public class Aluno implements Serializable {
      */
     public void setFontes(ArquivoFonte[] fontes) {
         this.fontes = fontes;
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
     
     /**
@@ -61,7 +61,7 @@ public class Aluno implements Serializable {
      */
     public void addNotaQuestao(int notaQuestao) {
         this.notaQuestoes.add(new Integer(notaQuestao));
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
     
     /**
@@ -85,6 +85,6 @@ public class Aluno implements Serializable {
             //reinicia a contagem da nota de cada arquivo fonte do aluno.
             fonte.reiniciarContagem();
         }
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
 }

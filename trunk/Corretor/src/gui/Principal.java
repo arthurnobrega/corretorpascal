@@ -1,9 +1,11 @@
 package gui;
 
+import dados.Questao;
 import gui.modelos.KeyListenerJanela;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -266,7 +268,7 @@ public class Principal extends javax.swing.JFrame {
 
         menuFerramentas.add(itemEntradas);
 
-        itemNotas.setText("Notas das Quest\u00f5es");
+        itemNotas.setText("Propor\u00e7\u00e3o das Notas");
         javax.swing.ImageIcon iconNotas = new javax.swing.ImageIcon(Imagens.NOTAS);
         java.awt.Image imgNotas = iconNotas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
         itemNotas.setIcon(new javax.swing.ImageIcon(imgNotas));
@@ -391,7 +393,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemCopiaActionPerformed
 
     private void itemNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNotasActionPerformed
-        new NotasQuestoes(this).setVisible(true);
+        new NotasProporcao(this).setVisible(true);
     }//GEN-LAST:event_itemNotasActionPerformed
 
     private void btnCorrigirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorrigirActionPerformed
@@ -489,9 +491,9 @@ public class Principal extends javax.swing.JFrame {
                 gerSer.desserializar(diretorio);
                 if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6 });
-                    /*this.getContentPane().setVisible(false);
+                    this.getContentPane().setVisible(false);
                     this.setContentPane(new PastaCorrigida());
-                    this.getContentPane().setVisible(true);*/
+                    this.getContentPane().setVisible(true);
                 } else {
                     habilitarOpcoes(new int[] { 0, 1, 5, 6 });
                 }
@@ -546,17 +548,26 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void entradas() {
-        Testes ent = new Testes();
-        ent.setVisible(true);
-        this.getContentPane().setVisible(false);
-        if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
+        Testes testes = null;
+        if (!PastaCorrecao.getInstancia().getQuestoes().isEmpty()) {
+            testes = new Testes(this, (ArrayList<Questao>)PastaCorrecao.getInstancia().getQuestoes().clone());
+            testes.setVisible(true);
+        } else {
+            testes = new Testes(this);
+            testes.setVisible(true);
+        }
+        
+        if (!PastaCorrecao.getInstancia().getQuestoes().isEmpty()) {
             habilitarOpcoes(new int[] { 2, 3, 4 });
-            //this.setContentPane(new PastaCorrigida());
+            this.getContentPane().setVisible(false);
+            this.setContentPane(new PastaCorrigida());
+            this.getContentPane().setVisible(true);
         } else {
             desabilitarOpcoes(new int[] { 2, 3, 4 });
+            this.getContentPane().setVisible(false);
             this.setContentPane(new JPanel());
+            this.getContentPane().setVisible(true);
         }
-        this.getContentPane().setVisible(true);
     }
     
     private void corrigir() {

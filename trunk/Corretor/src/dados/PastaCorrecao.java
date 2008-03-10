@@ -43,7 +43,7 @@ public class PastaCorrecao implements Serializable {
      */
     public static PastaCorrecao getInstancia(File diretorio, Aluno[] alunos) {
         instancia = new PastaCorrecao(diretorio, alunos);
-        setModificado(true);
+        modificado = true;
         return instancia;
     }
     
@@ -59,7 +59,7 @@ public class PastaCorrecao implements Serializable {
         } else {
             instancia = null;
         }
-        setModificado(true);
+        modificado = true;
         return instancia;
     }
     
@@ -109,7 +109,7 @@ public class PastaCorrecao implements Serializable {
      * @param mod Um valor true, se o objeto foi modificado e um valor false
      * caso contrario.
      */
-    public static void setModificado(boolean mod) {
+    public void setModificado(boolean mod) {
         modificado = mod;
     }
 }

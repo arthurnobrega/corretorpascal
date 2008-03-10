@@ -115,7 +115,9 @@ public class Correcao {
                 saidas = new ArrayList<Saidas>();
                 for (int j = 0; j <= testes.size() - 1; j++) {
                     String textoSaida = arqFonte.corrigir(testes.get(j).getEntradaConcatenada());
-                    String textoRelatorio = arqFonte.testarGabarito(textoSaida, testes.get(j).getLinhasGabarito());
+                    Teste teste = testes.get(j);
+                    String textoRelatorio = arqFonte.testarGabarito(questoes.get(i).getTeste(j), textoSaida, teste.getLinhasGabarito(), 
+                            teste.getModeloLinhaGabarito());
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
                 }

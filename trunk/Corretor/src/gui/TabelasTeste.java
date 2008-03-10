@@ -6,7 +6,9 @@
 
 package gui;
 
-import dados.LinhaTeste;
+import dados.LinhaEntrada;
+import dados.LinhaGabarito;
+import dados.ModeloLinhaGabarito;
 import dados.Teste;
 import dados.PastaCorrecao;
 import dados.Questao;
@@ -16,11 +18,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FontMetrics;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Vector;
 import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -28,7 +35,9 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import logica.Utilitarios;
 
 /**
  *
@@ -47,6 +56,7 @@ public class TabelasTeste extends javax.swing.JDialog {
         initComponents();
         configurarTabela(tabEntradas);
         configurarTabela(tabGabaritos);
+        configurarCombo();
         Janelas.alinharContainer(this);
         this.addKeyListener(new KeyListenerJanela());
     }
@@ -58,41 +68,49 @@ public class TabelasTeste extends javax.swing.JDialog {
         initComponents();
         configurarTabela(tabEntradas);
         configurarTabela(tabGabaritos);
+        configurarCombo();
         Janelas.alinharContainer(this);
     }
     
     private void configurarTabela(JTable tabela) {
         DefaultTableModel model = (DefaultTableModel)tabela.getModel();
         
-        // Adiciona algumas colunas
         if (tabela == tabEntradas) {
-            model.addColumn("Entrada");
-            model.addColumn("Tipo");
-            int tam = esteTeste.getTamListaEntradas();
+            model.addColumn("String");
+            int tam = esteTeste.getNroLinhasEntradas();
             if (tam > 0) {
                 for (int i = 0; i <= tam - 1; i++) {
-                    LinhaTeste entrada = esteTeste.getEntrada(i);
-                    model.addRow((new Object[] {entrada.getValor(), entrada.getTipo()}));
+                    LinhaEntrada entrada = esteTeste.getEntrada(i);
+                    model.addRow((new Object[] {entrada.getValor()}));
                 }
+                btnExcluirLinEnt.setEnabled(true);
+            } else {
+                btnExcluirLinEnt.setEnabled(false);
             }
-        } else {
-            model.addColumn("Gabarito");
-            model.addColumn("Tipo");
-            int tam = esteTeste.getTamListaGabaritos();
-            if (tam > 0) {
-                for (int i = 0; i <= tam - 1; i++) {
-                    LinhaTeste gabarito = esteTeste.getGabarito(i);
-                    model.addRow((new Object[] {gabarito.getValor(), gabarito.getTipo()}));
+        } else  if (tabela == tabGabaritos) {
+            int nroLinhas = esteTeste.getNroLinhasGabaritos();
+            if (nroLinhas > 0) {
+                int nroColunas = esteTeste.getModeloLinhaGabarito().getNroColunas();
+                model.setColumnIdentifiers(esteTeste.getModeloLinhaGabarito().getColunas());
+                for (int i = 0; i <= nroLinhas - 1; i++) {
+                    LinhaGabarito linhaGabarito = esteTeste.getLinhaGabarito(i);
+                    model.addRow(linhaGabarito.getLinha());
                 }
+                btnExcluirLinGab.setEnabled(true);
+                btnExcluirColGab.setEnabled(true);
+            } else {
+                btnExcluirLinGab.setEnabled(false);
+                btnExcluirColGab.setEnabled(false);
             }
-            
         }
 
-        tabela.setRowHeight(20);
-        // Configura o combobox na primeira coluna visível
-        TableColumn col = tabela.getColumnModel().getColumn(1);
-        col.setCellEditor(new ComboBoxEditor(LinhaTeste.TIPOS));
-        col.setCellRenderer(new ComboBoxRenderer(LinhaTeste.TIPOS));
+        tabela.setRowHeight(22);
+    }
+    
+    private void configurarCombo() {
+        DefaultComboBoxModel modelColunas = new DefaultComboBoxModel(esteTeste.TIPOS);
+        cmbColunas.setModel(modelColunas);
+        cmbColunas.setSelectedIndex(0);
     }
     
     public Teste getTeste() {
@@ -108,14 +126,22 @@ public class TabelasTeste extends javax.swing.JDialog {
     private void initComponents() {
         jScrollPaneGab = new javax.swing.JScrollPane();
         tabGabaritos = new javax.swing.JTable();
-        btnInserirEnt = new javax.swing.JButton();
-        btnExcluirEnt = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
         jScrollPaneEnt = new javax.swing.JScrollPane();
         tabEntradas = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
-        btnInserirGab = new javax.swing.JButton();
-        btnExcluirGab = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        cmbColunas = new javax.swing.JComboBox();
+        btnExcluirColGab = new javax.swing.JButton();
+        btnInserirColGab = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnExcluirLinEnt = new javax.swing.JButton();
+        btnInserirLinEnt = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        btnExcluirLinGab = new javax.swing.JButton();
+        btnInserirLinGab = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         tabGabaritos.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,20 +153,6 @@ public class TabelasTeste extends javax.swing.JDialog {
             }
         ));
         jScrollPaneGab.setViewportView(tabGabaritos);
-
-        btnInserirEnt.setIcon(new javax.swing.ImageIcon("imagens\\adicionar.png"));
-        btnInserirEnt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInserirEntActionPerformed(evt);
-            }
-        });
-
-        btnExcluirEnt.setIcon(new javax.swing.ImageIcon("imagens\\remover.png"));
-        btnExcluirEnt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirEntActionPerformed(evt);
-            }
-        });
 
         btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -166,19 +178,127 @@ public class TabelasTeste extends javax.swing.JDialog {
             }
         });
 
-        btnInserirGab.setIcon(new javax.swing.ImageIcon("imagens\\adicionar.png"));
-        btnInserirGab.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 14));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Gabarito");
+
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Entrada");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Coluna"));
+
+        btnExcluirColGab.setIcon(new javax.swing.ImageIcon("imagens\\remover.png"));
+        btnExcluirColGab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInserirGabActionPerformed(evt);
+                btnExcluirColGabActionPerformed(evt);
             }
         });
 
-        btnExcluirGab.setIcon(new javax.swing.ImageIcon("imagens\\remover.png"));
-        btnExcluirGab.addActionListener(new java.awt.event.ActionListener() {
+        btnInserirColGab.setIcon(new javax.swing.ImageIcon("imagens\\adicionar.png"));
+        btnInserirColGab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirGabActionPerformed(evt);
+                btnInserirColGabActionPerformed(evt);
             }
         });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, cmbColunas, 0, 100, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                .add(btnInserirColGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnExcluirColGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel1Layout.linkSize(new java.awt.Component[] {btnExcluirColGab, btnInserirColGab}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(cmbColunas, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(13, 13, 13)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnExcluirColGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(btnInserirColGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        jPanel1Layout.linkSize(new java.awt.Component[] {btnExcluirColGab, btnInserirColGab}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Linha"));
+        btnExcluirLinEnt.setIcon(new javax.swing.ImageIcon("imagens\\remover.png"));
+        btnExcluirLinEnt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirLinEntActionPerformed(evt);
+            }
+        });
+
+        btnInserirLinEnt.setIcon(new javax.swing.ImageIcon("imagens\\adicionar.png"));
+        btnInserirLinEnt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirLinEntActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(btnInserirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnExcluirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+        );
+
+        jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(btnExcluirLinEnt)
+                .add(btnInserirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Linha"));
+        btnExcluirLinGab.setIcon(new javax.swing.ImageIcon("imagens\\remover.png"));
+        btnExcluirLinGab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirLinGabActionPerformed(evt);
+            }
+        });
+
+        btnInserirLinGab.setIcon(new javax.swing.ImageIcon("imagens\\adicionar.png"));
+        btnInserirLinGab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirLinGabActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3Layout.createSequentialGroup()
+                .add(btnInserirLinGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnExcluirLinGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .add(20, 20, 20))
+        );
+
+        jPanel3Layout.linkSize(new java.awt.Component[] {btnExcluirLinGab, btnInserirLinGab}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(btnInserirLinGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(btnExcluirLinGab))
+        );
+
+        jPanel3Layout.linkSize(new java.awt.Component[] {btnExcluirLinGab, btnInserirLinGab}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,81 +307,64 @@ public class TabelasTeste extends javax.swing.JDialog {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jScrollPaneGab, 0, 397, Short.MAX_VALUE)
-                            .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(btnExcluirGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(btnInserirGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
-                            .add(btnExcluirEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnInserirEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(btnCancelar)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 296, Short.MAX_VALUE)
-                        .add(btnConfirmar)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 382, Short.MAX_VALUE)
+                        .add(btnConfirmar))
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(jPanel3, 0, 112, Short.MAX_VALUE)
+                            .add(jPanel1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        layout.linkSize(new java.awt.Component[] {btnExcluirEnt, btnExcluirGab, btnInserirEnt, btnInserirGab}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[] {jPanel1, jPanel2, jPanel3}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        layout.linkSize(new java.awt.Component[] {jLabel1, jLabel2}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(btnInserirEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnExcluirEnt))
-                    .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
+                .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(btnInserirGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnExcluirGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(jLabel1))
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnConfirmar)
                     .add(btnCancelar))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {btnExcluirEnt, btnExcluirGab, btnInserirEnt, btnInserirGab}, org.jdesktop.layout.GroupLayout.VERTICAL);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        esteTeste = new Teste();
-        
-        ArrayList<LinhaTeste> entradas = new ArrayList<LinhaTeste>();
-        int nroLinhas = tabEntradas.getModel().getRowCount();
-        for (int i = 0; i <= nroLinhas - 1; i++) {
-            String valor = (String) tabEntradas.getValueAt(i, 0);
-            String tipo = (String) tabEntradas.getValueAt(i, 1);
-            LinhaTeste entrada = new LinhaTeste(valor, tipo);
-            entradas.add(entrada);
-        }
-        
-        ArrayList<LinhaTeste> gabaritos = new ArrayList<LinhaTeste>();
-        nroLinhas = tabGabaritos.getModel().getRowCount();
-        for (int i = 0; i <= nroLinhas - 1; i++) {            
-            String valor = (String) tabGabaritos.getValueAt(i, 0);
-            String tipo = (String) tabGabaritos.getValueAt(i, 1);
-            LinhaTeste gabarito = new LinhaTeste(valor,tipo);
-            gabaritos.add(gabarito);
-        }
-        
-        esteTeste.setLinhasEntrada(entradas);
-        esteTeste.setLinhasGabarito(gabaritos);
-        this.dispose();
-    }//GEN-LAST:event_btnConfirmarActionPerformed
+    private void btnInserirLinGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirLinGabActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tabGabaritos.getModel();
+        model.addRow(new Object[] {""});
+        tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
+        btnExcluirLinGab.setEnabled(true);
+    }//GEN-LAST:event_btnInserirLinGabActionPerformed
 
-    private void btnExcluirGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirGabActionPerformed
+    private void btnExcluirLinGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirLinGabActionPerformed
         int[] selecionadas = tabGabaritos.getSelectedRows();
         DefaultTableModel model = (DefaultTableModel)tabGabaritos.getModel();
         int tam = selecionadas.length;
@@ -272,25 +375,76 @@ public class TabelasTeste extends javax.swing.JDialog {
         if (model.getRowCount() > 0) {
             tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
         } else {
-            btnExcluirGab.setEnabled(false);
+            btnExcluirLinGab.setEnabled(false);
         }
-    }//GEN-LAST:event_btnExcluirGabActionPerformed
+    }//GEN-LAST:event_btnExcluirLinGabActionPerformed
 
-    private void btnInserirGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirGabActionPerformed
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        esteTeste = new Teste();
+        
+        ArrayList<LinhaEntrada> entradas = new ArrayList<LinhaEntrada>();
+        int nroLinhasEnt = tabEntradas.getModel().getRowCount();
+        for (int i = 0; i <= nroLinhasEnt - 1; i++) {
+            String valor = (String) tabEntradas.getValueAt(i, 0);
+            LinhaEntrada entrada = new LinhaEntrada(valor);
+            entradas.add(entrada);
+        }
+        
+        int nroColunas = tabGabaritos.getColumnCount();
+        String[] colunas = new String[nroColunas];
+        for (int i = 0; i <= nroColunas - 1; i++) {
+            colunas[i] = tabGabaritos.getModel().getColumnName(i);
+        }
+        
+        ArrayList<LinhaGabarito> gabaritos = new ArrayList<LinhaGabarito>();
+        int nroLinhasGab = tabGabaritos.getModel().getRowCount();
+        for (int i = 0; i <= nroLinhasGab - 1; i++) {
+            String linha[] = new String[nroColunas];
+            for (int j = 0; j <= nroColunas - 1; j++) {
+                String valor = (String) tabGabaritos.getValueAt(i, j);
+                linha[j] = valor;
+            }
+            LinhaGabarito gabarito = new LinhaGabarito(linha);
+            gabaritos.add(gabarito);
+        }
+        
+        esteTeste.setLinhasEntrada(entradas);
+        esteTeste.setLinhasGabarito(gabaritos);
+        esteTeste.setModeloLinhaGabarito(new ModeloLinhaGabarito(colunas));
+        
+        this.dispose();
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnExcluirColGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirColGabActionPerformed
+        int[] selecionadas = tabGabaritos.getSelectedColumns();
+        TableColumnModel modeloColuna = tabGabaritos.getColumnModel();
+        int tam = selecionadas.length;
+        for (int i = tam - 1; i >= 0; i--) {
+            TableColumn col = modeloColuna.getColumn(selecionadas[i]);
+            modeloColuna.removeColumn(col);
+        }
+        if (tabGabaritos.getColumnModel().getColumnCount() > 1) {
+            tabGabaritos.getColumnModel().getSelectionModel().setSelectionInterval(0,0);
+        } else {
+            btnExcluirColGab.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnExcluirColGabActionPerformed
+
+    private void btnInserirColGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirColGabActionPerformed
         DefaultTableModel model = (DefaultTableModel)tabGabaritos.getModel();
-        model.addRow(new Object[] {"", "String"});
+        model.addColumn(cmbColunas.getSelectedItem());
         tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
-        btnExcluirGab.setEnabled(true);
-    }//GEN-LAST:event_btnInserirGabActionPerformed
+        btnExcluirColGab.setEnabled(true);
+    }//GEN-LAST:event_btnInserirColGabActionPerformed
 
-    private void btnInserirEntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirEntActionPerformed
+    private void btnInserirLinEntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirLinEntActionPerformed
         DefaultTableModel model = (DefaultTableModel)tabEntradas.getModel();
-        model.addRow(new Object[] {"", "String"});
+        model.addRow(new Object[] {""});
         tabEntradas.getSelectionModel().setSelectionInterval(0,0);
-        btnExcluirEnt.setEnabled(true);
-    }//GEN-LAST:event_btnInserirEntActionPerformed
+        btnExcluirLinEnt.setEnabled(true);
+    }//GEN-LAST:event_btnInserirLinEntActionPerformed
 
-    private void btnExcluirEntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEntActionPerformed
+    private void btnExcluirLinEntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirLinEntActionPerformed
         int[] selecionadas = tabEntradas.getSelectedRows();
         DefaultTableModel model = (DefaultTableModel)tabEntradas.getModel();
         int tam = selecionadas.length;
@@ -301,9 +455,9 @@ public class TabelasTeste extends javax.swing.JDialog {
         if (model.getRowCount() > 0) {
             tabEntradas.getSelectionModel().setSelectionInterval(0,0);
         } else {
-            btnExcluirEnt.setEnabled(false);
+            btnExcluirLinEnt.setEnabled(false);
         }
-    }//GEN-LAST:event_btnExcluirEntActionPerformed
+    }//GEN-LAST:event_btnExcluirLinEntActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
@@ -312,41 +466,22 @@ public class TabelasTeste extends javax.swing.JDialog {
     // Declaração de variáveis - não modifique//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton btnExcluirEnt;
-    private javax.swing.JButton btnExcluirGab;
-    private javax.swing.JButton btnInserirEnt;
-    private javax.swing.JButton btnInserirGab;
+    private javax.swing.JButton btnExcluirColGab;
+    private javax.swing.JButton btnExcluirLinEnt;
+    private javax.swing.JButton btnExcluirLinGab;
+    private javax.swing.JButton btnInserirColGab;
+    private javax.swing.JButton btnInserirLinEnt;
+    private javax.swing.JButton btnInserirLinGab;
+    private javax.swing.JComboBox cmbColunas;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPaneEnt;
     private javax.swing.JScrollPane jScrollPaneGab;
     private javax.swing.JTable tabEntradas;
     private javax.swing.JTable tabGabaritos;
     // Fim da declaração de variáveis//GEN-END:variables
-    
-    class ComboBoxRenderer extends JComboBox implements TableCellRenderer {
-        public ComboBoxRenderer(String[] items) {
-            super(items);
-        }    
 
-        public Component getTableCellRendererComponent(JTable table, 
-              Object value, boolean isSelected, boolean hasFocus, int row,
-              int column) {
-            
-            if (isSelected) {
-                setForeground(table.getSelectionForeground());
-                super.setBackground(table.getSelectionBackground());
-            } else {
-                setForeground(table.getForeground());
-                setBackground(table.getBackground());
-            }    
-
-            setSelectedItem(value);
-            return this;
-        }
-    }    
-
-    class ComboBoxEditor extends DefaultCellEditor {
-        public ComboBoxEditor(String[] items) {
-            super(new JComboBox(items));
-        }
-    }
 }
