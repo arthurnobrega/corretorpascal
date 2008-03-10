@@ -42,9 +42,7 @@ public class TextoNumeros extends JTextField {
         for (int i = 0; i <= texto.length() - 1; i++) {
             String letra = "" + texto.charAt(i);
             if ("0123456789".contains(letra)) {
-                if (!((numeros.length() == 0) && (letra.equals("0")))) {
-                    numeros += letra;
-                }
+                numeros += letra;
             }
         }
         super.setText(numeros);
@@ -67,9 +65,7 @@ public class TextoNumeros extends JTextField {
             for (int i = 0; i <= texto.length() - 1; i++) {
                 String letra = "" + texto.charAt(i);
                 if ("0123456789".contains(letra)) {
-                    if (!((numeros.length() == 0) && (letra.equals("0")))) {
-                        numeros += letra;
-                    }
+                    numeros += letra;
                 }
             }
             jtext.setText(numeros);

@@ -17,38 +17,45 @@ import logica.GerenciaTestes;
 import logica.Arquivos;
 import dados.Teste;
 import dados.PastaCorrecao;
+import logica.Utilitarios;
 
 /**
  *
  * @author  UltraXP
  */
-public class Testes extends javax.swing.JFrame {
+public class Testes extends javax.swing.JDialog {
     
-    private File diretorio = PastaCorrecao.getInstancia().getDiretorio();
     private ArrayList<Questao> questoes = null;
     
     /** Creates new form Entradas */
-    public Testes() {
-        super("Testes dos programas");
-        this.diretorio = diretorio;
+    public Testes(Principal pai) {
+        super(pai, "Testes dos programas", true);
         this.questoes = new ArrayList<Questao>();
         initComponents();
         Janelas.alinharContainer(this);
         btnAdicionar.setEnabled(false);
         btnRemover.setEnabled(false);
         btnEditar.setEnabled(false);
+        this.addKeyListener(new KeyListenerJanela());
+    }
+    
+    public Testes(Principal pai, ArrayList<Questao> questoes) {
+        super(pai, "Testes dos programas", true);
+        this.questoes = questoes;
+        initComponents();
         iniciarListas();
+        Janelas.alinharContainer(this);
         this.addKeyListener(new KeyListenerJanela());
     }
     
     private void iniciarListas() {
-        if (!PastaCorrecao.getInstancia().getQuestoes().isEmpty()) {
-            questoes = (ArrayList<Questao>) PastaCorrecao.getInstancia().getQuestoes().clone();
+        if (!questoes.isEmpty()) {
             GerenciaTestes ger = new GerenciaTestes(questoes);
             listaQuestoes.setListData(ger.getVetorQuestoes());
             listaQuestoes.setSelectedIndex(0);
             
             listaTestes.setListData(ger.getVetorTestes(listaQuestoes.getSelectedIndex()));
+            btnAdicionar.setEnabled(false);
             if (listaTestes.getModel().getSize() > 0) { 
                 listaTestes.setSelectedIndex(0);
                 
@@ -221,12 +228,13 @@ public class Testes extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int testeSelecionado = listaTestes.getSelectedIndex();
         Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
-        TabelasTeste tab = new TabelasTeste(this, testeSelecionado, questao.getTeste(testeSelecionado));
+        TabelasTeste tab = new TabelasTeste(null, testeSelecionado, questao.getTeste(testeSelecionado));
         tab.setVisible(true);
         questao.editarTeste(testeSelecionado, tab.getTeste());
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        questoes = null;
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -235,6 +243,8 @@ public class Testes extends javax.swing.JFrame {
             int numeroQuestoes = Integer.parseInt(txtNroQuestoes.getText());
             if (numeroQuestoes == 0) {
                 questoes.clear();
+                listaQuestoes.setListData(new Object[0]);
+                listaTestes.setListData(new Object[0]);
                 btnAdicionar.setEnabled(false);
                 btnRemover.setEnabled(false);
                 btnEditar.setEnabled(false);
@@ -285,8 +295,7 @@ public class Testes extends javax.swing.JFrame {
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         int testeSelecionado = listaTestes.getSelectedIndex();
         int questaoSelecionada = listaQuestoes.getSelectedIndex();
-        questoes.get(questaoSelecionada).removerTeste(testeSelecionado);
-        
+        questoes.get(questaoSelecionada).removerTeste(testeSelecionado);        
         GerenciaTestes ger = new GerenciaTestes(questoes);
         listaTestes.setListData(ger.getVetorTestes(questaoSelecionada));
         if (listaTestes.getModel().getSize() == 0) {
@@ -298,6 +307,22 @@ public class Testes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        int nroQuestoes = questoes.size();
+        GerenciaTestes ger = new GerenciaTestes(questoes);
+        
+        /* Faz o cálculo das notas padrões máximas das questões e dos testes. */
+        int[] notasQuestoes = Utilitarios.calcularNotas(nroQuestoes);
+        for (int i = 0; i <= nroQuestoes - 1; i++) {
+            int nroTestes = ger.getVetorTestes(i).length;
+            int[] notasTestes = Utilitarios.calcularNotas(nroTestes);
+            questoes.get(i).setNotaMax(notasQuestoes[i]);
+            if (notasTestes != null) {
+                for (int j = 0; j <= nroTestes - 1; j++) {
+                    questoes.get(i).getTeste(j).setNotaMax(notasTestes[j]);
+                }
+            }
+        }
+        
         PastaCorrecao.getInstancia().setQuestoes(questoes);
         JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
@@ -306,7 +331,7 @@ public class Testes extends javax.swing.JFrame {
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
         questao.adicionarTeste();
-        TabelasTeste tab = new TabelasTeste(this, listaTestes.getModel().getSize());
+        TabelasTeste tab = new TabelasTeste((java.awt.Frame)this.getParent(), listaTestes.getModel().getSize());
         tab.setVisible(true);
         questao.editarTeste(listaTestes.getModel().getSize(), tab.getTeste());
         GerenciaTestes ger = new GerenciaTestes(questoes);

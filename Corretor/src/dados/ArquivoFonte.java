@@ -49,7 +49,7 @@ public class ArquivoFonte implements Serializable {
      */
     public void setErroCompilacao(boolean erroCompilacao) {
         this.erroCompilacao = erroCompilacao;
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
     
     /**
@@ -65,7 +65,7 @@ public class ArquivoFonte implements Serializable {
      */
     public void setSaidas(ArrayList<Saidas> saidas) {
         this.saidas = saidas;
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
     
     /**
@@ -81,7 +81,7 @@ public class ArquivoFonte implements Serializable {
      * Adiciona uma nota para este arquivo fonte. Lembrando que o índice da nota
      * está ligado diretamente à ordem das entradas fornecidas.
      */    
-    public void addNota(int nota) {
+    public void adicionarNota(int nota) {
         notas.add(new Integer(nota));
     }
     
@@ -120,59 +120,70 @@ public class ArquivoFonte implements Serializable {
      * @param saida A saida que se deseja testar com o gabarito.
      * @param gabarito O gabarito para se testar a saida.
      */
-    public String testarGabarito(String saida, ArrayList<LinhaTeste> gabaritos) {
+    public String testarGabarito(Teste teste, String saida, ArrayList<LinhaGabarito> linhasGabarito, ModeloLinhaGabarito modeloLinhaGabarito) {
         String relatorio = new String();
-        String[] linhasSaida = saida.split("\n");
-        int nroSaida = linhasSaida.length;
-        int nroGabarito = gabaritos.size();
-        int limite = 0;
+        String[] linhasSaida = null;
+        int limiteLinhas = 0;
         int nroAcertos = 0;
         int nota = 0;
+        ArrayList<Integer> colunasErradas = new ArrayList<Integer>();
         
-        limite = nroGabarito;
+        linhasSaida = saida.split("\n");
         
-        if (nroSaida < nroGabarito) {
-            limite = nroSaida;
+        limiteLinhas = linhasGabarito.size();
+        if (linhasSaida.length < linhasGabarito.size()) {
+            limiteLinhas = linhasSaida.length;
         }
         
-        for (int i = 0; i <= limite - 1; i++) {
-            String tipo = gabaritos.get(i).getTipo();
-            if (tipo.equals(LinhaTeste.TIPOS[0])) { //String
-                if (Utilitarios.compararStrings(linhasSaida[i], gabaritos.get(i).getValor())) {
-                    relatorio += "Acertou a linha " + (i + 1) + "\n";
-                    nroAcertos += 1;
-                } else {
-                    relatorio += "Errou a linha " + (i + 1) + "\n";
-                }
-            } else if (tipo.equals(LinhaTeste.TIPOS[1])) { //Inteiro
-                if (Utilitarios.compararInteiros(linhasSaida[i], gabaritos.get(i).getValor())) {
-                    relatorio += "Acertou a linha " + (i + 1) + "\n";
-                    nroAcertos += 1;
-                } else {
-                    relatorio += "Errou a linha " + (i + 1) + "\n";
-                }
-            } else if (tipo.equals(LinhaTeste.TIPOS[2])) { //Real
-                if (Utilitarios.compararReais(linhasSaida[i], gabaritos.get(i).getValor())) {
-                    relatorio += "Acertou a linha " + (i + 1) + "\n";
-                    nroAcertos += 1;
-                } else {
-                    relatorio += "Errou a linha " + (i + 1) + "\n";
+        for (int i = 0; i <= limiteLinhas - 1; i++) {
+            int limiteColunas = 0;
+            String[] colunasLinha = null;
+            
+            colunasErradas.clear();
+            
+            colunasLinha = linhasSaida[i].split(" ");
+            colunasLinha = Utilitarios.retirarElementosNulos(colunasLinha);
+            
+            limiteColunas = modeloLinhaGabarito.getNroColunas();
+            if (colunasLinha.length < modeloLinhaGabarito.getNroColunas()) {
+                limiteColunas = colunasLinha.length;
+            }
+            for (int j = 0; j <= limiteColunas - 1; j++) {
+                String tipo = modeloLinhaGabarito.getColuna(j);
+                if (tipo.equals("String")) { //String
+                    if (!Utilitarios.compararStrings(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
+                        colunasErradas.add(new Integer(j));
+                    }
+                } else if (tipo.equals("Inteiro")) { //Inteiro
+                    if (!Utilitarios.compararInteiros(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
+                        colunasErradas.add(new Integer(j));
+                    }
+                } else if (tipo.equals("Real")) { //Real
+                    if (!Utilitarios.compararReais(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
+                        colunasErradas.add(new Integer(j));
+                    }
                 }
             }
-            
-            relatorio += "          Gabarito: (" + gabaritos.get(i).getValor() +
-                    ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
+            if (colunasErradas.isEmpty()) {
+                relatorio += "Acertou a linha " + (i + 1) + "\n" + 
+                        "          Gabarito: (" + linhasGabarito.get(i).getLinhaString() +
+                        ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
+                nroAcertos++;
+            } else {
+                relatorio += "Errou a linha " + (i + 1) + "\n" +
+                        "          Gabarito: (" + linhasGabarito.get(i).getLinhaString() +
+                        ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
+            }
         }
         
-        if (nroAcertos == nroGabarito) {
+        if (nroAcertos == linhasGabarito.size()) {
             nota = 100;
         } else {
             nota = 0;
         }
-        //nota = (int) (100 * ((double)nroAcertos / (double)nroGabarito));
         relatorio += "\nNota (0 ou 100)%: " + nota;
-        this.addNota(nota);
-        PastaCorrecao.setModificado(true);
+        this.adicionarNota((nota / teste.getNotaMax()) * 100);
+        PastaCorrecao.getInstancia().setModificado(true);
         return relatorio;
     }
     
@@ -192,7 +203,7 @@ public class ArquivoFonte implements Serializable {
         saidas.clear();
         notas.clear();
         tempoExecucao.clear();
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
     
 }

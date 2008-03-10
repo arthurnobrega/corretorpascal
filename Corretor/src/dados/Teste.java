@@ -9,29 +9,41 @@ import java.util.ArrayList;
  */
 public class Teste implements Serializable {
     
-    private ArrayList<LinhaTeste> entradas = null;
-    private ArrayList<LinhaTeste> gabaritos = null;
+    public static final String TIPOS[] = {"String", "Inteiro", "Real"};
+    
+    private ArrayList<LinhaEntrada> entradas = null;
+    private ArrayList<LinhaGabarito> gabaritos = null;
+    private ModeloLinhaGabarito modeloLinhaGabarito = null;
+    private int notaMax = 0;
     
     /** 
      * Cria uma nova instância da classe ListaIO. 
      */
     public Teste() {
-        entradas = new ArrayList<LinhaTeste>();
-        gabaritos = new ArrayList<LinhaTeste>();
+        entradas = new ArrayList<LinhaEntrada>();
+        gabaritos = new ArrayList<LinhaGabarito>();
+    }
+    
+    public ModeloLinhaGabarito getModeloLinhaGabarito() {
+        return modeloLinhaGabarito;
+    }
+    
+    public void setModeloLinhaGabarito(ModeloLinhaGabarito modeloLinhaGabarito) {
+        this.modeloLinhaGabarito = modeloLinhaGabarito;
     }
     
     /**
      * Retorna a entrada com o índice informada.
      * @param indice O índice da entrada que se deseja ter acesso.
      */
-    public LinhaTeste getEntrada(int indice) {
+    public LinhaEntrada getEntrada(int indice) {
         if (indice >= 0) {
             return entradas.get(indice);
         }
             return null;
     }
     
-    public void setLinhasEntrada(ArrayList<LinhaTeste> entradas) {
+    public void setLinhasEntrada(ArrayList<LinhaEntrada> entradas) {
         this.entradas = entradas;
     }
     
@@ -47,29 +59,29 @@ public class Teste implements Serializable {
      * Retorna o gabarito com o índice informada.
      * @param indice O índice do gabarito que se deseja ter acesso.
      */
-    public LinhaTeste getGabarito(int indice) {
+    public LinhaGabarito getLinhaGabarito(int indice) {
         if (indice >= 0) {
             return gabaritos.get(indice);
         }
         return null;
     }
     
-    public void setLinhasGabarito(ArrayList<LinhaTeste> gabaritos) {
+    public void setLinhasGabarito(ArrayList<LinhaGabarito> gabaritos) {
         this.gabaritos = gabaritos;
     }
     
-    public ArrayList<LinhaTeste> getLinhasGabarito() {
+    public ArrayList<LinhaGabarito> getLinhasGabarito() {
         return gabaritos;
     }
     
     /**
      * Retorna o tamanho da lista de Entradas/Gabaritos.
      */
-    public int getTamListaEntradas() {
+    public int getNroLinhasEntradas() {
         return entradas.size();
     }
     
-    public int getTamListaGabaritos() {
+    public int getNroLinhasGabaritos() {
         return gabaritos.size();
     }
     
@@ -79,6 +91,20 @@ public class Teste implements Serializable {
     public void limparLinhasTestes() {
         entradas.clear();
         gabaritos.clear();
+    }
+    
+    /**
+     * Retorna a nota máxima que este teste pode ter.
+     */
+    public int getNotaMax() {
+        return notaMax;
+    }
+    
+    /**
+     * Seta a nota máxima que esta teste pode ter.
+     */
+    public void setNotaMax(int notaTeste) {
+        this.notaMax = notaTeste;
     }
     
 }

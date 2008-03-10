@@ -6,6 +6,7 @@ import dados.PastaCorrecao;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Classe que guarda métodos Utilitários que serão utilizados no decorrer do
@@ -67,6 +68,42 @@ public abstract class Utilitarios {
             }
         }
         return false;
+    }
+    
+    public static String[] retirarElementosNulos(String[] vetor) {
+        ArrayList<String> lista = new ArrayList<String>();
+        for (String el : vetor) {
+            if (!el.equals("")) {
+                lista.add(el);
+            }
+        }
+        return (String[]) lista.toArray(new String[0]);
+    }
+    
+    public static int[] calcularNotas(int tamVetor) {
+        int notas[] = null;
+        if (tamVetor > 0) {
+            notas = new int[tamVetor];
+            int notaDividida = 100 / tamVetor;
+            int mult = notaDividida * tamVetor;
+            for (int i = 0; i <= tamVetor - 1; i++) {
+                notas[i] = notaDividida;
+            }
+            if (mult != 100) {
+                int i = 0, nroIndices = notas.length;
+                int resto = 100 - mult;
+                while(resto != 0) {
+                    notas[i] += 1;
+                    resto--;
+                    if (i < nroIndices) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                }
+            }
+        }
+        return notas;
     }
     
 }

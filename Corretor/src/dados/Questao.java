@@ -67,7 +67,7 @@ public class Questao implements Serializable {
      */
     public void setNotaMax(int notaQuestao) {
         this.notaMax = notaQuestao;
-        PastaCorrecao.setModificado(true);
+        PastaCorrecao.getInstancia().setModificado(true);
     }
     
 }

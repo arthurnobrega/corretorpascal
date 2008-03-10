@@ -88,7 +88,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemNotas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Notas das Quest&#xf5;es"/>
+                <Property name="text" type="java.lang.String" value="Propor&#xe7;&#xe3;o das Notas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNotasActionPerformed"/>
