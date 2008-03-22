@@ -318,7 +318,7 @@ public class Testes extends javax.swing.JDialog {
             questoes.get(i).setNotaMax(notasQuestoes[i]);
             if (notasTestes != null) {
                 for (int j = 0; j <= nroTestes - 1; j++) {
-                    questoes.get(i).getTeste(j).setNotaMax(notasTestes[j]);
+                    questoes.get(i).getTeste(j).setPorcentagemNotaMax(notasTestes[j]);
                 }
             }
         }

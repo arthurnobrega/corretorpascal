@@ -4,6 +4,7 @@ import dados.Aluno;
 import dados.PastaCorrecao;
 import gui.modelos.EditorTexto;
 import gui.modelos.KeyListenerJanela;
+import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
@@ -17,8 +18,8 @@ import logica.Utilitarios;
  */
 public class PastaCorrigida extends javax.swing.JPanel {
     
-    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
-    Aluno[] alunos = null;
+    private PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
+    private Aluno[] alunos = null;
     
     /** Creates new form PainelLista */
     public PastaCorrigida() {
@@ -62,7 +63,7 @@ public class PastaCorrigida extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane = new javax.swing.JScrollPane();
         txtFonte = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         cmbQuestao = new javax.swing.JComboBox();
@@ -78,25 +79,22 @@ public class PastaCorrigida extends javax.swing.JPanel {
         jPanel3.add(jLabel1, new java.awt.GridBagConstraints());
 
         txtFonte.setColumns(20);
-        txtFonte.setEditable(false);
         txtFonte.setRows(5);
-        jScrollPane2.setViewportView(txtFonte);
+        jScrollPane.setViewportView(txtFonte);
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(10, 10, 10)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+            .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+            .add(jScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                .add(jScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
         );
         jSplitPane.setRightComponent(jPanel2);
 
@@ -187,8 +185,8 @@ public class PastaCorrigida extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane;
     private javax.swing.JList listaAlunos;
     private javax.swing.JTextArea txtFonte;

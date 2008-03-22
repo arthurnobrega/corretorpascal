@@ -14,7 +14,7 @@ public class Teste implements Serializable {
     private ArrayList<LinhaEntrada> entradas = null;
     private ArrayList<LinhaGabarito> gabaritos = null;
     private ModeloLinhaGabarito modeloLinhaGabarito = null;
-    private int notaMax = 0;
+    private double porcentagemNota = 0;
     
     /** 
      * Cria uma nova instância da classe ListaIO. 
@@ -96,15 +96,15 @@ public class Teste implements Serializable {
     /**
      * Retorna a nota máxima que este teste pode ter.
      */
-    public int getNotaMax() {
-        return notaMax;
+    public double getPorcentagemNotaMax() {
+        return porcentagemNota;
     }
     
     /**
      * Seta a nota máxima que esta teste pode ter.
      */
-    public void setNotaMax(int notaTeste) {
-        this.notaMax = notaTeste;
+    public void setPorcentagemNotaMax(double porcentagemNota) {
+        this.porcentagemNota = porcentagemNota;
     }
     
 }

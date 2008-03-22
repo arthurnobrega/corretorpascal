@@ -15,7 +15,7 @@ public class ArquivoFonte implements Serializable {
     private boolean erroCompilacao = false;
     private File arquivo = null;
     private ArrayList<Saidas> saidas = null;
-    private ArrayList<Integer> notas = null;
+    private ArrayList<Double> notas = null;
     private ArrayList<Long> tempoExecucao = null;
     
     /**
@@ -24,7 +24,7 @@ public class ArquivoFonte implements Serializable {
      */
     public ArquivoFonte(File arquivo) {
         this.arquivo = arquivo;
-        notas = new ArrayList<Integer>();
+        notas = new ArrayList<Double>();
         saidas = new ArrayList<Saidas>();
         tempoExecucao = new ArrayList<Long>();
     }
@@ -72,8 +72,12 @@ public class ArquivoFonte implements Serializable {
      * Retorna a nota de uma determinada entrada para este arquivo fonte.
      * @param indice O índice da nota que se quer ter acesso.
      */
-    public int getNota(int indice) {
-        return notas.get(indice).intValue();
+    public double getPorcentagem(int indice) {
+        return notas.get(indice).doubleValue();
+    }
+    
+    public ArrayList<Double> getPorcentagens() {
+        return notas;
     }
     
     
@@ -81,19 +85,19 @@ public class ArquivoFonte implements Serializable {
      * Adiciona uma nota para este arquivo fonte. Lembrando que o índice da nota
      * está ligado diretamente à ordem das entradas fornecidas.
      */    
-    public void adicionarNota(int nota) {
-        notas.add(new Integer(nota));
+    public void adicionarPorcentagem(double nota) {
+        notas.add(new Double(nota));
     }
     
     /**
      * Retorna a nota total deste arquivo fonte que é a soma das notas dividida
      * pelo número delas. 
      */
-    public int getNotaTotal() {
-        int somaNotas = 0;
+    public double getPorcentagemTotal() {
+        double somaNotas = 0;
         int nroNotas = notas.size();
         for (int i = 0; i <= nroNotas - 1; i++) {
-            somaNotas += notas.get(i).intValue();
+            somaNotas += notas.get(i).doubleValue();
         }
         return somaNotas/nroNotas;
     }
@@ -120,7 +124,9 @@ public class ArquivoFonte implements Serializable {
      * @param saida A saida que se deseja testar com o gabarito.
      * @param gabarito O gabarito para se testar a saida.
      */
-    public String testarGabarito(Teste teste, String saida, ArrayList<LinhaGabarito> linhasGabarito, ModeloLinhaGabarito modeloLinhaGabarito) {
+    public String testarGabarito(Teste teste, String saida) {
+        ArrayList<LinhaGabarito> linhasGabarito = teste.getLinhasGabarito();
+        ModeloLinhaGabarito modeloLinhaGabarito = teste.getModeloLinhaGabarito();
         String relatorio = new String();
         String[] linhasSaida = null;
         int limiteLinhas = 0;
@@ -182,7 +188,7 @@ public class ArquivoFonte implements Serializable {
             nota = 0;
         }
         relatorio += "\nNota (0 ou 100)%: " + nota;
-        this.adicionarNota((nota / teste.getNotaMax()) * 100);
+        this.adicionarPorcentagem(nota);
         PastaCorrecao.getInstancia().setModificado(true);
         return relatorio;
     }

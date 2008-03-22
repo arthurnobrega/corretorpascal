@@ -110,19 +110,21 @@ public class Correcao {
         for (int i = 0; i <= limite - 1; i++) {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
+            ArrayList<Double> pesos = arqFonte.getPorcentagens();
+            double notaMax = PastaCorrecao.getInstancia().getQuestoes().get(i).getNotaMax();
             if (arqFonte != null) {
                 ArrayList<Teste> testes = questoes.get(i).getTestes();
                 saidas = new ArrayList<Saidas>();
+                double notaFinal = 0;
                 for (int j = 0; j <= testes.size() - 1; j++) {
-                    String textoSaida = arqFonte.corrigir(testes.get(j).getEntradaConcatenada());
                     Teste teste = testes.get(j);
-                    String textoRelatorio = arqFonte.testarGabarito(questoes.get(i).getTeste(j), textoSaida, teste.getLinhasGabarito(), 
-                            teste.getModeloLinhaGabarito());
+                    String textoSaida = arqFonte.corrigir(teste.getEntradaConcatenada());
+                    String textoRelatorio = arqFonte.testarGabarito(teste, textoSaida);
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);
+                    notaFinal += (pesos.get(j).intValue() * (notaMax * teste.getPorcentagemNotaMax())) / 10000;
                 }
-                int notaMax = PastaCorrecao.getInstancia().getQuestoes().get(i).getNotaMax();
-                aluno.addNotaQuestao((int) (arqFonte.getNotaTotal() * notaMax) / 100);
+                aluno.addNotaQuestao((int) notaFinal);
             } else {
                 aluno.addNotaQuestao(0);
             }
