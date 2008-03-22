@@ -25,8 +25,8 @@ import logica.GerenciaTestes;
 public class NotasProporcao extends javax.swing.JDialog {
     
     PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
-    int[] notasQuestoes = null;
-    int[][] notasTestes = null;
+    double[] notasQuestoes = null;
+    double[][] notasTestes = null;
     
     /** Creates new form NotasProporcao */
     public NotasProporcao(java.awt.Frame parent) {
@@ -39,13 +39,13 @@ public class NotasProporcao extends javax.swing.JDialog {
     }
     
     private void iniciarCampos() {
-        int somaQuestoes = 0, somaTestes = 0;
+        double somaQuestoes = 0, somaTestes = 0;
         int nroQuestoes = pastaCorrecao.getQuestoes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTeste = null;
         int maxTestes = 0;
         
-        notasQuestoes = new int[nroQuestoes];
+        notasQuestoes = new double[nroQuestoes];
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             int tam = pastaCorrecao.getQuestao(i).getTestes().size();
@@ -54,7 +54,7 @@ public class NotasProporcao extends javax.swing.JDialog {
             }
         }
         
-        notasTestes = new int[nroQuestoes][maxTestes];
+        notasTestes = new double[nroQuestoes][maxTestes];
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);
@@ -63,27 +63,27 @@ public class NotasProporcao extends javax.swing.JDialog {
             vetorTeste = new String[nroTestes];
             for (int j = 0; j <= nroTestes - 1; j++) {
                 vetorTeste[j] = "Teste " + (j + 1);
-                notasTestes[i][j] = pastaCorrecao.getQuestao(i).getTeste(j).getNotaMax();
+                notasTestes[i][j] = pastaCorrecao.getQuestao(i).getTeste(j).getPorcentagemNotaMax();
             }
         }
         DefaultComboBoxModel modelQuestao = new DefaultComboBoxModel(vetorQuestao);        
         cmbQuestao.setModel(modelQuestao);
         cmbQuestao.setSelectedIndex(0);
-        txtMaxQuestao.setText("" + pastaCorrecao.getQuestao(0).getNotaMax());        
+        txtMaxQuestao.setText("" + ( (int)pastaCorrecao.getQuestao(0).getNotaMax()));
         for (int i = 0; i <= notasQuestoes.length - 1; i++) {
             somaQuestoes += notasQuestoes[i];
         }        
-        txtSomaQuestoes.setText("" + somaQuestoes);
+        txtSomaQuestoes.setText("" + ((int)somaQuestoes));
         
         GerenciaTestes ger = new GerenciaTestes(pastaCorrecao.getQuestoes());
         DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(ger.getVetorTestes(0));
         cmbTeste.setModel(modelTeste);
         cmbTeste.setSelectedIndex(0);
-        txtMaxTeste.setText("" + pastaCorrecao.getQuestao(0).getTeste(0).getNotaMax());
+        txtMaxTeste.setText("" + ((int)pastaCorrecao.getQuestao(0).getTeste(0).getPorcentagemNotaMax()));
         for (int i = 0; i <= notasTestes[0].length - 1; i++) {
             somaTestes += notasTestes[0][i];
         }
-        txtSomaTestes.setText("" + somaTestes);
+        txtSomaTestes.setText("" + ((int)somaTestes));
         
     }
     
@@ -110,6 +110,8 @@ public class NotasProporcao extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtSomaTestes = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         btnConfirmar.setText("Confirmar");
@@ -182,11 +184,11 @@ public class NotasProporcao extends javax.swing.JDialog {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2)
                     .add(txtMaxQuestao, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 53, Short.MAX_VALUE)
+                .add(53, 53, 53)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(txtSomaQuestoes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(45, 45, 45))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Testes da Quest\u00e3o Selecionada"));
@@ -204,11 +206,15 @@ public class NotasProporcao extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setText("Nota M\u00e1xima do Teste");
+        jLabel5.setText("Porcentagem do Teste");
 
         jLabel6.setText("Soma dos Testes");
 
         txtSomaTestes.setEditable(false);
+
+        jLabel7.setText("%");
+
+        jLabel8.setText("%");
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -218,37 +224,45 @@ public class NotasProporcao extends javax.swing.JDialog {
                 .add(19, 19, 19)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .add(jLabel5)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(txtMaxTeste, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .add(26, 26, 26)
-                        .add(jLabel6)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(txtSomaTestes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                         .add(25, 25, 25)
                         .add(jLabel4)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(cmbTeste, 0, 93, Short.MAX_VALUE)))
+                        .add(cmbTeste, 0, 94, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
+                                .add(26, 26, 26)
+                                .add(jLabel6)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(txtSomaTestes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
+                                .add(jLabel5)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(txtMaxTeste, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(jLabel7)
+                            .add(jLabel8))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cmbTeste, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel4))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtMaxTeste, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5))
+                    .add(jLabel5)
+                    .add(jLabel7)
+                    .add(txtMaxTeste, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(52, 52, 52)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(txtSomaTestes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel6))
-                .add(46, 46, 46))
+                    .add(jLabel6)
+                    .add(jLabel8)
+                    .add(txtSomaTestes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -294,7 +308,7 @@ public class NotasProporcao extends javax.swing.JDialog {
             for (int i = 0; i <= nroTestes - 1; i++) {
                 soma += notasTestes[questaoSelecionada][i];
             }
-            txtSomaTestes.setText("" + soma);
+            txtSomaTestes.setText("" + (int)soma);
         } catch (NumberFormatException ex) {
             // ignorando exceção
         }
@@ -303,7 +317,7 @@ public class NotasProporcao extends javax.swing.JDialog {
     private void cmbTesteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbTesteItemStateChanged
         int questaoSelecionada = cmbQuestao.getSelectedIndex();
         int testeSelecionado = cmbTeste.getSelectedIndex();
-        txtMaxTeste.setText("" + notasTestes[questaoSelecionada][testeSelecionado]);
+        txtMaxTeste.setText("" + (int)notasTestes[questaoSelecionada][testeSelecionado]);
     }//GEN-LAST:event_cmbTesteItemStateChanged
 
     private void txtMaxQuestaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaxQuestaoKeyReleased
@@ -314,7 +328,7 @@ public class NotasProporcao extends javax.swing.JDialog {
             for (int i = 0; i <= notasQuestoes.length - 1; i++) {
                 soma += notasQuestoes[i];
             }
-            txtSomaQuestoes.setText("" + soma);
+            txtSomaQuestoes.setText("" + (int)soma);
         } catch (NumberFormatException ex) {
             // ignorando exceção
         }
@@ -323,16 +337,16 @@ public class NotasProporcao extends javax.swing.JDialog {
     private void cmbQuestaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbQuestaoItemStateChanged
         int selecionado = cmbQuestao.getSelectedIndex();
         int somaTestes = 0;
-        txtMaxQuestao.setText("" + notasQuestoes[selecionado]);
+        txtMaxQuestao.setText("" + (int)notasQuestoes[selecionado]);
         GerenciaTestes ger = new GerenciaTestes(pastaCorrecao.getQuestoes());
         DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(ger.getVetorTestes(selecionado));
         cmbTeste.setModel(modelTeste);
         cmbTeste.setSelectedIndex(0);
-        txtMaxTeste.setText("" + notasTestes[selecionado][0]);
+        txtMaxTeste.setText("" + (int)notasTestes[selecionado][0]);
         for (int i = 0; i <= notasTestes[selecionado].length - 1; i++) {
             somaTestes += notasTestes[selecionado][i];
         }
-        txtSomaTestes.setText("" + somaTestes);
+        txtSomaTestes.setText("" + (int)somaTestes);
     }//GEN-LAST:event_cmbQuestaoItemStateChanged
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
@@ -365,7 +379,7 @@ public class NotasProporcao extends javax.swing.JDialog {
                 pastaCorrecao.getQuestao(i).setNotaMax(notasQuestoes[i]);
                 int nroTestes = pastaCorrecao.getQuestao(i).getTestes().size();
                 for (int j = 0; j <= nroTestes - 1; j++) {
-                    pastaCorrecao.getQuestao(i).getTeste(j).setNotaMax(notasTestes[i][j]);
+                    pastaCorrecao.getQuestao(i).getTeste(j).setPorcentagemNotaMax(notasTestes[i][j]);
                 }
             }
             JOptionPane.showMessageDialog(null, "Notas salvas com sucesso!", 
@@ -389,6 +403,8 @@ public class NotasProporcao extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private gui.modelos.TextoNumeros txtMaxQuestao;

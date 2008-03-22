@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Questao implements Serializable {
     
     private ArrayList<Teste> testes = null;
-    private int notaMax = 0;
+    private double notaMax = 0;
     
     /** 
      * Cria uma nova instância da classe Questao.
@@ -58,14 +58,14 @@ public class Questao implements Serializable {
     /**
      * Retorna a nota máxima que esta questão pode ter.
      */
-    public int getNotaMax() {
+    public double getNotaMax() {
         return notaMax;
     }
     
     /**
      * Seta a nota máxima que esta questão pode ter.
      */
-    public void setNotaMax(int notaQuestao) {
+    public void setNotaMax(double notaQuestao) {
         this.notaMax = notaQuestao;
         PastaCorrecao.getInstancia().setModificado(true);
     }
