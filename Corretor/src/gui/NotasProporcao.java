@@ -7,14 +7,8 @@
 package gui;
 
 import gui.modelos.KeyListenerJanela;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import dados.Teste;
 import dados.PastaCorrecao;
 import logica.GerenciaTestes;
 
@@ -412,6 +406,5 @@ public class NotasProporcao extends javax.swing.JDialog {
     private javax.swing.JTextField txtSomaQuestoes;
     private javax.swing.JTextField txtSomaTestes;
     // Fim da declaração de variáveis//GEN-END:variables
-
     
 }

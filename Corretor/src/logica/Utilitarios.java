@@ -34,7 +34,7 @@ public abstract class Utilitarios {
     }
     
     public static boolean compararStrings(String saida, String gabarito) {
-        if (saida.contains(gabarito)) {
+        if (saida.equalsIgnoreCase(gabarito)) {
             return true;
         }
         return false;

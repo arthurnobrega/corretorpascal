@@ -10,34 +10,16 @@ import dados.LinhaEntrada;
 import dados.LinhaGabarito;
 import dados.ModeloLinhaGabarito;
 import dados.Teste;
-import dados.PastaCorrecao;
-import dados.Questao;
 import dados.Teste;
 import gui.modelos.KeyListenerJanela;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FontMetrics;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Vector;
-import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import logica.Utilitarios;
 
 /**
  *
@@ -86,6 +68,7 @@ public class TabelasTeste extends javax.swing.JDialog {
                 btnExcluirLinEnt.setEnabled(true);
             } else {
                 btnExcluirLinEnt.setEnabled(false);
+                model.addRow(new Object[] {""});
             }
         } else  if (tabela == tabGabaritos) {
             int nroLinhas = esteTeste.getNroLinhasGabaritos();
@@ -101,6 +84,7 @@ public class TabelasTeste extends javax.swing.JDialog {
             } else {
                 btnExcluirLinGab.setEnabled(false);
                 btnExcluirColGab.setEnabled(false);
+                model.addRow(new Object[] {""});
             }
         }
 
@@ -369,50 +353,71 @@ public class TabelasTeste extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel)tabGabaritos.getModel();
         int tam = selecionadas.length;
         for (int i = tam - 1; i >= 0; i--) {
+            if (model.getRowCount() == 1) {
+                btnExcluirLinGab.setEnabled(false);
+                break;
+            }
             int linha = selecionadas[i];
             model.removeRow(linha);
         }
-        if (model.getRowCount() > 0) {
-            tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
-        } else {
-            btnExcluirLinGab.setEnabled(false);
+        if (model.getRowCount() == 1) {
+            btnExcluirLinEnt.setEnabled(false);
         }
+        tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
     }//GEN-LAST:event_btnExcluirLinGabActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        esteTeste = new Teste();
-        
-        ArrayList<LinhaEntrada> entradas = new ArrayList<LinhaEntrada>();
-        int nroLinhasEnt = tabEntradas.getModel().getRowCount();
-        for (int i = 0; i <= nroLinhasEnt - 1; i++) {
-            String valor = (String) tabEntradas.getValueAt(i, 0);
-            LinhaEntrada entrada = new LinhaEntrada(valor);
-            entradas.add(entrada);
-        }
-        
-        int nroColunas = tabGabaritos.getColumnCount();
-        String[] colunas = new String[nroColunas];
-        for (int i = 0; i <= nroColunas - 1; i++) {
-            colunas[i] = tabGabaritos.getModel().getColumnName(i);
-        }
-        
-        ArrayList<LinhaGabarito> gabaritos = new ArrayList<LinhaGabarito>();
-        int nroLinhasGab = tabGabaritos.getModel().getRowCount();
-        for (int i = 0; i <= nroLinhasGab - 1; i++) {
-            String linha[] = new String[nroColunas];
-            for (int j = 0; j <= nroColunas - 1; j++) {
-                String valor = (String) tabGabaritos.getValueAt(i, j);
-                linha[j] = valor;
+        try {
+            esteTeste = new Teste();
+
+            ArrayList<LinhaEntrada> entradas = new ArrayList<LinhaEntrada>();
+            int nroLinhasEnt = tabEntradas.getModel().getRowCount();
+            for (int i = 0; i <= nroLinhasEnt - 1; i++) {
+                String valor = (String) tabEntradas.getValueAt(i, 0);
+                LinhaEntrada entrada = new LinhaEntrada(valor);
+                entradas.add(entrada);
             }
-            LinhaGabarito gabarito = new LinhaGabarito(linha);
-            gabaritos.add(gabarito);
+
+            int nroColunas = tabGabaritos.getColumnCount();
+            if (nroColunas == 0) {
+                throw new ClassNotFoundException();
+            }
+            String[] colunas = new String[nroColunas];
+            for (int i = 0; i <= nroColunas - 1; i++) {
+                colunas[i] = tabGabaritos.getModel().getColumnName(i);
+            }
+
+            ArrayList<LinhaGabarito> gabaritos = new ArrayList<LinhaGabarito>();
+            int nroLinhasGab = tabGabaritos.getModel().getRowCount();
+            for (int i = 0; i <= nroLinhasGab - 1; i++) {
+                String linha[] = new String[nroColunas];
+                for (int j = 0; j <= nroColunas - 1; j++) {
+                    String valor = (String) tabGabaritos.getValueAt(i, j);
+                    if (valor == null || valor.equals("")) {
+                        throw new IOException();
+                    }
+                    linha[j] = valor;
+                }
+                LinhaGabarito gabarito = new LinhaGabarito(linha);
+                gabaritos.add(gabarito);
+            }
+
+            esteTeste.setLinhasEntrada(entradas);
+            esteTeste.setLinhasGabarito(gabaritos);
+            esteTeste.setModeloLinhaGabarito(new ModeloLinhaGabarito(colunas));
+
+            this.dispose();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Linhas do gabarito não podem " +
+                    "ficar em branco!", "Erro - Linha em branco!", 
+                    JOptionPane.ERROR_MESSAGE);
+            esteTeste = null;
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Deve existir no mínimo uma " +
+                    "coluna no gabarito!", "Erro - Colunas em branco!", 
+                    JOptionPane.ERROR_MESSAGE);
+            esteTeste = null;
         }
-        
-        esteTeste.setLinhasEntrada(entradas);
-        esteTeste.setLinhasGabarito(gabaritos);
-        esteTeste.setModeloLinhaGabarito(new ModeloLinhaGabarito(colunas));
-        
-        this.dispose();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnExcluirColGabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirColGabActionPerformed
@@ -449,14 +454,17 @@ public class TabelasTeste extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel)tabEntradas.getModel();
         int tam = selecionadas.length;
         for (int i = tam - 1; i >= 0; i--) {
+            if (model.getRowCount() == 1) {
+                btnExcluirLinEnt.setEnabled(false);
+                break;
+            }
             int linha = selecionadas[i];
             model.removeRow(linha);
         }
-        if (model.getRowCount() > 0) {
-            tabEntradas.getSelectionModel().setSelectionInterval(0,0);
-        } else {
+        if (model.getRowCount() == 1) {
             btnExcluirLinEnt.setEnabled(false);
         }
+        tabEntradas.getSelectionModel().setSelectionInterval(0,0);
     }//GEN-LAST:event_btnExcluirLinEntActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

@@ -7,14 +7,8 @@
 package gui;
 
 import gui.modelos.KeyListenerJanela;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import dados.Teste;
 import dados.PastaCorrecao;
 
 /**
@@ -43,7 +37,7 @@ public class NotasQuestoes extends javax.swing.JDialog {
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);
-            notasQuestoes[i] = pastaCorrecao.getQuestoes().get(i).getNotaMax();
+            notasQuestoes[i] = (int) pastaCorrecao.getQuestoes().get(i).getNotaMax();
         }
         DefaultComboBoxModel modelQuestao = new DefaultComboBoxModel(vetorQuestao);        
         cmbQuestao.setModel(modelQuestao);
