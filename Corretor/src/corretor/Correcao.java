@@ -37,28 +37,31 @@ public class Correcao {
             
             File diretorio = aluno.getDiretorioAluno();
             File pastaFonte = new File(diretorio.getAbsolutePath() + "/" + 
-                    arqFonte.getName().substring(0, arqFonte.getName().length()- 4));
+                    arqFonte.getName().substring(0, 
+                    arqFonte.getName().length()- 4));
             
-            if (arqFonte.getName().startsWith(Constantes.NARQ_QUE) && pastaFonte.mkdir()) {
+            String q = arqFonte.getName().substring(0, 
+                    Constantes.NARQ_QUE.length());
+            if (q.equalsIgnoreCase(Constantes.NARQ_QUE)) {
                 try {
-                    String[] temp1 = null;
-                    String temp2 = null;
-                    temp1 = arqFonte.getName().split(Constantes.NARQ_QUE);
-                    temp2 = temp1[1];
-                    temp1 = temp2.split(".pas");
-                    int nro = Integer.parseInt(temp1[0]);
-                    
-                    File arquivoAntigo = new File(diretorio.getAbsolutePath() +
-                            "/" + arqFonte.getName());
-                    String texto = Arquivos.getTextoArquivo(arquivoAntigo);
-                    arquivoAntigo.delete();
-                    File novoArquivo = new File(pastaFonte.getAbsolutePath() + "/" + arqFonte.getName());
-                    Arquivos.salvarArquivo(novoArquivo, texto);
-                    ArquivoFonte novoArquivoFonte = new ArquivoFonte(novoArquivo);
-                    while (novosArquivosFontes.size() < (nro - 1)) {
-                        novosArquivosFontes.add(null);
+                    String temp1 = arqFonte.getName().substring(
+                            Constantes.NARQ_QUE.length(), arqFonte.getName().length());
+                    String[] temp2 = temp1.split(".pas");
+                    int nro = Integer.parseInt(temp2[0]);
+                    if (pastaFonte.mkdir()) {
+                        File arquivoAntigo = new File(diretorio.getAbsolutePath() +
+                                "/" + arqFonte.getName());
+                        String texto = Arquivos.getTextoArquivo(arquivoAntigo);
+                        arquivoAntigo.delete();
+                        File novoArquivo = new File(pastaFonte.getAbsolutePath() +
+                               "/" + arqFonte.getName());
+                        Arquivos.salvarArquivo(novoArquivo, texto);
+                        ArquivoFonte novoArquivoFonte = new ArquivoFonte(novoArquivo);
+                        while (novosArquivosFontes.size() < (nro - 1)) {
+                            novosArquivosFontes.add(null);
+                        }
+                        novosArquivosFontes.add(nro - 1, novoArquivoFonte);
                     }
-                    novosArquivosFontes.add(nro - 1, novoArquivoFonte);
                 } catch (NumberFormatException ex) {
                     //ignorando
                 }

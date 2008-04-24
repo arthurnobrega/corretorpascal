@@ -34,7 +34,6 @@ public class TabelasTeste extends javax.swing.JDialog {
     public TabelasTeste(java.awt.Frame parent, int indiceTeste) {
         super(parent, "Teste número " + (indiceTeste + 1), true);
         this.indiceTeste = indiceTeste;
-        this.esteTeste = new Teste();
         initComponents();
         configurarTabela(tabEntradas);
         configurarTabela(tabGabaritos);
@@ -59,8 +58,8 @@ public class TabelasTeste extends javax.swing.JDialog {
         
         if (tabela == tabEntradas) {
             model.addColumn("String");
-            int tam = esteTeste.getNroLinhasEntradas();
-            if (tam > 0) {
+            if (esteTeste != null) {
+                int tam = esteTeste.getNroLinhasEntradas();
                 for (int i = 0; i <= tam - 1; i++) {
                     LinhaEntrada entrada = esteTeste.getEntrada(i);
                     model.addRow((new Object[] {entrada.getValor()}));
@@ -71,9 +70,8 @@ public class TabelasTeste extends javax.swing.JDialog {
                 model.addRow(new Object[] {""});
             }
         } else  if (tabela == tabGabaritos) {
-            int nroLinhas = esteTeste.getNroLinhasGabaritos();
-            if (nroLinhas > 0) {
-                int nroColunas = esteTeste.getModeloLinhaGabarito().getNroColunas();
+            if (esteTeste != null) {
+                int nroLinhas = esteTeste.getNroLinhasGabaritos();
                 model.setColumnIdentifiers(esteTeste.getModeloLinhaGabarito().getColunas());
                 for (int i = 0; i <= nroLinhas - 1; i++) {
                     LinhaGabarito linhaGabarito = esteTeste.getLinhaGabarito(i);

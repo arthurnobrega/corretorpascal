@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.3" maxVersion="1.3" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="barraMenu">
       <SubComponents>
@@ -11,62 +11,71 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemNova">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+N"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/novacorrecao.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Nova Corre&#xe7;&#xe3;o"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNovaActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconNova = new javax.swing.ImageIcon(Imagens.NOVACORRECAO);&#xa;java.awt.Image imgNova = iconNova.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemNova.setIcon(new javax.swing.ImageIcon(imgNova));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemImportar">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+I"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/impcorrecao.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Importar Corre&#xe7;&#xe3;o..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemImportarActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconImp = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);&#xa;java.awt.Image imgImp = iconImp.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemImportar.setIcon(new javax.swing.ImageIcon(imgImp));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSalvar">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/salvar.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSalvarActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSalvar = new javax.swing.ImageIcon(Imagens.SALVAR);&#xa;java.awt.Image imgSalvar = iconSalvar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSalvar.setIcon(new javax.swing.ImageIcon(imgSalvar));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemFechar">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+F"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Fechar Corre&#xe7;&#xe3;o"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemFecharActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconFechar = new javax.swing.ImageIcon(Imagens.ESPACO);&#xa;java.awt.Image imgFechar = iconFechar.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemFechar.setIcon(new javax.swing.ImageIcon(imgFechar));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSair">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="ESCAPE"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Sair"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSairActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSair = new javax.swing.ImageIcon(Imagens.ESPACO);&#xa;java.awt.Image imgSair = iconSair.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSair.setIcon(new javax.swing.ImageIcon(imgSair));"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -77,47 +86,59 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemEntradas">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F2"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/entradas.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Entradas e Gabaritos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemEntradasActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconEntradas = new javax.swing.ImageIcon(Imagens.ENTRADAS);&#xa;java.awt.Image imgEntradas = iconEntradas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemEntradas.setIcon(new javax.swing.ImageIcon(imgEntradas));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemNotas">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+N"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/notas.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Propor&#xe7;&#xe3;o das Notas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNotasActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconNotas = new javax.swing.ImageIcon(Imagens.NOTAS);&#xa;java.awt.Image imgNotas = iconNotas.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemNotas.setIcon(new javax.swing.ImageIcon(imgNotas));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemCopia">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+A"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/copia.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="C&#xf3;pia de Arquivo"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemCopiaActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconCopia = new javax.swing.ImageIcon(Imagens.COPIA);&#xa;java.awt.Image imgCopia = iconCopia.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemCopia.setIcon(new javax.swing.ImageIcon(imgCopia));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemReverter">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+R"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/reverter.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reverter Corre&#xe7;&#xe3;o"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemReverterActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconReverter = new javax.swing.ImageIcon(Imagens.REVERTER);&#xa;java.awt.Image imgReverter = iconReverter.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemReverter.setIcon(new javax.swing.ImageIcon(imgReverter));"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -128,14 +149,17 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemCorrigir">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F3"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/corrigir.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Corrigir"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemCorrigirActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconCorrigir = new javax.swing.ImageIcon(Imagens.CORRIGIR);&#xa;java.awt.Image imgCorrigir = iconCorrigir.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemCorrigir.setIcon(new javax.swing.ImageIcon(imgCorrigir));"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -146,25 +170,28 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemAjuda">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/contajuda.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Conte&#xfa;dos de Ajuda"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAjudaActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconAjuda = new javax.swing.ImageIcon(Imagens.CONTAJUDA);&#xa;java.awt.Image imgAjuda = iconAjuda.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemAjuda.setIcon(new javax.swing.ImageIcon(imgAjuda));"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemSobre">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagens/sobre.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Sobre"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSobreActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="javax.swing.ImageIcon iconSobre = new javax.swing.ImageIcon(Imagens.SOBRE);&#xa;java.awt.Image imgSobre = iconSobre.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);&#xa;itemSobre.setIcon(new javax.swing.ImageIcon(imgSobre));"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -180,7 +207,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>

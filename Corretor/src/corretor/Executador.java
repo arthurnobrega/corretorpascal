@@ -1,12 +1,12 @@
 package corretor;
 
+import dados.PastaCorrecao;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import logica.Constantes;
 
 /**
  * Classe que executa processos externos.
@@ -46,6 +46,9 @@ public class Executador {
             }
             System.out.println();
             String[] env = new String[] {"PATH=" + System.getenv("PATH")};
+//            File dirFpc = new File(PastaCorrecao.getInstancia().getDiretorio().
+//                    getParentFile().getAbsolutePath() + "/fpc/bin/i386-win32/;");
+//            String[] env = new String[] {"PATH=" + dirFpc};
             Process proc = rt.exec(args, env, diretorio);
             
             // alguma mensagem de erro?

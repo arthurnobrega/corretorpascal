@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import logica.Arquivos;
 import logica.Utilitarios;
@@ -157,7 +158,9 @@ public class PastaCorrigida extends javax.swing.JPanel {
             String textoArquivo = Arquivos.getTextoArquivo(fonteAluno);
             txtFonte.setText(textoArquivo);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "O arquivo não pôde ser encontrado, " +
+                    "por favor verifique\n se ocorreu alguma violação nos dados da " +
+                    "correção.", "Arquivo não encontrado!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_listaAlunosValueChanged
 

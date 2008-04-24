@@ -7,17 +7,15 @@
 package gui;
 
 import dados.Questao;
+import dados.Teste;
 import gui.modelos.KeyListenerJanela;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import logica.GerenciaTestes;
-import logica.Arquivos;
-import dados.Teste;
 import dados.PastaCorrecao;
+import java.io.IOException;
 import logica.Utilitarios;
+import logica.GerenciaSerializacao;
 
 /**
  *
@@ -310,35 +308,49 @@ public class Testes extends javax.swing.JDialog {
         int nroQuestoes = questoes.size();
         GerenciaTestes ger = new GerenciaTestes(questoes);
         
-        /* Faz o cálculo das notas padrões máximas das questões e dos testes. */
-        int[] notasQuestoes = Utilitarios.calcularNotas(nroQuestoes);
-        for (int i = 0; i <= nroQuestoes - 1; i++) {
-            int nroTestes = ger.getVetorTestes(i).length;
-            int[] notasTestes = Utilitarios.calcularNotas(nroTestes);
-            questoes.get(i).setNotaMax(notasQuestoes[i]);
-            if (notasTestes != null) {
-                for (int j = 0; j <= nroTestes - 1; j++) {
-                    questoes.get(i).getTeste(j).setPorcentagemNotaMax(notasTestes[j]);
+        try {
+            /* Faz o cálculo das notas padrões máximas das questões e dos testes. */
+            int[] notasQuestoes = Utilitarios.calcularNotas(nroQuestoes);
+            for (int i = 0; i <= nroQuestoes - 1; i++) {
+                int nroTestes = ger.getVetorTestes(i).length;
+                if (nroTestes == 0) {
+                    throw new IOException();
+                }
+                int[] notasTestes = Utilitarios.calcularNotas(nroTestes);
+                questoes.get(i).setNotaMax(notasQuestoes[i]);
+                if (notasTestes != null) {
+                    for (int j = 0; j <= nroTestes - 1; j++) {
+                        questoes.get(i).getTeste(j).setPorcentagemNotaMax(notasTestes[j]);
+                    }
                 }
             }
+
+            PastaCorrecao.getInstancia().setQuestoes(questoes);
+            GerenciaSerializacao ser = new GerenciaSerializacao();
+            ser.serializar();
+            JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Existe uma questão que não tem " +
+                    "nenhum teste associado!\n Por favor adicione no mínimo um teste!", 
+                    "Questão sem teste!", JOptionPane.ERROR_MESSAGE);
         }
-        
-        PastaCorrecao.getInstancia().setQuestoes(questoes);
-        JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
-        questao.adicionarTeste();
         TabelasTeste tab = new TabelasTeste((java.awt.Frame)this.getParent(), listaTestes.getModel().getSize());
         tab.setVisible(true);
-        questao.editarTeste(listaTestes.getModel().getSize(), tab.getTeste());
-        GerenciaTestes ger = new GerenciaTestes(questoes);
-        listaTestes.setListData(ger.getVetorTestes(listaQuestoes.getSelectedIndex()));
-        listaTestes.setSelectedIndex(0);
-        btnRemover.setEnabled(true);
-        btnEditar.setEnabled(true);
+        Teste teste = tab.getTeste();
+        if (teste != null) {
+            questao.adicionarTeste();
+            questao.editarTeste(listaTestes.getModel().getSize(), teste);
+            GerenciaTestes ger = new GerenciaTestes(questoes);
+            listaTestes.setListData(ger.getVetorTestes(listaQuestoes.getSelectedIndex()));
+            listaTestes.setSelectedIndex(0);
+            btnRemover.setEnabled(true);
+            btnEditar.setEnabled(true);
+        }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void listaQuestoesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaQuestoesValueChanged

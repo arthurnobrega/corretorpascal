@@ -45,10 +45,7 @@ public class Configuracao {
     private Aluno[] procurarAlunos() {
         File[] arquivos = diretorio.listFiles();
         ArrayList<Aluno> alunos = new ArrayList<Aluno>();
-        for (File arq : arquivos) {
-            String nomeArq = arq.getName();
-            int tamarq = nomeArq.length();
-            
+        for (File arq : arquivos) {            
             if (arq.isDirectory()) {
                 ArquivoFonte[] arquivosPas = procurarPas(arq);
                 if (arquivosPas.length > 0) {
