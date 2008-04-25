@@ -5,3 +5,6 @@ CHANGELOG CORRETOR VERSÃO 1.50
 4. Na hora da correção o programa está com um padrão mais flexível quanto ao nome dos arquivos fonte. Se o aluno definiu o nome do arquivo fonte como por exemplo: questao01.pas, Questao1.pas, QuesTao01.pas o programa aceita normalmente agora, ou seja, é computado que o aluno fez a questão e também é compilado. Só não passa nos testes se o aluno inserir um nome de questao que foge totalmente dos padrões, como por exemplo questao_1.pas.
 5. Se determinado arquivo fonte de um aluno é deletado após o mapeamento dos arquivos e o professor tenta visualizar o código fonte deste arquivo, o programa emite um aviso de que a pasta não está acessível.
 6. Foi implementado atalhos para os itens do menu. Alguns deles são: CTRL + N -> Nova Correção, CTRL + I -> Importar Correção, F2 -> Entradas e Gabaritos, F3 -> Corrigir, entre outros.
+7. Implementado a criação de um arquivo texto para cada aluno que concatena todos os arquivos fontes que este aluno fez.
+8. Agora o Corretor pode ser executado apenas com o arquivo CORRETOR.JAR, pois todas as bibliotecas e imagens foram inseridas dentro dele.
+9. Algumas partes do código foram otimizadas.
