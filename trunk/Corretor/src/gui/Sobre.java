@@ -55,7 +55,7 @@ public class Sobre extends javax.swing.JDialog {
         jTextArea2.setEditable(false);
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
-        jTextArea2.setText("Corretor de Programas em Pascal\n\n\n\nVersão: 1.0.56");
+        jTextArea2.setText("Corretor de Programas em Pascal\n\n\n\nVersão: 1.50");
         jTextArea2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea2);
 
