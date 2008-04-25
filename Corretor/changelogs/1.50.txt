@@ -1,0 +1,7 @@
+CHANGELOG CORRETOR VERSÃO 1.50
+1. Implementado um teste para verificar se quando a linha que a pessoa inseriu no teste de determinada questão está vazia e o usuário tenta confirmar o teste;
+2. No teste entre STRINGS (detalhe de implementação) agora está sendo testado se a saída do aluno é exatamente igual ao gabarito e não mais se a saída contém o gabarito.
+3. Quando o usuário vai inserir um teste, nesta versão começamos sempre com uma linha tanto nas Entradas como nos Gabaritos (para maior agilidade).
+4. Na hora da correção o programa está com um padrão mais flexível quanto ao nome dos arquivos fonte. Se o aluno definiu o nome do arquivo fonte como por exemplo: questao01.pas, Questao1.pas, QuesTao01.pas o programa aceita normalmente agora, ou seja, é computado que o aluno fez a questão e também é compilado. Só não passa nos testes se o aluno inserir um nome de questao que foge totalmente dos padrões, como por exemplo questao_1.pas.
+5. Se determinado arquivo fonte de um aluno é deletado após o mapeamento dos arquivos e o professor tenta visualizar o código fonte deste arquivo, o programa emite um aviso de que a pasta não está acessível.
+6. Foi implementado atalhos para os itens do menu. Alguns deles são: CTRL + N -> Nova Correção, CTRL + I -> Importar Correção, F2 -> Entradas e Gabaritos, F3 -> Corrigir, entre outros.
