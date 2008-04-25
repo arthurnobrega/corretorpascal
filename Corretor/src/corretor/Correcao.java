@@ -70,6 +70,23 @@ public class Correcao {
         aluno.setFontes((ArquivoFonte[])novosArquivosFontes.toArray(new ArquivoFonte[] {}));
     }
     
+    public void criarArquivoAluno() throws IOException {
+        ArquivoFonte[] fontes = aluno.getFontes();
+        String diretorioAluno = aluno.getDiretorioAluno().getName();
+        String texto = diretorioAluno + "\n\n";
+        int cont = 1;
+        for (ArquivoFonte fonte : fontes) {
+            File arquivo = fonte.getArquivo();
+            texto += "------------------------------" + "Questão " + cont + 
+                    "------------------------------\n";
+            texto += Arquivos.getTextoArquivo(arquivo) + "\n\n";
+            cont++;
+        }
+        File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
+                "/" + diretorioAluno + ".txt");
+        Arquivos.salvarArquivo(arqAluno, texto);
+    }
+    
     /**
      * Compila todos os arquivos de um determinado aluno.
      */

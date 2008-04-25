@@ -29,6 +29,9 @@ public class GerenciaReversao {
             Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
             for (Aluno aluno : alunos) {
                 ArquivoFonte[] arquivosFontes = aluno.getFontes();
+                File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
+                "/" + aluno.getDiretorioAluno().getName() + ".txt");
+                Arquivos.deletarArquivo(arqAluno);
                 for (int i = 0; i <= arquivosFontes.length - 1; i++) {
                     File arquivoAntigo = arquivosFontes[i].getArquivo();
                     if (arquivoAntigo != null) {

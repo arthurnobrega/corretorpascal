@@ -41,6 +41,7 @@ public class TestaConfiguracao {
                 i++;
                 Correcao cor = new Correcao(aluno);
                 cor.criarDiretorios();
+                cor.criarArquivoAluno();
                 cor.compilarFontes();
             }
             GerenciaSerializacao gerSer = new GerenciaSerializacao();
