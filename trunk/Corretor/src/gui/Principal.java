@@ -14,7 +14,7 @@ import logica.GerenciaReversao;
 import logica.GerenciaSerializacao;
 import logica.GerenciaCorrecao;
 import logica.TestaConfiguracao;
-import dados.PastaCorrecao;
+import dados.PastaCorrecao; 
 
 /**
  *
@@ -385,13 +385,13 @@ public class Principal extends javax.swing.JFrame {
                 salvar();
                 desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6, 7});
             } else if (opcao == 1) {
-                PastaCorrecao.setInstancia(null);
+                PastaCorrecao.setInstancia();
             } else {
                 return;
             }
         } else {
             desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6, 7});
-            PastaCorrecao.setInstancia(null);
+            PastaCorrecao.setInstancia();
         }
         limparContentPane();
     }

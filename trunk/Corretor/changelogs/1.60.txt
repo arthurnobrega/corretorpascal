@@ -1,0 +1,3 @@
+CHANGELOG CORRETOR VERSÃO 1.60
+1. Separado em dois arquivos os dados do programa. Os dados com as pastas dos alunos e a configuração delas ficaram em um arquivo, já os dados com os números de questões e os testes correspondentes (que o professor insere) foram separados em outro arquivo para facilitar a importação e exportação destes dados.
+2. Quando o usuário for incluir um novo teste, não será possível inserir linhas até que seja incluída uma coluna.

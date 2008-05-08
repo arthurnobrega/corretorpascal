@@ -39,6 +39,9 @@ public class Sobre extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sobre");
 
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/corretor_g.png"))); // NOI18N
+
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
         jTextArea1.setLineWrap(true);
@@ -51,7 +54,7 @@ public class Sobre extends javax.swing.JDialog {
         jTextArea2.setEditable(false);
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
-        jTextArea2.setText("Corretor de Programas em Pascal\n\n\n\nVersão: 1.50");
+        jTextArea2.setText("Corretor de Programas em Pascal\n\n\n\nVersão: 1.60");
         jTextArea2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea2);
 
