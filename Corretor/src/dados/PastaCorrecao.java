@@ -43,6 +43,10 @@ public class PastaCorrecao implements Serializable {
         modificado = true;
     }
     
+    public static void setInstancia() {
+        instancia = null;
+    }
+    
     /**
      * Método que retorna a instância do objeto singleton criada.
      * @param pastaCorrecao Um objeto da mesma classe onde seus dados serão copiados

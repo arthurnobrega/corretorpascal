@@ -196,7 +196,27 @@ public abstract class Arquivos {
        return pastaCorrecao;
     }
     
-    public static ListaQuestoes desserializarListaQuestoes(File arqListaQuestoes) throws IOException {
+    public static ListaQuestoes desserializarListaQuestoesDir(File diretorio) throws IOException {
+       File arqListaQuestoes = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_LIS);
+       InputStream isListaQuestoes;
+       ObjectInputStream oisListaQuestoes;
+       ListaQuestoes listaQuestoes = null;
+       
+       if (arqListaQuestoes.exists()) {
+           try {
+              isListaQuestoes = new FileInputStream(arqListaQuestoes);
+              oisListaQuestoes = new ObjectInputStream(isListaQuestoes);
+              listaQuestoes =  (ListaQuestoes) oisListaQuestoes.readObject();
+           } catch (ClassNotFoundException e) {
+              e.printStackTrace();
+           }
+       } else {
+           throw new IOException();
+       }
+       return listaQuestoes;
+    }
+    
+        public static ListaQuestoes desserializarListaQuestoesArq(File arqListaQuestoes) throws IOException {
        InputStream isListaQuestoes;
        ObjectInputStream oisListaQuestoes;
        ListaQuestoes listaQuestoes = null;

@@ -82,6 +82,7 @@ public class TabelasTeste extends javax.swing.JDialog {
             } else {
                 btnExcluirLinGab.setEnabled(false);
                 btnExcluirColGab.setEnabled(false);
+                btnInserirLinGab.setEnabled(false);
                 model.addRow(new Object[] {""});
             }
         }
@@ -443,6 +444,7 @@ public class TabelasTeste extends javax.swing.JDialog {
         model.addColumn(cmbColunas.getSelectedItem());
         tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
         btnExcluirColGab.setEnabled(true);
+        btnInserirLinGab.setEnabled(true);
     }//GEN-LAST:event_btnInserirColGabActionPerformed
 
     private void btnInserirLinEntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirLinEntActionPerformed

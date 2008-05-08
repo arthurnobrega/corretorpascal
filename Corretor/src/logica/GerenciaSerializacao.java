@@ -26,12 +26,12 @@ public class GerenciaSerializacao {
      */
     public void desserializar(File diretorio) throws IOException {
         PastaCorrecao.setInstancia(Arquivos.desserializarCorrecao(diretorio));
-        ListaQuestoes.setInstancia(Arquivos.desserializarListaQuestoes(diretorio));
+        ListaQuestoes.setInstancia(Arquivos.desserializarListaQuestoesDir(diretorio));
         PastaCorrecao.getInstancia().setModificado(false);
     }
     
     public void desserializarListaQuestoes(File arquivo) throws IOException {
-        ListaQuestoes.setInstancia(Arquivos.desserializarListaQuestoes(arquivo));
+        ListaQuestoes.setInstancia(Arquivos.desserializarListaQuestoesArq(arquivo));
         PastaCorrecao.getInstancia().setModificado(true);
     }
     
