@@ -2,6 +2,7 @@ package logica;
 
 import dados.Aluno;
 import dados.ArquivoFonte;
+import dados.ListaQuestoes;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -145,16 +146,25 @@ public abstract class Arquivos {
      * Salva os dados armazenados na variável de classe PastaCorrecao em um arquivo
      * que será utilizado para a importação posteriormente.
      */
-    public static void serializarCorrecao() {
-       File arq = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + "/" + Constantes.NARQ_SER);
-       FileOutputStream fos;
-       ObjectOutputStream oos;
+    public static void serializarDados() {
+       File arqCorrecao = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + 
+               "/" + Constantes.NARQ_COR);
+       File arqListaQuestoes = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() + 
+               "/" + Constantes.NARQ_LIS);
+       FileOutputStream fosCorrecao, fosListaQuestoes;
+       ObjectOutputStream oosCorrecao, oosListaQuestoes;
        
        try {
-          fos = new FileOutputStream(arq);
-          oos = new ObjectOutputStream(fos);
-          oos.writeObject((PastaCorrecao) PastaCorrecao.getInstancia());
-          oos.close();
+          fosCorrecao = new FileOutputStream(arqCorrecao);
+          oosCorrecao = new ObjectOutputStream(fosCorrecao);
+          fosListaQuestoes = new FileOutputStream(arqListaQuestoes);
+          oosListaQuestoes = new ObjectOutputStream(fosListaQuestoes);
+          
+          oosCorrecao.writeObject((PastaCorrecao) PastaCorrecao.getInstancia());
+          oosCorrecao.close();
+          
+          oosListaQuestoes.writeObject((ListaQuestoes) ListaQuestoes.getInstancia());
+          oosListaQuestoes.close();
        } catch (IOException e) {
           e.printStackTrace();
        }
@@ -167,16 +177,16 @@ public abstract class Arquivos {
      * um arquivo.
      */
     public static PastaCorrecao desserializarCorrecao(File diretorio) throws IOException {
-       File arq = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_SER);
-       InputStream is;
-       ObjectInputStream ois;  
+       File arqCorrecao = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_COR);
+       InputStream isCorrecao;
+       ObjectInputStream oisCorrecao;  
        PastaCorrecao pastaCorrecao = null;
        
-       if (arq.exists()) {
+       if (arqCorrecao.exists()) {
            try {
-              is = new FileInputStream(arq);
-              ois = new ObjectInputStream(is);
-              pastaCorrecao =  (PastaCorrecao) ois.readObject();
+              isCorrecao = new FileInputStream(arqCorrecao);
+              oisCorrecao = new ObjectInputStream(isCorrecao);
+              pastaCorrecao =  (PastaCorrecao) oisCorrecao.readObject();
            } catch (IOException e) {
               e.printStackTrace();
            } catch (ClassNotFoundException e) {
@@ -186,5 +196,27 @@ public abstract class Arquivos {
            throw new IOException();
        }
        return pastaCorrecao;
+    }
+    
+    public static ListaQuestoes desserializarListaQuestoes(File diretorio) throws IOException {
+       File arqListaQuestoes = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_LIS);
+       InputStream isListaQuestoes;
+       ObjectInputStream oisListaQuestoes;
+       ListaQuestoes listaQuestoes = null;
+       
+       if (arqListaQuestoes.exists()) {
+           try {
+              isListaQuestoes = new FileInputStream(arqListaQuestoes);
+              oisListaQuestoes = new ObjectInputStream(isListaQuestoes);
+              listaQuestoes =  (ListaQuestoes) oisListaQuestoes.readObject();
+           } catch (IOException e) {
+              e.printStackTrace();
+           } catch (ClassNotFoundException e) {
+              e.printStackTrace();
+           }
+       } else {
+           throw new IOException();
+       }
+       return listaQuestoes;
     }
 }

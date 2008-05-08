@@ -1,8 +1,8 @@
 package gui;
 
+import dados.ListaQuestoes;
 import dados.Questao;
 import gui.modelos.KeyListenerJanela;
-import java.awt.FlowLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,9 +14,7 @@ import logica.GerenciaReversao;
 import logica.GerenciaSerializacao;
 import logica.GerenciaCorrecao;
 import logica.TestaConfiguracao;
-import logica.Constantes;
 import dados.PastaCorrecao;
-import logica.Utilitarios;
 
 /**
  *
@@ -38,9 +36,6 @@ public class Principal extends javax.swing.JFrame {
         inicializarJFileChooser();
         inicializarJOptionPane();
         Janelas.alinharContainer(this);
-        javax.swing.ImageIcon icone = new javax.swing.ImageIcon(Imagens.CORRETOR_I);
-        java.awt.Image img = icone.getImage().getScaledInstance(18, 18, java.awt.Image.SCALE_AREA_AVERAGING);
-        this.setIconImage(img);
         limparContentPane();
         desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
         this.addKeyListener(new KeyListenerJanela());
@@ -118,9 +113,6 @@ public class Principal extends javax.swing.JFrame {
         btnNova.setMaximumSize(new java.awt.Dimension(30, 30));
         btnNova.setMinimumSize(new java.awt.Dimension(30, 30));
         btnNova.setPreferredSize(new java.awt.Dimension(30, 30));
-        javax.swing.ImageIcon iconTbNova = new javax.swing.ImageIcon(Imagens.NOVACORRECAO);
-        java.awt.Image imgTbNova = iconTbNova.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
-        btnNova.setIcon(new javax.swing.ImageIcon(imgTbNova));
         btnNova.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovaActionPerformed(evt);
@@ -132,9 +124,6 @@ public class Principal extends javax.swing.JFrame {
         btnImportar.setMaximumSize(new java.awt.Dimension(30, 30));
         btnImportar.setMinimumSize(new java.awt.Dimension(30, 30));
         btnImportar.setPreferredSize(new java.awt.Dimension(30, 30));
-        javax.swing.ImageIcon iconTbImportar = new javax.swing.ImageIcon(Imagens.IMPCORRECAO);
-        java.awt.Image imgTbImportar = iconTbImportar.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
-        btnImportar.setIcon(new javax.swing.ImageIcon(imgTbImportar));
         btnImportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImportarActionPerformed(evt);
@@ -148,9 +137,6 @@ public class Principal extends javax.swing.JFrame {
         btnEntradas.setMaximumSize(new java.awt.Dimension(30, 30));
         btnEntradas.setMinimumSize(new java.awt.Dimension(30, 30));
         btnEntradas.setPreferredSize(new java.awt.Dimension(30, 30));
-        javax.swing.ImageIcon iconTbEntradas = new javax.swing.ImageIcon(Imagens.ENTRADAS);
-        java.awt.Image imgTbEntradas = iconTbEntradas.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
-        btnEntradas.setIcon(new javax.swing.ImageIcon(imgTbEntradas));
         btnEntradas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntradasActionPerformed(evt);
@@ -162,9 +148,6 @@ public class Principal extends javax.swing.JFrame {
         btnReverter.setMaximumSize(new java.awt.Dimension(30, 30));
         btnReverter.setMinimumSize(new java.awt.Dimension(30, 30));
         btnReverter.setPreferredSize(new java.awt.Dimension(30, 30));
-        javax.swing.ImageIcon iconTbReverter = new javax.swing.ImageIcon(Imagens.REVERTER);
-        java.awt.Image imgTbReverter = iconTbReverter.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
-        btnReverter.setIcon(new javax.swing.ImageIcon(imgTbReverter));
         btnReverter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReverterActionPerformed(evt);
@@ -178,9 +161,6 @@ public class Principal extends javax.swing.JFrame {
         btnCorrigir.setMaximumSize(new java.awt.Dimension(30, 30));
         btnCorrigir.setMinimumSize(new java.awt.Dimension(30, 30));
         btnCorrigir.setPreferredSize(new java.awt.Dimension(30, 30));
-        javax.swing.ImageIcon iconTbCorrigir = new javax.swing.ImageIcon(Imagens.CORRIGIR);
-        java.awt.Image imgTbCorrigir = iconTbCorrigir.getImage().getScaledInstance(26, 26, java.awt.Image.SCALE_AREA_AVERAGING);
-        btnCorrigir.setIcon(new javax.swing.ImageIcon(imgTbCorrigir));
         btnCorrigir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCorrigirActionPerformed(evt);
@@ -464,7 +444,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 GerenciaSerializacao gerSer = new GerenciaSerializacao();
                 gerSer.desserializar(diretorio);
-                if (PastaCorrecao.getInstancia().getQuestoes().size() >= 1) {
+                if (ListaQuestoes.getArrayListQuestoes().size() >= 1) {
                     habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6 });
                     this.getContentPane().setVisible(false);
                     this.setContentPane(new PastaCorrigida());
@@ -497,13 +477,13 @@ public class Principal extends javax.swing.JFrame {
                 salvar();
                 desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
             } else if (opcao == 1) {
-                PastaCorrecao.getInstancia(null);
+                PastaCorrecao.setInstancia(null);
             } else {
                 return;
             }
         } else {
             desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6});
-            PastaCorrecao.getInstancia(null);
+            PastaCorrecao.setInstancia(null);
         }
         limparContentPane();
     }
@@ -524,15 +504,15 @@ public class Principal extends javax.swing.JFrame {
     
     private void entradas() {
         Testes testes = null;
-        if (!PastaCorrecao.getInstancia().getQuestoes().isEmpty()) {
-            testes = new Testes(this, (ArrayList<Questao>)PastaCorrecao.getInstancia().getQuestoes().clone());
+        if (!ListaQuestoes.getArrayListQuestoes().isEmpty()) {
+            testes = new Testes(this, (ArrayList<Questao>)ListaQuestoes.getArrayListQuestoes().clone());
             testes.setVisible(true);
         } else {
             testes = new Testes(this);
             testes.setVisible(true);
         }
         
-        if (!PastaCorrecao.getInstancia().getQuestoes().isEmpty()) {
+        if (!ListaQuestoes.getArrayListQuestoes().isEmpty()) {
             habilitarOpcoes(new int[] { 2, 3, 4 });
             this.getContentPane().setVisible(false);
             this.setContentPane(new PastaCorrigida());

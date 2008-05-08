@@ -39,10 +39,6 @@ public class Sobre extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sobre");
 
-        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        javax.swing.ImageIcon icone = new javax.swing.ImageIcon(Imagens.CORRETOR_G);
-        lblLogo.setIcon(icone);
-
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
         jTextArea1.setLineWrap(true);

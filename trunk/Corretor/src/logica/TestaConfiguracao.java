@@ -23,7 +23,7 @@ public class TestaConfiguracao {
         }
         
         Configuracao config = new Configuracao(diretorio);
-        PastaCorrecao.getInstancia(config.escanearPastaCorrecao());
+        PastaCorrecao.setInstancia(config.escanearPastaCorrecao());
         try {
             Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
             int i = 0;

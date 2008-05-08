@@ -6,6 +6,7 @@
 
 package gui;
 
+import dados.ListaQuestoes;
 import gui.modelos.KeyListenerJanela;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class CopiaArquivo extends javax.swing.JDialog {
     }
     
     private void iniciarCombo() {
-        int nroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
+        int nroQuestoes = ListaQuestoes.getArrayListQuestoes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);

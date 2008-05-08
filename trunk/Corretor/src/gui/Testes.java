@@ -12,7 +12,7 @@ import gui.modelos.KeyListenerJanela;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import logica.GerenciaTestes;
-import dados.PastaCorrecao;
+import dados.ListaQuestoes;
 import java.io.IOException;
 import logica.Utilitarios;
 import logica.GerenciaSerializacao;
@@ -325,7 +325,7 @@ public class Testes extends javax.swing.JDialog {
                 }
             }
 
-            PastaCorrecao.getInstancia().setQuestoes(questoes);
+            ListaQuestoes.setInstancia(questoes);
             GerenciaSerializacao ser = new GerenciaSerializacao();
             ser.serializar();
             JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);

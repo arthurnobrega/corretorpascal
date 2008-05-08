@@ -31,7 +31,8 @@ public class Configuracao {
         Aluno[] alunos = procurarAlunos();
         PastaCorrecao pastaCorrecao = null;
         if (alunos.length > 0) {
-            pastaCorrecao = PastaCorrecao.getInstancia(diretorio, alunos);
+            PastaCorrecao.setInstancia(diretorio, alunos);
+            pastaCorrecao = PastaCorrecao.getInstancia();
         } else {
             throw new IOException();
         }

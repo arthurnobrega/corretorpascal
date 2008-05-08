@@ -6,10 +6,10 @@
 
 package gui;
 
+import dados.ListaQuestoes;
 import gui.modelos.KeyListenerJanela;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import dados.PastaCorrecao;
 import logica.GerenciaTestes;
 
 /**
@@ -18,7 +18,6 @@ import logica.GerenciaTestes;
  */
 public class NotasProporcao extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     double[] notasQuestoes = null;
     double[][] notasTestes = null;
     
@@ -34,7 +33,7 @@ public class NotasProporcao extends javax.swing.JDialog {
     
     private void iniciarCampos() {
         double somaQuestoes = 0, somaTestes = 0;
-        int nroQuestoes = pastaCorrecao.getQuestoes().size();
+        int nroQuestoes = ListaQuestoes.getArrayListQuestoes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTeste = null;
         int maxTestes = 0;
@@ -42,7 +41,7 @@ public class NotasProporcao extends javax.swing.JDialog {
         notasQuestoes = new double[nroQuestoes];
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
-            int tam = pastaCorrecao.getQuestao(i).getTestes().size();
+            int tam = ListaQuestoes.getArrayListQuestoes().get(i).getTestes().size();
             if (tam > maxTestes) {
                 maxTestes = tam;
             }
@@ -52,28 +51,28 @@ public class NotasProporcao extends javax.swing.JDialog {
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);
-            notasQuestoes[i] = pastaCorrecao.getQuestao(i).getNotaMax();
-            int nroTestes = pastaCorrecao.getQuestao(i).getTestes().size();
+            notasQuestoes[i] = ListaQuestoes.getArrayListQuestoes().get(i).getNotaMax();
+            int nroTestes = ListaQuestoes.getArrayListQuestoes().get(i).getTestes().size();
             vetorTeste = new String[nroTestes];
             for (int j = 0; j <= nroTestes - 1; j++) {
                 vetorTeste[j] = "Teste " + (j + 1);
-                notasTestes[i][j] = pastaCorrecao.getQuestao(i).getTeste(j).getPorcentagemNotaMax();
+                notasTestes[i][j] = ListaQuestoes.getArrayListQuestoes().get(i).getTeste(j).getPorcentagemNotaMax();
             }
         }
         DefaultComboBoxModel modelQuestao = new DefaultComboBoxModel(vetorQuestao);        
         cmbQuestao.setModel(modelQuestao);
         cmbQuestao.setSelectedIndex(0);
-        txtMaxQuestao.setText("" + ( (int)pastaCorrecao.getQuestao(0).getNotaMax()));
+        txtMaxQuestao.setText("" + ( (int)ListaQuestoes.getArrayListQuestoes().get(0).getNotaMax()));
         for (int i = 0; i <= notasQuestoes.length - 1; i++) {
             somaQuestoes += notasQuestoes[i];
         }        
         txtSomaQuestoes.setText("" + ((int)somaQuestoes));
         
-        GerenciaTestes ger = new GerenciaTestes(pastaCorrecao.getQuestoes());
+        GerenciaTestes ger = new GerenciaTestes(ListaQuestoes.getArrayListQuestoes());
         DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(ger.getVetorTestes(0));
         cmbTeste.setModel(modelTeste);
         cmbTeste.setSelectedIndex(0);
-        txtMaxTeste.setText("" + ((int)pastaCorrecao.getQuestao(0).getTeste(0).getPorcentagemNotaMax()));
+        txtMaxTeste.setText("" + ((int)ListaQuestoes.getArrayListQuestoes().get(0).getTeste(0).getPorcentagemNotaMax()));
         for (int i = 0; i <= notasTestes[0].length - 1; i++) {
             somaTestes += notasTestes[0][i];
         }
@@ -296,7 +295,7 @@ public class NotasProporcao extends javax.swing.JDialog {
         int soma = 0;
         int questaoSelecionada = cmbQuestao.getSelectedIndex();
         int testeSelecionado = cmbTeste.getSelectedIndex();
-        int nroTestes = pastaCorrecao.getQuestao(questaoSelecionada).getTestes().size();
+        int nroTestes = ListaQuestoes.getArrayListQuestoes().get(questaoSelecionada).getTestes().size();
         try {
             notasTestes[questaoSelecionada][testeSelecionado] = Integer.parseInt(txtMaxTeste.getText());
             for (int i = 0; i <= nroTestes - 1; i++) {
@@ -332,7 +331,7 @@ public class NotasProporcao extends javax.swing.JDialog {
         int selecionado = cmbQuestao.getSelectedIndex();
         int somaTestes = 0;
         txtMaxQuestao.setText("" + (int)notasQuestoes[selecionado]);
-        GerenciaTestes ger = new GerenciaTestes(pastaCorrecao.getQuestoes());
+        GerenciaTestes ger = new GerenciaTestes(ListaQuestoes.getArrayListQuestoes());
         DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(ger.getVetorTestes(selecionado));
         cmbTeste.setModel(modelTeste);
         cmbTeste.setSelectedIndex(0);
@@ -357,7 +356,7 @@ public class NotasProporcao extends javax.swing.JDialog {
         if (opcao == 0) {
             
             for (int i = 0; i <= notasQuestoes.length - 1; i++) {
-                int nroTestes = pastaCorrecao.getQuestao(i).getTestes().size();
+                int nroTestes = ListaQuestoes.getArrayListQuestoes().get(i).getTestes().size();
                 int soma = 0;
                 for (int j = 0; j <= nroTestes - 1; j++) {
                     soma += notasTestes[i][j];
@@ -370,10 +369,10 @@ public class NotasProporcao extends javax.swing.JDialog {
             }
             
             for (int i = 0; i <= notasQuestoes.length - 1; i++) {
-                pastaCorrecao.getQuestao(i).setNotaMax(notasQuestoes[i]);
-                int nroTestes = pastaCorrecao.getQuestao(i).getTestes().size();
+                ListaQuestoes.getArrayListQuestoes().get(i).setNotaMax(notasQuestoes[i]);
+                int nroTestes = ListaQuestoes.getArrayListQuestoes().get(i).getTestes().size();
                 for (int j = 0; j <= nroTestes - 1; j++) {
-                    pastaCorrecao.getQuestao(i).getTeste(j).setPorcentagemNotaMax(notasTestes[i][j]);
+                    ListaQuestoes.getArrayListQuestoes().get(i).getTeste(j).setPorcentagemNotaMax(notasTestes[i][j]);
                 }
             }
             JOptionPane.showMessageDialog(null, "Notas salvas com sucesso!", 

@@ -6,10 +6,10 @@
 
 package gui;
 
+import dados.ListaQuestoes;
 import gui.modelos.KeyListenerJanela;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import dados.PastaCorrecao;
 
 /**
  *
@@ -17,7 +17,6 @@ import dados.PastaCorrecao;
  */
 public class NotasQuestoes extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     int[] notasQuestoes = null;
     
     /** Creates new form NotasQuestoes */
@@ -31,18 +30,18 @@ public class NotasQuestoes extends javax.swing.JDialog {
     
     private void iniciarCampos() {
         int soma = 0;
-        int nroQuestoes = pastaCorrecao.getQuestoes().size();
+        int nroQuestoes = ListaQuestoes.getArrayListQuestoes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         notasQuestoes = new int[nroQuestoes];
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {
             vetorQuestao[i] = "Questão " + (i + 1);
-            notasQuestoes[i] = (int) pastaCorrecao.getQuestoes().get(i).getNotaMax();
+            notasQuestoes[i] = (int) ListaQuestoes.getArrayListQuestoes().get(i).getNotaMax();
         }
         DefaultComboBoxModel modelQuestao = new DefaultComboBoxModel(vetorQuestao);        
         cmbQuestao.setModel(modelQuestao);
         cmbQuestao.setSelectedIndex(0);
-        txtMaxQuestao.setText("" + pastaCorrecao.getQuestoes().get(0).getNotaMax());
+        txtMaxQuestao.setText("" + ListaQuestoes.getArrayListQuestoes().get(0).getNotaMax());
         
         for (int i = 0; i <= notasQuestoes.length - 1; i++) {
             soma += notasQuestoes[i];
@@ -185,7 +184,7 @@ public class NotasQuestoes extends javax.swing.JDialog {
         }
         if (opcao == 0) {
             for (int i = 0; i <= notasQuestoes.length - 1; i++) {
-                pastaCorrecao.getQuestoes().get(i).setNotaMax(notasQuestoes[i]);
+                ListaQuestoes.getArrayListQuestoes().get(i).setNotaMax(notasQuestoes[i]);
             }
             JOptionPane.showMessageDialog(null, "Notas salvas com sucesso!", 
                     "Notas Salvas!", JOptionPane.INFORMATION_MESSAGE);

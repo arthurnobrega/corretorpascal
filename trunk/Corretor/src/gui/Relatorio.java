@@ -10,6 +10,7 @@ import gui.modelos.KeyListenerJanela;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import dados.Aluno;
+import dados.ListaQuestoes;
 import dados.PastaCorrecao;
 import dados.Saidas;
 import javax.swing.JOptionPane;
@@ -20,13 +21,12 @@ import javax.swing.JOptionPane;
  */
 public class Relatorio extends javax.swing.JDialog {
     
-    PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     private Aluno aluno;
     
     /** Creates new form Relatorio */
     public Relatorio(int alunoSelecionado, String titulo, JFrame pai) {
         super(pai, titulo, true);
-        this.aluno = pastaCorrecao.getAlunos()[alunoSelecionado];
+        this.aluno = PastaCorrecao.getInstancia().getAlunos()[alunoSelecionado];
         initComponents();
         Janelas.alinharContainer(this);
         iniciarCombos();
@@ -34,8 +34,8 @@ public class Relatorio extends javax.swing.JDialog {
     }
     
     private void iniciarCombos() {
-        int nroQuestoes = pastaCorrecao.getQuestoes().size();
-        int nroTestes1 = pastaCorrecao.getQuestao(0).getTestes().size();
+        int nroQuestoes = ListaQuestoes.getArrayListQuestoes().size();
+        int nroTestes1 = ListaQuestoes.getArrayListQuestoes().get(0).getTestes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         String[] vetorTestes1 = new String[nroTestes1];
         
@@ -199,7 +199,7 @@ public class Relatorio extends javax.swing.JDialog {
 
     private void cmbQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbQuestaoActionPerformed
         if (cmbQuestao.getSelectedIndex() < aluno.getFontes().length) {
-            int nroTestes = pastaCorrecao.getQuestao(cmbQuestao.getSelectedIndex()).getTestes().size();
+            int nroTestes = ListaQuestoes.getArrayListQuestoes().get(cmbQuestao.getSelectedIndex()).getTestes().size();
             String[] vetorTestes = new String[nroTestes];
 
             for (int i = 0; i <= nroTestes - 1; i++) {

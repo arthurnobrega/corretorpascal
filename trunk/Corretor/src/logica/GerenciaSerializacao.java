@@ -1,5 +1,6 @@
 package logica;
 
+import dados.ListaQuestoes;
 import java.io.File;
 import java.io.IOException;
 import logica.Arquivos;
@@ -15,7 +16,7 @@ public class GerenciaSerializacao {
      * Serializa o objeto padrão na pasta da correção.
      */
     public void serializar() {
-        Arquivos.serializarCorrecao();
+        Arquivos.serializarDados();
         PastaCorrecao.getInstancia().setModificado(false);
     }
     
@@ -24,7 +25,8 @@ public class GerenciaSerializacao {
      * PastaCorrecao.
      */
     public void desserializar(File diretorio) throws IOException {
-        PastaCorrecao.getInstancia(Arquivos.desserializarCorrecao(diretorio));
+        PastaCorrecao.setInstancia(Arquivos.desserializarCorrecao(diretorio));
+        ListaQuestoes.setInstancia(Arquivos.desserializarListaQuestoes(diretorio));
         PastaCorrecao.getInstancia().setModificado(false);
     }
     

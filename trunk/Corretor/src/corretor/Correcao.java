@@ -8,8 +8,8 @@ import logica.Arquivos;
 import logica.Constantes;
 import dados.Aluno;
 import dados.ArquivoFonte;
+import dados.ListaQuestoes;
 import dados.Teste;
-import dados.PastaCorrecao;
 import dados.Saidas;
 
 /**
@@ -102,7 +102,7 @@ public class Correcao {
                     "fpc", arqFonte.getName()}, null);
                 ex.executar();
                 if (ex.getValorSaida() != 0) {
-                arquivoFonte.setErroCompilacao(true);
+                    arquivoFonte.setErroCompilacao(true);
                 }
             } else {
                 //Colocar uma flag mostrando o erro.
@@ -115,10 +115,10 @@ public class Correcao {
      * já foram inseridos as Entradas e Gabaritos para cada questão.
      */
     public void corrigir() {
-        ArrayList<Questao> questoes = PastaCorrecao.getInstancia().getQuestoes();
+        ArrayList<Questao> questoes = ListaQuestoes.getArrayListQuestoes();
         ArquivoFonte[] arquivosFonte = aluno.getFontes();
         aluno.reiniciarContagem();
-        int nroQuestoes = PastaCorrecao.getInstancia().getQuestoes().size();
+        int nroQuestoes = ListaQuestoes.getArrayListQuestoes().size();
         int limite = 0;
         
         if (nroQuestoes > arquivosFonte.length) {
@@ -131,7 +131,7 @@ public class Correcao {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
             ArrayList<Double> pesos = arqFonte.getPorcentagens();
-            double notaMax = PastaCorrecao.getInstancia().getQuestoes().get(i).getNotaMax();
+            double notaMax = ListaQuestoes.getArrayListQuestoes().get(i).getNotaMax();
             if (arqFonte != null) {
                 ArrayList<Teste> testes = questoes.get(i).getTestes();
                 saidas = new ArrayList<Saidas>();
