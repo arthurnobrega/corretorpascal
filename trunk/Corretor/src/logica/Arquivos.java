@@ -187,8 +187,6 @@ public abstract class Arquivos {
               isCorrecao = new FileInputStream(arqCorrecao);
               oisCorrecao = new ObjectInputStream(isCorrecao);
               pastaCorrecao =  (PastaCorrecao) oisCorrecao.readObject();
-           } catch (IOException e) {
-              e.printStackTrace();
            } catch (ClassNotFoundException e) {
               e.printStackTrace();
            }
@@ -198,8 +196,7 @@ public abstract class Arquivos {
        return pastaCorrecao;
     }
     
-    public static ListaQuestoes desserializarListaQuestoes(File diretorio) throws IOException {
-       File arqListaQuestoes = new File(diretorio.getAbsolutePath() + "/" + Constantes.NARQ_LIS);
+    public static ListaQuestoes desserializarListaQuestoes(File arqListaQuestoes) throws IOException {
        InputStream isListaQuestoes;
        ObjectInputStream oisListaQuestoes;
        ListaQuestoes listaQuestoes = null;
@@ -209,8 +206,6 @@ public abstract class Arquivos {
               isListaQuestoes = new FileInputStream(arqListaQuestoes);
               oisListaQuestoes = new ObjectInputStream(isListaQuestoes);
               listaQuestoes =  (ListaQuestoes) oisListaQuestoes.readObject();
-           } catch (IOException e) {
-              e.printStackTrace();
            } catch (ClassNotFoundException e) {
               e.printStackTrace();
            }

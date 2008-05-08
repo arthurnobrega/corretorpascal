@@ -30,4 +30,9 @@ public class GerenciaSerializacao {
         PastaCorrecao.getInstancia().setModificado(false);
     }
     
+    public void desserializarListaQuestoes(File arquivo) throws IOException {
+        ListaQuestoes.setInstancia(Arquivos.desserializarListaQuestoes(arquivo));
+        PastaCorrecao.getInstancia().setModificado(true);
+    }
+    
 }
