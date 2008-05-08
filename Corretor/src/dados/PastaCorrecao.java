@@ -2,7 +2,6 @@ package dados;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Classe que centraliza todas as informações do programa, pois todos os outros dados
@@ -11,7 +10,6 @@ import java.util.ArrayList;
  */
 public class PastaCorrecao implements Serializable {
     
-    private ArrayList<Questao> questoes = null;
     private Aluno[] alunos = null;
     private File diretorio = null;
     
@@ -26,7 +24,6 @@ public class PastaCorrecao implements Serializable {
     private PastaCorrecao(File diretorio, Aluno[] alunos) {
         this.diretorio = diretorio;
         this.alunos = alunos;
-        questoes = new ArrayList<Questao>();
     }
     
     /**
@@ -41,10 +38,9 @@ public class PastaCorrecao implements Serializable {
      * @param diretorio O diretório que contém todos os subdiretórios dos alunos.
      * @param alunos O vetor de alunos da pasta de correção.
      */
-    public static PastaCorrecao getInstancia(File diretorio, Aluno[] alunos) {
+    public static void setInstancia(File diretorio, Aluno[] alunos) {
         instancia = new PastaCorrecao(diretorio, alunos);
         modificado = true;
-        return instancia;
     }
     
     /**
@@ -52,15 +48,13 @@ public class PastaCorrecao implements Serializable {
      * @param pastaCorrecao Um objeto da mesma classe onde seus dados serão copiados
      * para o objeto de classe singleton.
      */
-    public static PastaCorrecao getInstancia(PastaCorrecao pastaCorrecao) {
+    public static void setInstancia(PastaCorrecao pastaCorrecao) {
         if (pastaCorrecao != null) {
             instancia = new PastaCorrecao(pastaCorrecao.getDiretorio(), pastaCorrecao.getAlunos());
-            instancia.setQuestoes(pastaCorrecao.getQuestoes());
         } else {
             instancia = null;
         }
         modificado = true;
-        return instancia;
     }
     
     /**
@@ -68,26 +62,6 @@ public class PastaCorrecao implements Serializable {
      */
     public File getDiretorio() {
         return diretorio;
-    }
-    
-    /**
-     * Retorna a lista de questões.
-     */
-    public Questao getQuestao(int indice) {
-        return questoes.get(indice);
-    }
-    
-    public ArrayList<Questao> getQuestoes() {
-        return questoes;
-    }
-    
-    /**
-     * Seta a lista de questões.
-     * @param questoes A lista de questões que será atribuida.
-     */
-    public void setQuestoes(ArrayList<Questao> questoes) {
-        this.questoes = questoes;
-        setModificado(true);
     }
     
     /**

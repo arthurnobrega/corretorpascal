@@ -3,10 +3,7 @@ package logica;
 import dados.Aluno;
 import dados.ArquivoFonte;
 import dados.PastaCorrecao;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Classe que guarda métodos Utilitários que serão utilizados no decorrer do
@@ -34,7 +31,9 @@ public abstract class Utilitarios {
     }
     
     public static boolean compararStrings(String saida, String gabarito) {
-        if (saida.equalsIgnoreCase(gabarito)) {
+        if (saida == null || saida.equals("")) {
+            return false;
+        } else if (saida.equalsIgnoreCase(gabarito)) {
             return true;
         }
         return false;

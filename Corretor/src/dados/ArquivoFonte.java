@@ -170,7 +170,7 @@ public class ArquivoFonte implements Serializable {
                     }
                 }
             }
-            if (colunasErradas.isEmpty()) {
+            if (colunasErradas.isEmpty() && limiteColunas > 0) {
                 relatorio += "Acertou a linha " + (i + 1) + "\n" + 
                         "          Gabarito: (" + linhasGabarito.get(i).getLinhaString() +
                         ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";

@@ -1,16 +1,13 @@
 package gui;
 
 import dados.Aluno;
+import dados.ListaQuestoes;
 import dados.PastaCorrecao;
-import gui.modelos.EditorTexto;
 import gui.modelos.KeyListenerJanela;
-import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import logica.Arquivos;
 import logica.Utilitarios;
 
@@ -19,7 +16,6 @@ import logica.Utilitarios;
  */
 public class PastaCorrigida extends javax.swing.JPanel {
     
-    private PastaCorrecao pastaCorrecao = PastaCorrecao.getInstancia();
     private Aluno[] alunos = null;
     
     /** Creates new form PainelLista */
@@ -30,7 +26,7 @@ public class PastaCorrigida extends javax.swing.JPanel {
     }
     
     private void iniciarCampos() {
-        int nroQuestoes = pastaCorrecao.getQuestoes().size();
+        int nroQuestoes = ListaQuestoes.getArrayListQuestoes().size();
         String[] vetorQuestao = new String[nroQuestoes];
         
         for (int i = 0; i <= nroQuestoes - 1; i++) {

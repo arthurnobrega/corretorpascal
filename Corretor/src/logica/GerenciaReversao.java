@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import dados.Aluno;
 import dados.ArquivoFonte;
-import logica.Arquivos;
 import dados.PastaCorrecao;
 
 /**
@@ -44,8 +43,8 @@ public class GerenciaReversao {
             }
             
             File arqSer = new File(PastaCorrecao.getInstancia().getDiretorio().getAbsolutePath() +
-                                "/" + Constantes.NARQ_SER);
-            PastaCorrecao.getInstancia(null);
+                                "/" + Constantes.NARQ_COR);
+            PastaCorrecao.setInstancia(null);
             Arquivos.deletarArquivo(arqSer);
             System.out.println("Reversão Concluída!!");
         } catch (IOException ex) {
