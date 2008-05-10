@@ -83,7 +83,9 @@ public class Aluno implements Serializable {
         notaQuestoes.clear();
         for (ArquivoFonte fonte : fontes) {
             //reinicia a contagem da nota de cada arquivo fonte do aluno.
-            fonte.reiniciarContagem();
+            if (fonte != null) {
+                fonte.reiniciarContagem();
+            }
         }
         PastaCorrecao.getInstancia().setModificado(true);
     }
