@@ -22,6 +22,8 @@ import dados.PastaCorrecao;
  */
 public class Principal extends javax.swing.JFrame {
     
+    private static Principal instancia = null;
+    
     private static int OPCAO_ENT = 0;
     private static int OPCAO_REV = 1;
     private static int OPCAO_COR = 2;
@@ -40,6 +42,11 @@ public class Principal extends javax.swing.JFrame {
         limparContentPane();
         desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6, 7});
         this.addKeyListener(new KeyListenerJanela());
+        instancia = this;
+    }
+    
+    public static Principal getInstancia() {
+        return instancia;
     }
     
     private void inicializarJFileChooser() {

@@ -19,9 +19,12 @@ public class Correcao {
     
     Aluno aluno = null;
     
+    private static Correcao instancia = null;
+    
     /** Cria uma nova instância da classe Correcao. */
     public Correcao(Aluno aluno) {
         this.aluno = aluno;
+        instancia = this;
     }
     
     /**
@@ -76,10 +79,12 @@ public class Correcao {
         String texto = diretorioAluno + "\n\n";
         int cont = 1;
         for (ArquivoFonte fonte : fontes) {
-            File arquivo = fonte.getArquivo();
-            texto += "------------------------------" + "Questão " + cont + 
-                    "------------------------------\n";
-            texto += Arquivos.getTextoArquivo(arquivo) + "\n\n";
+            if (fonte != null) {
+                File arquivo = fonte.getArquivo();
+                texto += "------------------------------" + "Questão " + cont + 
+                        "------------------------------\n";
+                texto += Arquivos.getTextoArquivo(arquivo) + "\n\n";
+            }
             cont++;
         }
         File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
@@ -130,12 +135,14 @@ public class Correcao {
         for (int i = 0; i <= limite - 1; i++) {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
-            ArrayList<Double> pesos = arqFonte.getPorcentagens();
             double notaMax = ListaQuestoes.getArrayListQuestoes().get(i).getNotaMax();
+            
             if (arqFonte != null) {
+                ArrayList<Double> pesos = arqFonte.getPorcentagens();
                 ArrayList<Teste> testes = questoes.get(i).getTestes();
                 saidas = new ArrayList<Saidas>();
                 double notaFinal = 0;
+                
                 for (int j = 0; j <= testes.size() - 1; j++) {
                     Teste teste = testes.get(j);
                     String textoSaida = arqFonte.corrigir(teste.getEntradaConcatenada());
@@ -145,10 +152,10 @@ public class Correcao {
                     notaFinal += (pesos.get(j).intValue() * (notaMax * teste.getPorcentagemNotaMax())) / 10000;
                 }
                 aluno.addNotaQuestao((int) notaFinal);
+                arqFonte.setSaidas(saidas);
             } else {
                 aluno.addNotaQuestao(0);
             }
-            arqFonte.setSaidas(saidas);
         }
     }
     

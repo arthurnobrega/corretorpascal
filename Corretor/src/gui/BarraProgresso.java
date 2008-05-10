@@ -6,64 +6,28 @@
 
 package gui;
 
-import java.awt.Toolkit;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Random;
-import javax.swing.JFrame;
+import java.awt.Rectangle;
 import javax.swing.JProgressBar;
-import javax.swing.SwingWorker;
+import logica.GerenciaCorrecao;
 
 /**
  *
  * @author  UltraXP
  */
-public class BarraProgresso extends javax.swing.JDialog implements PropertyChangeListener {
-    
-    private Task task;
-    
-    class Task extends SwingWorker<Void, Void> {
-        /*
-         * Main task. Executed in background thread.
-         */
-        public Void doInBackground() {
-            Random random = new Random();
-            int progress = 0;
-            //Initialize progress property.
-            setProgress(0);
-            while (progress < 100) {
-                //Sleep for up to one second.
-                try {
-                    Thread.sleep(random.nextInt(1000));
-                } catch (InterruptedException ignore) {}
-                //Make random progress.
-                progress += random.nextInt(10);
-                setProgress(Math.min(progress, 100));
-            }
-            return null;
-        }
-
-        /*
-         * Executed in event dispatching thread
-          */
-        public void done() {
-            Toolkit.getDefaultToolkit().beep();
-            setCursor(null); //turn off the wait cursor
-            //taskOutput.append("Done!\n");
-        }
-    }
-    
+public class BarraProgresso extends javax.swing.JDialog implements Runnable {
+        
     /** Creates new form BarraProgresso */
-    public BarraProgresso() {
-        super(new JFrame(), true);
+    public BarraProgresso(Principal principal) {
+        super(principal, true);
         initComponents();
-        /*rect = barraProgresso.getBounds();
+        Rectangle rect = new Rectangle();
+        rect = barraProgresso.getBounds();
         barraProgresso.setBounds(rect);
         barraProgresso.setMinimum(1);
         barraProgresso.setMaximum(100);
         barraProgresso.setIndeterminate(true);
         barraProgresso.setStringPainted(true);
-        barraProgresso.setValue(1);*/
+        barraProgresso.setValue(1);
         //Create the demo's UI.
 
         barraProgresso = new JProgressBar(0, 100);
@@ -72,19 +36,13 @@ public class BarraProgresso extends javax.swing.JDialog implements PropertyChang
         Janelas.alinharContainer(this);
         this.pack();
         this.setVisible(true);
-        task.execute();
     }
     
-    /**
-     * Invoked when task's progress property changes.
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("progress" == evt.getPropertyName()) {
-            int progress = (Integer) evt.getNewValue();
-            barraProgresso.setValue(progress);
-            /*taskOutput.append(String.format(
-                    "Completed %d%% of task.\n", task.getProgress()));*/
-        } 
+    public void run() {
+        while (GerenciaCorrecao.getInstancia().getNumeroExecucao() != 100) {
+            barraProgresso.setValue(GerenciaCorrecao.getInstancia().getNumeroExecucao());
+        }
+        this.dispose();
     }
     
     /** This method is called from within the constructor to

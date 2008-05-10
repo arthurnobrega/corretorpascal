@@ -151,8 +151,11 @@ public class ArquivoFonte implements Serializable {
             colunasLinha = Utilitarios.retirarElementosNulos(colunasLinha);
             
             limiteColunas = modeloLinhaGabarito.getNroColunas();
-            if (colunasLinha.length < modeloLinhaGabarito.getNroColunas()) {
-                limiteColunas = colunasLinha.length;
+            if (colunasLinha.length != modeloLinhaGabarito.getNroColunas()) {
+                relatorio += "Errou a linha " + (i + 1) + "\n" +
+                        "          Gabarito: (" + linhasGabarito.get(i).getLinhaString() +
+                        ")\n          Saída do Aluno: (" + linhasSaida[i] + ")\n";
+                break;
             }
             for (int j = 0; j <= limiteColunas - 1; j++) {
                 String tipo = modeloLinhaGabarito.getColuna(j);

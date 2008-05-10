@@ -91,7 +91,7 @@
             <Property name="editable" type="boolean" value="false"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="Corretor de Programas em Pascal&#xa;&#xa;&#xa;&#xa;Vers&#xe3;o: 1.60"/>
+            <Property name="text" type="java.lang.String" value="Corretor de Programas em Pascal&#xa;&#xa;&#xa;&#xa;Vers&#xe3;o: 1.61"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>
