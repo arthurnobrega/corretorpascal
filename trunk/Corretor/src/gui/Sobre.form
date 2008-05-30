@@ -55,7 +55,7 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagens/corretor_g.png"/>
+          <Image iconType="3" name="/imagens/corretor.png"/>
         </Property>
       </Properties>
     </Component>
@@ -72,7 +72,7 @@
             <Property name="editable" type="boolean" value="false"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="Este programa faz parte de um projeto dirigido pelo professor Homero Luiz Piccolo que t&#xea;m em vista automatizar algumas funcionalidades da disciplina de Introdu&#xe7;&#xe3;o &#xe0; Ci&#xea;ncia da Computa&#xe7;&#xe3;o (ICC) da Universidade de Bras&#xed;lia (UnB).&#xa;&#xa;2007"/>
+            <Property name="text" type="java.lang.String" value="Este programa faz parte de um projeto dirigido pelo professor Homero Luiz Piccolo que t&#xea;m em vista automatizar algumas funcionalidades da disciplina de Introdu&#xe7;&#xe3;o &#xe0; Ci&#xea;ncia da Computa&#xe7;&#xe3;o (ICC) da Universidade de Bras&#xed;lia (UnB).&#xa;&#xa;2007-2008"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>
@@ -91,7 +91,7 @@
             <Property name="editable" type="boolean" value="false"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="Corretor de Programas em Pascal&#xa;&#xa;&#xa;&#xa;Vers&#xe3;o: 1.61"/>
+            <Property name="text" type="java.lang.String" value="Corretor de Programas em Pascal&#xa;&#xa;&#xa;&#xa;Vers&#xe3;o: 1.70 Beta"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>

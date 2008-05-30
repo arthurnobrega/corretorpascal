@@ -31,9 +31,9 @@ public class GerenciaCorrecao {
      * Corrige todos os arquivos chamando métodos mais internos.
      */
     public void corrigir() {
-        BarraProgresso barra = new BarraProgresso(Principal.getInstancia());
+        /*BarraProgresso barra = new BarraProgresso(Principal.getInstancia());
         Thread thread = new Thread(barra);
-        thread.start();
+        thread.start();*/
         
         Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
         int mult = 100 / alunos.length;

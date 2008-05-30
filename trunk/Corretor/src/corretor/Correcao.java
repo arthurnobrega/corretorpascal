@@ -104,7 +104,7 @@ public class Correcao {
                 File arqFonte = arquivoFonte.getArquivo();
 
                 Executador ex = new Executador(arqFonte.getParentFile(), new String[] {
-                    "fpc", arqFonte.getName()}, null);
+                    "cmd", "/C","fpc", arqFonte.getName()}, null);
                 ex.executar();
                 if (ex.getValorSaida() != 0) {
                     arquivoFonte.setErroCompilacao(true);
@@ -135,9 +135,10 @@ public class Correcao {
         for (int i = 0; i <= limite - 1; i++) {
             ArquivoFonte arqFonte = arquivosFonte[i];
             ArrayList<Saidas> saidas = null;
-            double notaMax = ListaQuestoes.getArrayListQuestoes().get(i).getNotaMax();
+            Questao questao = ListaQuestoes.getArrayListQuestoes().get(i);
+            double notaMax = questao.getNotaMax();
             
-            if (arqFonte != null) {
+            if (arqFonte != null && !arqFonte.getErroCompilacao()) {
                 ArrayList<Double> pesos = arqFonte.getPorcentagens();
                 ArrayList<Teste> testes = questoes.get(i).getTestes();
                 saidas = new ArrayList<Saidas>();
@@ -145,7 +146,19 @@ public class Correcao {
                 
                 for (int j = 0; j <= testes.size() - 1; j++) {
                     Teste teste = testes.get(j);
-                    String textoSaida = arqFonte.corrigir(teste.getEntradaConcatenada());
+                    String textoSaida = "";
+                    textoSaida = arqFonte.corrigir(teste.getEntradaConcatenada());
+                    if (questao.getNomeArquivoSaida() != null) {
+                        File arqSaida = new File(arqFonte.getArquivo().getParent() + 
+                                questao.getNomeArquivoSaida());
+                        try {
+                            textoSaida = Arquivos.getTextoArquivo(arqSaida);
+                        } catch (IOException e) {
+                            textoSaida = Constantes.SEPARADOR_MENSAGEM_ERRO + " O " +
+                                    "arquivo de saída deste aluno não foi encontrado. " +
+                                    Constantes.SEPARADOR_MENSAGEM_ERRO;
+                        }
+                    }
                     String textoRelatorio = arqFonte.testarGabarito(teste, textoSaida);
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
                     saidas.add(saida);

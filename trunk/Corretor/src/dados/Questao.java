@@ -12,6 +12,7 @@ public class Questao implements Serializable {
     
     private ArrayList<Teste> testes = null;
     private double notaMax = 0;
+    private String nomeArquivoSaida = null;
     
     /** 
      * Cria uma nova instância da classe Questao.
@@ -43,14 +44,6 @@ public class Questao implements Serializable {
         testes.remove(indice);
     }
     
-    /**
-     * Seta a lista de entradas e gabaritos para esta questão.
-     *
-    public void setListaIO(ListaIO io) {
-        this.io = io;
-        PastaCorrecao.setModificado(true);
-    }*/
-    
     public void limparListaTestes() {
         testes = new ArrayList<Teste>();
     }
@@ -68,6 +61,14 @@ public class Questao implements Serializable {
     public void setNotaMax(double notaQuestao) {
         this.notaMax = notaQuestao;
         PastaCorrecao.getInstancia().setModificado(true);
+    }
+    
+    public String getNomeArquivoSaida() {
+        return nomeArquivoSaida;
+    }
+    
+    public void setNomeArquivoSaida(String nomeArquivoSaida) {
+        this.nomeArquivoSaida = nomeArquivoSaida;
     }
     
 }
