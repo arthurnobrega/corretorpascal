@@ -40,13 +40,13 @@ public class Sobre extends javax.swing.JDialog {
         setTitle("Sobre");
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/corretor_g.png"))); // NOI18N
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/corretor.png"))); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Este programa faz parte de um projeto dirigido pelo professor Homero Luiz Piccolo que têm em vista automatizar algumas funcionalidades da disciplina de Introdução à Ciência da Computação (ICC) da Universidade de Brasília (UnB).\n\n2007");
+        jTextArea1.setText("Este programa faz parte de um projeto dirigido pelo professor Homero Luiz Piccolo que têm em vista automatizar algumas funcionalidades da disciplina de Introdução à Ciência da Computação (ICC) da Universidade de Brasília (UnB).\n\n2007-2008");
         jTextArea1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -54,7 +54,7 @@ public class Sobre extends javax.swing.JDialog {
         jTextArea2.setEditable(false);
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
-        jTextArea2.setText("Corretor de Programas em Pascal\n\n\n\nVersão: 1.61");
+        jTextArea2.setText("Corretor de Programas em Pascal\n\n\n\nVersão: 1.70 Beta");
         jTextArea2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea2);
 
@@ -78,7 +78,7 @@ public class Sobre extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jScrollPane2)
-                    .add(lblLogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                    .add(lblLogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 136, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

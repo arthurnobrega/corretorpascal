@@ -15,6 +15,7 @@ import logica.GerenciaSerializacao;
 import logica.GerenciaCorrecao;
 import logica.TestaConfiguracao;
 import dados.PastaCorrecao; 
+import java.awt.Toolkit;
 
 /**
  *
@@ -31,18 +32,23 @@ public class Principal extends javax.swing.JFrame {
     private static int OPCAO_COP = 4;
     private static int OPCAO_SAL = 5;
     private static int OPCAO_FEC = 6;
-    private static int OPCAO_LIS = 7;
         
     /** Creates new form Principal */
     public Principal() {
         initComponents();
         inicializarJFileChooser();
         inicializarJOptionPane();
+        configurarIcones();
         Janelas.alinharContainer(this);
         limparContentPane();
         desabilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6, 7});
         this.addKeyListener(new KeyListenerJanela());
         instancia = this;
+    }
+    
+    private void configurarIcones() {
+        this.setIconImage(Toolkit.getDefaultToolkit().
+                getImage(getClass().getResource("/imagens/corretor.png")));
     }
     
     public static Principal getInstancia() {
@@ -94,7 +100,6 @@ public class Principal extends javax.swing.JFrame {
         itemEntradas = new javax.swing.JMenuItem();
         itemNotas = new javax.swing.JMenuItem();
         itemCopia = new javax.swing.JMenuItem();
-        itemImportarQuestoes = new javax.swing.JMenuItem();
         itemReverter = new javax.swing.JMenuItem();
         menuConstruir = new javax.swing.JMenu();
         itemCorrigir = new javax.swing.JMenuItem();
@@ -103,7 +108,7 @@ public class Principal extends javax.swing.JFrame {
         itemSobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Corretor de Programas em Pascal");
+        setTitle("Corretor 1.70 Beta");
 
         menuArquivo.setText("Arquivo");
 
@@ -171,7 +176,7 @@ public class Principal extends javax.swing.JFrame {
         });
         menuFerramentas.add(itemEntradas);
 
-        itemNotas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        itemNotas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         itemNotas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/notas.png"))); // NOI18N
         itemNotas.setText("Proporção das Notas");
         itemNotas.addActionListener(new java.awt.event.ActionListener() {
@@ -190,16 +195,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuFerramentas.add(itemCopia);
-
-        itemImportarQuestoes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        itemImportarQuestoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/impquestoes.png"))); // NOI18N
-        itemImportarQuestoes.setText("Importar Lista de Questões");
-        itemImportarQuestoes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemImportarQuestoesActionPerformed(evt);
-            }
-        });
-        menuFerramentas.add(itemImportarQuestoes);
 
         itemReverter.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         itemReverter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/reverter.png"))); // NOI18N
@@ -313,10 +308,6 @@ public class Principal extends javax.swing.JFrame {
     private void itemEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEntradasActionPerformed
         entradas();
     }//GEN-LAST:event_itemEntradasActionPerformed
-
-    private void itemImportarQuestoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarQuestoesActionPerformed
-        importarQuestoes();
-}//GEN-LAST:event_itemImportarQuestoesActionPerformed
     
     private void novaCorrecao() {
         UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
@@ -464,38 +455,38 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
-    private void importarQuestoes() {
-        UIManager.put("FileChooser.openDialogTitleText", "Importar Lista de Questões...");
-        File arquivo = null;
-        
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int resultado = fc.showOpenDialog(this);
-        Janelas.alinharContainer(fc);
-        if (resultado == JFileChooser.CANCEL_OPTION) {
-            arquivo = null;
-        } else {
-            arquivo = fc.getSelectedFile();
-            try {
-                GerenciaSerializacao gerSer = new GerenciaSerializacao();
-                gerSer.desserializarListaQuestoes(arquivo);
-                if (ListaQuestoes.getArrayListQuestoes().size() >= 1) {
-                    habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
-                    this.getContentPane().setVisible(false);
-                    this.setContentPane(new PastaCorrigida());
-                    this.getContentPane().setVisible(true);
-                } else {
-                    habilitarOpcoes(new int[] { 0, 1, 5, 6, 7 });
-                }
-                JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
-                    JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "O arquivo informado não constitui " +
-                        "um arquivo várlido de questões para o Corretor!", "Arquivo Inválido!",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
+//    private void importarQuestoes() {
+//        UIManager.put("FileChooser.openDialogTitleText", "Importar Lista de Questões...");
+//        File arquivo = null;
+//        
+//        JFileChooser fc = new JFileChooser();
+//        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+//        int resultado = fc.showOpenDialog(this);
+//        Janelas.alinharContainer(fc);
+//        if (resultado == JFileChooser.CANCEL_OPTION) {
+//            arquivo = null;
+//        } else {
+//            arquivo = fc.getSelectedFile();
+//            try {
+//                GerenciaSerializacao gerSer = new GerenciaSerializacao();
+//                gerSer.desserializarListaQuestoes(arquivo);
+//                if (ListaQuestoes.getArrayListQuestoes().size() >= 1) {
+//                    habilitarOpcoes(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
+//                    this.getContentPane().setVisible(false);
+//                    this.setContentPane(new PastaCorrigida());
+//                    this.getContentPane().setVisible(true);
+//                } else {
+//                    habilitarOpcoes(new int[] { 0, 1, 5, 6, 7 });
+//                }
+//                JOptionPane.showMessageDialog(this, "Importação Concluída!", "Concluído!",
+//                    JOptionPane.INFORMATION_MESSAGE);
+//            } catch (IOException ex) {
+//                JOptionPane.showMessageDialog(this, "O arquivo informado não constitui " +
+//                        "um arquivo várlido de questões para o Corretor!", "Arquivo Inválido!",
+//                        JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//    }
        
     private void desabilitarOpcoes(int[] opcoes) {
         for (int opcao : opcoes) {
@@ -513,8 +504,6 @@ public class Principal extends javax.swing.JFrame {
                 itemSalvar.setEnabled(false);
             } else if (opcao == OPCAO_FEC) {
                 itemFechar.setEnabled(false);
-            } else if (opcao == OPCAO_LIS) {
-                itemImportarQuestoes.setEnabled(false);
             }
         }
     }
@@ -535,8 +524,6 @@ public class Principal extends javax.swing.JFrame {
                 itemSalvar.setEnabled(true);
             } else if (opcao == OPCAO_FEC) {
                 itemFechar.setEnabled(true);
-            } else if (opcao == OPCAO_LIS) {
-                itemImportarQuestoes.setEnabled(true);
             }
         }
     }
@@ -566,7 +553,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemEntradas;
     private javax.swing.JMenuItem itemFechar;
     private javax.swing.JMenuItem itemImportar;
-    private javax.swing.JMenuItem itemImportarQuestoes;
     private javax.swing.JMenuItem itemNotas;
     private javax.swing.JMenuItem itemNova;
     private javax.swing.JMenuItem itemReverter;

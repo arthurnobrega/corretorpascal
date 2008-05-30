@@ -10,6 +10,7 @@ import gui.modelos.KeyListenerJanela;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import dados.Aluno;
+import dados.ArquivoFonte;
 import dados.ListaQuestoes;
 import dados.PastaCorrecao;
 import dados.Saidas;

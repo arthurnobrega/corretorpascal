@@ -12,14 +12,19 @@ import dados.ModeloLinhaGabarito;
 import dados.Teste;
 import dados.Teste;
 import gui.modelos.KeyListenerJanela;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import logica.Arquivos;
+import logica.Utilitarios;
 
 /**
  *
@@ -64,7 +69,11 @@ public class TabelasTeste extends javax.swing.JDialog {
                     LinhaEntrada entrada = esteTeste.getEntrada(i);
                     model.addRow((new Object[] {entrada.getValor()}));
                 }
-                btnExcluirLinEnt.setEnabled(true);
+                if (tam > 1) {
+                    btnExcluirLinEnt.setEnabled(true);
+                } else {
+                    btnExcluirLinEnt.setEnabled(false);
+                }
             } else {
                 btnExcluirLinEnt.setEnabled(false);
                 model.addRow(new Object[] {""});
@@ -77,7 +86,11 @@ public class TabelasTeste extends javax.swing.JDialog {
                     LinhaGabarito linhaGabarito = esteTeste.getLinhaGabarito(i);
                     model.addRow(linhaGabarito.getLinha());
                 }
-                btnExcluirLinGab.setEnabled(true);
+                if (nroLinhas > 1) {
+                    btnExcluirLinGab.setEnabled(true);
+                } else {
+                    btnExcluirLinGab.setEnabled(false);
+                }
                 btnExcluirColGab.setEnabled(true);
             } else {
                 btnExcluirLinGab.setEnabled(false);
@@ -108,36 +121,31 @@ public class TabelasTeste extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPaneGab = new javax.swing.JScrollPane();
-        tabGabaritos = new javax.swing.JTable();
         btnConfirmar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPaneEnt = new javax.swing.JScrollPane();
         tabEntradas = new javax.swing.JTable();
-        btnCancelar = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnExcluirLinEnt = new javax.swing.JButton();
+        btnInserirLinEnt = new javax.swing.JButton();
+        btnDoArquivo = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jScrollPaneGab = new javax.swing.JScrollPane();
+        tabGabaritos = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         cmbColunas = new javax.swing.JComboBox();
         btnExcluirColGab = new javax.swing.JButton();
         btnInserirColGab = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        btnExcluirLinEnt = new javax.swing.JButton();
-        btnInserirLinEnt = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnExcluirLinGab = new javax.swing.JButton();
         btnInserirLinGab = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        tabGabaritos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPaneGab.setViewportView(tabGabaritos);
 
         btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +153,17 @@ public class TabelasTeste extends javax.swing.JDialog {
                 btnConfirmarActionPerformed(evt);
             }
         });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Entrada");
 
         tabEntradas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,20 +175,100 @@ public class TabelasTeste extends javax.swing.JDialog {
         ));
         jScrollPaneEnt.setViewportView(tabEntradas);
 
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Linha"));
+
+        btnExcluirLinEnt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/remover.png"))); // NOI18N
+        btnExcluirLinEnt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnExcluirLinEntActionPerformed(evt);
             }
         });
+
+        btnInserirLinEnt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adicionar.png"))); // NOI18N
+        btnInserirLinEnt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirLinEntActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(btnInserirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnExcluirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+        );
+
+        jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(btnExcluirLinEnt)
+                .add(btnInserirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
+        btnDoArquivo.setText("do arquivo...");
+        btnDoArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDoArquivoActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(btnDoArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel6Layout.createSequentialGroup()
+                .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnDoArquivo)
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+
+        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
+                .add(4, 4, 4)
+                .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel4Layout.createSequentialGroup()
+                .add(jLabel2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .add(jPanel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         jLabel1.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gabarito");
 
-        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Entrada");
+        tabGabaritos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPaneGab.setViewportView(tabGabaritos);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Coluna"));
 
@@ -212,43 +311,6 @@ public class TabelasTeste extends javax.swing.JDialog {
 
         jPanel1Layout.linkSize(new java.awt.Component[] {btnExcluirColGab, btnInserirColGab}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Linha"));
-
-        btnExcluirLinEnt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/remover.png"))); // NOI18N
-        btnExcluirLinEnt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirLinEntActionPerformed(evt);
-            }
-        });
-
-        btnInserirLinEnt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/adicionar.png"))); // NOI18N
-        btnInserirLinEnt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInserirLinEntActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(btnInserirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnExcluirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-        );
-
-        jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                .add(btnExcluirLinEnt)
-                .add(btnInserirLinEnt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.VERTICAL);
-
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Linha"));
 
         btnExcluirLinGab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/remover.png"))); // NOI18N
@@ -272,8 +334,7 @@ public class TabelasTeste extends javax.swing.JDialog {
             .add(jPanel3Layout.createSequentialGroup()
                 .add(btnInserirLinGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnExcluirLinGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .add(20, 20, 20))
+                .add(btnExcluirLinGab, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(new java.awt.Component[] {btnExcluirLinGab, btnInserirLinGab}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
@@ -287,58 +348,73 @@ public class TabelasTeste extends javax.swing.JDialog {
 
         jPanel3Layout.linkSize(new java.awt.Component[] {btnExcluirLinGab, btnInserirLinGab}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
+        org.jdesktop.layout.GroupLayout jPanel7Layout = new org.jdesktop.layout.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel7Layout.linkSize(new java.awt.Component[] {jPanel1, jPanel3}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel7Layout.createSequentialGroup()
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel5Layout.createSequentialGroup()
+                .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel5Layout.createSequentialGroup()
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel5Layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(jPanel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)))
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(btnCancelar)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 386, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 389, Short.MAX_VALUE)
                         .add(btnConfirmar))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(jPanel3, 0, 112, Short.MAX_VALUE)
-                            .add(jPanel1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {jPanel1, jPanel2, jPanel3}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
-        layout.linkSize(new java.awt.Component[] {jLabel1, jLabel2}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel1))
-                    .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+                .add(jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnConfirmar)
-                    .add(btnCancelar))
+                    .add(btnCancelar)
+                    .add(btnConfirmar))
                 .addContainerGap())
         );
 
@@ -432,7 +508,7 @@ public class TabelasTeste extends javax.swing.JDialog {
             TableColumn col = modeloColuna.getColumn(selecionadas[i]);
             modeloColuna.removeColumn(col);
         }
-        if (tabGabaritos.getColumnModel().getColumnCount() > 1) {
+        if (tabGabaritos.getColumnModel().getColumnCount() >= 1) {
             tabGabaritos.getColumnModel().getSelectionModel().setSelectionInterval(0,0);
         } else {
             btnExcluirColGab.setEnabled(false);
@@ -443,8 +519,8 @@ public class TabelasTeste extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel)tabGabaritos.getModel();
         model.addColumn(cmbColunas.getSelectedItem());
         tabGabaritos.getSelectionModel().setSelectionInterval(0,0);
-        btnExcluirColGab.setEnabled(true);
         btnInserirLinGab.setEnabled(true);
+        btnExcluirColGab.setEnabled(true);
     }//GEN-LAST:event_btnInserirColGabActionPerformed
 
     private void btnInserirLinEntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirLinEntActionPerformed
@@ -476,9 +552,43 @@ public class TabelasTeste extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnDoArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoArquivoActionPerformed
+        UIManager.put("FileChooser.openDialogTitleText", "Adicionar entrada do arquivo...");
+        File arquivo = null;
+        
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int resultado = fc.showOpenDialog(this);
+        Janelas.alinharContainer(fc);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            return;
+        } else {
+            try {
+                arquivo = fc.getSelectedFile();
+                String texto = Arquivos.getTextoArquivo(arquivo);
+                String[] linhas = texto.split("\n");
+                DefaultTableModel model = (DefaultTableModel)tabEntradas.getModel();
+                for (String linha : linhas) {
+                    String[] linhaSeparada = linha.split(" ");
+                    Utilitarios.retirarElementosNulos(linhaSeparada);
+                    model.addRow(linhaSeparada);
+                }
+                if (model.getRowCount() > 1) {
+                    btnExcluirLinEnt.setEnabled(true);
+                }
+//                tabEntradas.setEnabled(false);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "O arquivo informado não é uma" +
+                        "entrada válida, por favor tente novamente.","Arquivo Inválido!", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+}//GEN-LAST:event_btnDoArquivoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnDoArquivo;
     private javax.swing.JButton btnExcluirColGab;
     private javax.swing.JButton btnExcluirLinEnt;
     private javax.swing.JButton btnExcluirLinGab;
@@ -491,6 +601,10 @@ public class TabelasTeste extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPaneEnt;
     private javax.swing.JScrollPane jScrollPaneGab;
     private javax.swing.JTable tabEntradas;

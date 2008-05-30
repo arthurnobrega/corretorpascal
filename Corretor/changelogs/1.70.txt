@@ -1,0 +1,6 @@
+CHANGELOG CORRETOR VERSÃO 1.70
+1. Foi implementado uma fuga para o programa quando o programa do aluno entre em um loop infinito. O saída foi definir um tempo máximo para o programa do aluno rodar (ainda fixo), se este tempo for ultrapassado o programa considera que aquela questão teve uma saída em branco.
+2. Inserido a adição das entradas dos testes por arquivos de texto.
+3. Inserido o teste com o gabarito com a saída em arquivos dos alunos em determinada questão.
+4. Inserido a importação de listas pré-definidas de Entradas/Gabaritos.
+5. Instalador do Windows para esta nova versão!

@@ -1,12 +1,12 @@
 package corretor;
 
-import dados.PastaCorrecao;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import logica.Constantes;
 
 /**
  * Classe que executa processos externos.
@@ -20,6 +20,8 @@ public class Executador {
     private String entrada = null;
     private String saida = null;
     private long tempoExecucao = 0;
+    private StreamGobbler outputGobbler = null;
+    private static Process proc = null;
  
     /**
      * Cria uma nova instância da classe Executador.
@@ -40,40 +42,56 @@ public class Executador {
         try {
             Runtime rt = Runtime.getRuntime();
             System.out.println("Setando diretório: " + diretorio.getAbsolutePath());
-            System.out.print("Executando: ");
+            String texto = "";
             for (int i = 0; i <= args.length - 1; i++) {
-                System.out.print(args[i] + " ");
+                texto += args[i] + " ";
             }
-            System.out.println();
+            System.out.println("Executando:" + texto);
             String[] env = new String[] {"PATH=" + System.getenv("PATH")};
 //            File dirFpc = new File(PastaCorrecao.getInstancia().getDiretorio().
 //                    getParentFile().getAbsolutePath() + "/fpc/bin/i386-win32/;");
 //            String[] env = new String[] {"PATH=" + dirFpc};
-            Process proc = rt.exec(args, env, diretorio);
+            proc = rt.exec(args, env, diretorio);
             
             // alguma mensagem de erro?
             StreamGobbler errorGobbler = new 
                 StreamGobbler(proc.getErrorStream(), "ERRO");
 
             // alguma saída?
-            StreamGobbler outputGobbler = new 
-                StreamGobbler(proc.getInputStream(), "SAÍDA");
+            outputGobbler = new StreamGobbler(proc.getInputStream(), "SAÍDA");
 
-            tempoExecucao = System.currentTimeMillis();
+            long tempoInicial = System.currentTimeMillis();
             errorGobbler.start();
             outputGobbler.start();
             
             if (entrada != null) {
                 OutputStream out = proc.getOutputStream();
-                out.write((entrada + "\n\n").getBytes());
+                out.write((entrada + "8\n8\n8\n8\n8\n8\n8\n8\n8\n8" +
+                        "\n8\n8\n8\n8\n8\n8\n8\n8\n8\n8\n8\n8\n").getBytes());
                 out.close();
-                
-                while(outputGobbler.isAlive()) { }
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            Thread.sleep(Constantes.getTempoMaximoExecucao());
+                        } catch (InterruptedException e) {
+                            //ignorando
+                        }
+                        if (outputGobbler.isAlive()) {
+                            proc.destroy();
+                            String processo = args[2].substring(0, args[2].length());
+                            String[] argsD = new String[] { "cmd", "/C", "tskill", processo};
+                            Executador exec = new Executador(diretorio, argsD, null);
+                            exec.executar();
+                        }
+                    } 
+                }).start();
+                exitVal = proc.waitFor();
                 saida = outputGobbler.getSaida();
+            } else {
+                exitVal = proc.waitFor();
             }
-            tempoExecucao = System.currentTimeMillis() - tempoExecucao;
-            exitVal = proc.waitFor();
-            
+            tempoExecucao = System.currentTimeMillis() - tempoInicial;
+             
             System.out.println("Valor de Saída: " + exitVal);
         } catch (Throwable t) {
             t.printStackTrace();
@@ -99,7 +117,7 @@ public class Executador {
      */
     public int getValorSaida() {
         return exitVal;
-    }   
+    }
     
     /**
      * Classe interna utilizada para capturar as saídas e mensagens de erro
@@ -109,6 +127,11 @@ public class Executador {
         InputStream is = null;
         String type = null;
         String saida = null;
+        boolean flagParar = false;
+        
+        public void parar() {  
+            flagParar = true;  
+        } 
 
         StreamGobbler(InputStream is, String type) {
             this.is = is;
@@ -125,6 +148,10 @@ public class Executador {
                     System.out.println(type + ">" + line);
                     if (saida != null) {
                         saida += line + "\n";
+                    }
+                    if (flagParar) {
+                        System.out.flush();
+                        return;
                     }
                 }
             } catch (IOException ioe) {
