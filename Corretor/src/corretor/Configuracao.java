@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import dados.PastaCorrecao;
+import logica.Constantes;
 
 /**
  * Classe que é chamada para testar se no diretório informado existe alunos com
@@ -72,9 +73,11 @@ public class Configuracao {
             
             if ((nomeArq.length() > 4) && (nomeArq.substring(tamarq - 4, tamarq).equals(".pas"))
             && (arq.isFile())) {
-                File arquivoFonte = new File(arq.getParent() + "/" +
-                        nomeArq.substring(0,tamarq - 4) + "/" + arq.getName());
-                listaPas.add(arquivoFonte);
+                if (nomeArq.toLowerCase().contains(Constantes.NARQ_QUE)) {
+                    File arquivoFonte = new File(arq.getParent() + "/" +
+                            nomeArq.substring(0,tamarq - 4) + "/" + arq.getName());
+                    listaPas.add(arquivoFonte);
+                }
             }
         }
         

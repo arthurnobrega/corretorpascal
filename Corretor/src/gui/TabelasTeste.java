@@ -12,19 +12,14 @@ import dados.ModeloLinhaGabarito;
 import dados.Teste;
 import dados.Teste;
 import gui.modelos.KeyListenerJanela;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import logica.Arquivos;
-import logica.Utilitarios;
 
 /**
  *
@@ -43,8 +38,12 @@ public class TabelasTeste extends javax.swing.JDialog {
         configurarTabela(tabEntradas);
         configurarTabela(tabGabaritos);
         configurarCombo();
+        rdPadrao.setSelected(true);
+        txtArquivo.setEnabled(false);
+        txtArquivo.setText("");
         Janelas.alinharContainer(this);
         this.addKeyListener(new KeyListenerJanela());
+        esteTeste = new Teste();
     }
     
     public TabelasTeste(java.awt.Frame parent, int indiceTeste, Teste teste) {
@@ -55,6 +54,14 @@ public class TabelasTeste extends javax.swing.JDialog {
         configurarTabela(tabEntradas);
         configurarTabela(tabGabaritos);
         configurarCombo();
+        if (esteTeste.getNomeArquivoEntrada() != null) {
+            rdArquivo.setSelected(true);
+            txtArquivo.setText(esteTeste.getNomeArquivoEntrada());
+        } else {
+            rdPadrao.setSelected(true);
+            txtArquivo.setEnabled(false);
+            txtArquivo.setText("");
+        }
         Janelas.alinharContainer(this);
     }
     
@@ -121,6 +128,7 @@ public class TabelasTeste extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -131,7 +139,10 @@ public class TabelasTeste extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         btnExcluirLinEnt = new javax.swing.JButton();
         btnInserirLinEnt = new javax.swing.JButton();
-        btnDoArquivo = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        rdPadrao = new javax.swing.JRadioButton();
+        rdArquivo = new javax.swing.JRadioButton();
+        txtArquivo = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPaneGab = new javax.swing.JScrollPane();
@@ -212,27 +223,67 @@ public class TabelasTeste extends javax.swing.JDialog {
 
         jPanel2Layout.linkSize(new java.awt.Component[] {btnExcluirLinEnt, btnInserirLinEnt}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
-        btnDoArquivo.setText("do arquivo...");
-        btnDoArquivo.addActionListener(new java.awt.event.ActionListener() {
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de Entrada"));
+
+        buttonGroup1.add(rdPadrao);
+        rdPadrao.setText("Padrão");
+        rdPadrao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDoArquivoActionPerformed(evt);
+                rdPadraoActionPerformed(evt);
             }
         });
+
+        buttonGroup1.add(rdArquivo);
+        rdArquivo.setText("Arquivo");
+        rdArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdArquivoActionPerformed(evt);
+            }
+        });
+
+        txtArquivo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtArquivoKeyReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel8Layout = new org.jdesktop.layout.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(rdPadrao)
+                    .add(rdArquivo)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, txtArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel8Layout.createSequentialGroup()
+                .add(rdPadrao)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(rdArquivo)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(txtArquivo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(btnDoArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+            .add(jPanel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel6Layout.createSequentialGroup()
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnDoArquivo)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .add(3, 3, 3)
+                .add(jPanel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
@@ -240,11 +291,13 @@ public class TabelasTeste extends javax.swing.JDialog {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
-                .add(4, 4, 4)
-                .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .add(jPanel4Layout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -252,7 +305,7 @@ public class TabelasTeste extends javax.swing.JDialog {
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .add(jScrollPaneEnt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                     .add(jPanel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -364,7 +417,7 @@ public class TabelasTeste extends javax.swing.JDialog {
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout jPanel5Layout = new org.jdesktop.layout.GroupLayout(jPanel5);
@@ -372,10 +425,11 @@ public class TabelasTeste extends javax.swing.JDialog {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel5Layout.createSequentialGroup()
-                .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -386,7 +440,7 @@ public class TabelasTeste extends javax.swing.JDialog {
                     .add(jPanel5Layout.createSequentialGroup()
                         .add(2, 2, 2)
                         .add(jPanel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)))
+                    .add(jScrollPaneGab, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -448,8 +502,9 @@ public class TabelasTeste extends javax.swing.JDialog {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         try {
+            String nomeArquivoEntrada = esteTeste.getNomeArquivoEntrada();
             esteTeste = new Teste();
-
+            esteTeste.setNomeArquivoEntrada(nomeArquivoEntrada);
             ArrayList<LinhaEntrada> entradas = new ArrayList<LinhaEntrada>();
             int nroLinhasEnt = tabEntradas.getModel().getRowCount();
             for (int i = 0; i <= nroLinhasEnt - 1; i++) {
@@ -552,49 +607,31 @@ public class TabelasTeste extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnDoArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoArquivoActionPerformed
-        UIManager.put("FileChooser.openDialogTitleText", "Adicionar entrada do arquivo...");
-        File arquivo = null;
-        
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int resultado = fc.showOpenDialog(this);
-        Janelas.alinharContainer(fc);
-        if (resultado == JFileChooser.CANCEL_OPTION) {
-            return;
-        } else {
-            try {
-                arquivo = fc.getSelectedFile();
-                String texto = Arquivos.getTextoArquivo(arquivo);
-                String[] linhas = texto.split("\n");
-                DefaultTableModel model = (DefaultTableModel)tabEntradas.getModel();
-                for (String linha : linhas) {
-                    String[] linhaSeparada = linha.split(" ");
-                    Utilitarios.retirarElementosNulos(linhaSeparada);
-                    model.addRow(linhaSeparada);
-                }
-                if (model.getRowCount() > 1) {
-                    btnExcluirLinEnt.setEnabled(true);
-                }
-//                tabEntradas.setEnabled(false);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "O arquivo informado não é uma" +
-                        "entrada válida, por favor tente novamente.","Arquivo Inválido!", 
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-}//GEN-LAST:event_btnDoArquivoActionPerformed
+    private void rdPadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdPadraoActionPerformed
+        txtArquivo.setText("");
+        txtArquivo.setEnabled(false);
+        esteTeste.setNomeArquivoEntrada(null);
+    }//GEN-LAST:event_rdPadraoActionPerformed
+
+    private void rdArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdArquivoActionPerformed
+        txtArquivo.setEnabled(true);
+        esteTeste.setNomeArquivoEntrada(txtArquivo.getText());
+    }//GEN-LAST:event_rdArquivoActionPerformed
+
+    private void txtArquivoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtArquivoKeyReleased
+        esteTeste.setNomeArquivoEntrada(txtArquivo.getText());
+    }//GEN-LAST:event_txtArquivoKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton btnDoArquivo;
     private javax.swing.JButton btnExcluirColGab;
     private javax.swing.JButton btnExcluirLinEnt;
     private javax.swing.JButton btnExcluirLinGab;
     private javax.swing.JButton btnInserirColGab;
     private javax.swing.JButton btnInserirLinEnt;
     private javax.swing.JButton btnInserirLinGab;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cmbColunas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -605,10 +642,14 @@ public class TabelasTeste extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPaneEnt;
     private javax.swing.JScrollPane jScrollPaneGab;
+    private javax.swing.JRadioButton rdArquivo;
+    private javax.swing.JRadioButton rdPadrao;
     private javax.swing.JTable tabEntradas;
     private javax.swing.JTable tabGabaritos;
+    private javax.swing.JTextField txtArquivo;
     // End of variables declaration//GEN-END:variables
 
 }

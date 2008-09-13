@@ -199,6 +199,13 @@ public class Relatorio extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbTesteActionPerformed
 
     private void cmbQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbQuestaoActionPerformed
+        if (aluno.getFontes()[cmbQuestao.getSelectedIndex()].getErroCompilacao()) {
+            cmbQuestao.setSelectedIndex(0);
+            JOptionPane.showMessageDialog(null, "Esta questão não foi corrigida pois houve \n" +
+                    "um erro de compilação nesta questão deste aluno!", 
+                    "Erro de Compilação!", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         if (cmbQuestao.getSelectedIndex() < aluno.getFontes().length) {
             int nroTestes = ListaQuestoes.getArrayListQuestoes().get(cmbQuestao.getSelectedIndex()).getTestes().size();
             String[] vetorTestes = new String[nroTestes];
@@ -208,18 +215,19 @@ public class Relatorio extends javax.swing.JDialog {
             }
 
             DefaultComboBoxModel modelTeste = new DefaultComboBoxModel(vetorTestes);
-            cmbTeste.setModel(modelTeste);        
-        
-            Saidas saidas = aluno.getFontes()[cmbQuestao.getSelectedIndex()].getSaidas().get(0);
-            cmbTeste.setSelectedIndex(0);
-            txtTempo.setText(aluno.getFontes()[cmbQuestao.getSelectedIndex()].getTempoExecucao(0) + "ms");
-            txtSaida.setText(saidas.getSaida());
-            txtRelatorio.setText(saidas.getRelatorio());
-        } else {
-            cmbQuestao.setSelectedIndex(0);
-            JOptionPane.showMessageDialog(null, "O Aluno não fez esta questão!", 
-                    "Questão inexistente!", JOptionPane.INFORMATION_MESSAGE);
+            cmbTeste.setModel(modelTeste);
+            if (!aluno.getFontes()[cmbQuestao.getSelectedIndex()].getSaidas().isEmpty()) {
+                Saidas saidas = aluno.getFontes()[cmbQuestao.getSelectedIndex()].getSaidas().get(0);
+                cmbTeste.setSelectedIndex(0);
+                txtTempo.setText(aluno.getFontes()[cmbQuestao.getSelectedIndex()].getTempoExecucao(0) + "ms");
+                txtSaida.setText(saidas.getSaida());
+                txtRelatorio.setText(saidas.getRelatorio());
+                return;
+            }
         }
+        cmbQuestao.setSelectedIndex(0);
+        JOptionPane.showMessageDialog(null, "O Aluno não fez esta questão!", 
+                "Questão inexistente!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cmbQuestaoActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed

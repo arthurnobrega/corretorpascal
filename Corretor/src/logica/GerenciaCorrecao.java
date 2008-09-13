@@ -2,6 +2,7 @@ package logica;
 
 import dados.Aluno;
 import corretor.Correcao;
+import corretor.MyDialog;
 import dados.PastaCorrecao;
 import gui.BarraProgresso;
 import gui.Principal;
@@ -38,6 +39,8 @@ public class GerenciaCorrecao {
         Aluno[] alunos = PastaCorrecao.getInstancia().getAlunos();
         int mult = 100 / alunos.length;
         int nro = 0;
+//        MyDialog dialog = new MyDialog();
+//        new Thread(dialog).start();
         for (Aluno aluno : alunos) {
             nroExecucao = ++nro * mult;
             // Corrige todos os arquivos fontes de cada aluno.
