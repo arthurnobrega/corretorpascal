@@ -73,7 +73,7 @@ public class Correcao {
         aluno.setFontes((ArquivoFonte[])novosArquivosFontes.toArray(new ArquivoFonte[] {}));
     }
     
-    public void criarArquivoAluno() throws IOException {
+    public void criarArquivoQuestoesAluno() throws IOException {
         ArquivoFonte[] fontes = aluno.getFontes();
         String diretorioAluno = aluno.getDiretorioAluno().getName();
         String texto = diretorioAluno + "\n\n";
@@ -89,6 +89,32 @@ public class Correcao {
         }
         File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
                 "/" + diretorioAluno + ".txt");
+        Arquivos.salvarArquivo(arqAluno, texto);
+    }
+    
+    public void adicionaRelatorioArquivoAluno(int nroQuestao, ArrayList<Saidas> saidas) throws IOException {
+        String diretorioAluno = aluno.getDiretorioAluno().getName();
+        File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
+                "/" + diretorioAluno + ".txt");
+        String texto = Arquivos.getTextoArquivo(arqAluno) + "\n\n";
+        texto += "----------> RELATÓRIO DA QUESTÃO " + ++nroQuestao + " <----------";
+        int i = 1;
+        for (Saidas s : saidas) {
+            texto += "\n\n------ TESTE " + i + " ------";
+            texto += "\n\n- SAÍDA DO ALUNO\n\n" + s.getSaida();
+            texto += "\n\n- RELATÓRIO\n\n" + s.getRelatorio();
+            i++;
+        }
+        Arquivos.salvarArquivo(arqAluno, texto);
+    }
+    
+    public void adicionaRelatorioArquivoAluno(int nroQuestao, String mensagem) throws IOException {
+        String diretorioAluno = aluno.getDiretorioAluno().getName();
+        File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
+                "/" + diretorioAluno + ".txt");
+        String texto = Arquivos.getTextoArquivo(arqAluno) + "\n\n";
+        texto += "----------> RELATÓRIO DA QUESTÃO " + ++nroQuestao + " <----------";
+        texto += "\n\n" + mensagem;
         Arquivos.salvarArquivo(arqAluno, texto);
     }
     
@@ -147,10 +173,22 @@ public class Correcao {
                 for (int j = 0; j <= testes.size() - 1; j++) {
                     Teste teste = testes.get(j);
                     String textoSaida = "";
-                    textoSaida = arqFonte.corrigir(teste.getEntradaConcatenada());
+                    String textoEntrada = "";
+                    if (teste.getNomeArquivoEntrada() != null) {
+                        try {
+                            String caminhoArq = arqFonte.getArquivo().getParent();
+                            Arquivos.salvarArquivo(new File(caminhoArq + "/" + 
+                                    teste.getNomeArquivoEntrada()), teste.getEntradaConcatenada());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        textoEntrada = teste.getEntradaConcatenada();
+                    }
+                    textoSaida = arqFonte.corrigir(textoEntrada);
                     if (questao.getNomeArquivoSaida() != null) {
                         File arqSaida = new File(arqFonte.getArquivo().getParent() + 
-                                questao.getNomeArquivoSaida());
+                                "/" + questao.getNomeArquivoSaida());
                         try {
                             textoSaida = Arquivos.getTextoArquivo(arqSaida);
                         } catch (IOException e) {
@@ -166,7 +204,25 @@ public class Correcao {
                 }
                 aluno.addNotaQuestao((int) notaFinal);
                 arqFonte.setSaidas(saidas);
+                try {
+                    adicionaRelatorioArquivoAluno(i, saidas);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
             } else {
+                if (arqFonte.getErroCompilacao()) {
+                    try {
+                        adicionaRelatorioArquivoAluno(i, "Erro de Compilação nesta Questão!");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (arqFonte == null) {
+                    try {
+                        adicionaRelatorioArquivoAluno(i, "O Aluno não fez esta Questão!");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 aluno.addNotaQuestao(0);
             }
         }

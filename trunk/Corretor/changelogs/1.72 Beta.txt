@@ -1,0 +1,3 @@
+CHANGELOG CORRETOR VERSÃO 1.72 Beta
+1. Se o aluno não seguir o padrão do nome da questão será considerado que ele não fez a questão.
+2. Foi adicionado no arquivo txt na pasta do aluno o relatório que é construído pelo programa.

@@ -16,6 +16,7 @@ public class Teste implements Serializable {
     private ArrayList<LinhaGabarito> gabaritos = null;
     private ModeloLinhaGabarito modeloLinhaGabarito = null;
     private double porcentagemNota = 0;
+    private String nomeArquivoEntrada = null;
     
     /** 
      * Cria uma nova instância da classe ListaIO. 
@@ -106,6 +107,14 @@ public class Teste implements Serializable {
      */
     public void setPorcentagemNotaMax(double porcentagemNota) {
         this.porcentagemNota = porcentagemNota;
+    }
+    
+    public String getNomeArquivoEntrada() {
+        return nomeArquivoEntrada;
+    }
+    
+    public void setNomeArquivoEntrada(String nomeArquivoEntrada) {
+        this.nomeArquivoEntrada = nomeArquivoEntrada;
     }
     
 }
