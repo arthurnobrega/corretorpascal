@@ -9,8 +9,10 @@ import logica.Constantes;
 import dados.Aluno;
 import dados.ArquivoFonte;
 import dados.ListaQuestoes;
+import dados.PastaCorrecao;
 import dados.Teste;
 import dados.Saidas;
+import logica.Utilitarios;
 
 /**
  * 
@@ -75,43 +77,68 @@ public class Correcao {
     
     public void criarArquivoQuestoesAluno() throws IOException {
         ArquivoFonte[] fontes = aluno.getFontes();
-        String diretorioAluno = aluno.getDiretorioAluno().getName();
-        String texto = diretorioAluno + "\n\n";
+        String nomeAluno = aluno.getDiretorioAluno().getName();
+        String texto = nomeAluno + "\n\n";
         int cont = 1;
         for (ArquivoFonte fonte : fontes) {
             if (fonte != null) {
                 File arquivo = fonte.getArquivo();
-                texto += "------------------------------" + "Questão " + cont + 
-                        "------------------------------\n";
+                texto += "-----------------------" + "Questão " + cont + 
+                        "-----------------------\n";
                 texto += Arquivos.getTextoArquivo(arquivo) + "\n\n";
             }
             cont++;
         }
-        File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
-                "/" + diretorioAluno + ".txt");
+        File dirRelatorios = new File(PastaCorrecao.getInstancia().getDiretorio() +
+                "/relatorios/");
+        if (!dirRelatorios.exists()) dirRelatorios.mkdir();
+        File arqAluno = new File(dirRelatorios + "/" + nomeAluno + ".txt");
         Arquivos.salvarArquivo(arqAluno, texto);
     }
     
     public void adicionaRelatorioArquivoAluno(int nroQuestao, ArrayList<Saidas> saidas) throws IOException {
-        String diretorioAluno = aluno.getDiretorioAluno().getName();
-        File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
-                "/" + diretorioAluno + ".txt");
+        String nomeAluno = aluno.getDiretorioAluno().getName();
+        File dirRelatorios = new File(PastaCorrecao.getInstancia().getDiretorio() +
+                "/relatorios/");
+        File arqAluno = new File(dirRelatorios.getAbsolutePath() +
+                "/" + nomeAluno + ".txt");
         String texto = Arquivos.getTextoArquivo(arqAluno) + "\n\n";
-        texto += "----------> RELATÓRIO DA QUESTÃO " + ++nroQuestao + " <----------";
-        int i = 1;
-        for (Saidas s : saidas) {
-            texto += "\n\n------ TESTE " + i + " ------";
-            texto += "\n\n- SAÍDA DO ALUNO\n\n" + s.getSaida();
-            texto += "\n\n- RELATÓRIO\n\n" + s.getRelatorio();
+        String abertura = "----------> RELATÓRIO DA QUESTÃO " + (nroQuestao + 1) + " <----------";
+        if (texto.contains(abertura)) {
+            int indice = texto.indexOf(abertura);
+            texto = texto.substring(0, indice);
+        }
+        texto += abertura + "\n\n";
+        texto += "TESTE\tSAÍDA DO ALUNO\tGABARITO\tNOTA\n";
+        int i = 0;
+        ArrayList<Teste> testes = ListaQuestoes.getArrayListQuestoes().get(nroQuestao).getTestes();
+        for (Saidas saida : saidas) {
+            String linhaSaida = saida.getLinhasSaida().get(i);
+            String[] linhasGabarito = testes.get(i).getLinhaGabarito(0).getLinhaString().split("\n");
+            String linhaGabarito = linhasGabarito[0];
+            if (linhaSaida.length() > 12) {
+                linhaSaida = linhaSaida.substring(0, 11) + "...";
+            } else {
+                linhaSaida = Utilitarios.preencheCom(linhaSaida, " ", 12, 2);
+            }
+            if (linhaGabarito.length() > 8) {
+                linhaGabarito = linhaGabarito.substring(0, 7) + "...";
+            } else {
+                linhaGabarito =Utilitarios.preencheCom(linhaGabarito, " ", 8, 2);
+            }
+            double notaQuestao = aluno.getFontes()[nroQuestao].getPorcentagem(i);
+            texto += (i + 1) + "\t\t" + linhaSaida + "\t" + linhaGabarito + "\t" + notaQuestao + "\n";
             i++;
         }
         Arquivos.salvarArquivo(arqAluno, texto);
     }
     
     public void adicionaRelatorioArquivoAluno(int nroQuestao, String mensagem) throws IOException {
-        String diretorioAluno = aluno.getDiretorioAluno().getName();
-        File arqAluno = new File(aluno.getDiretorioAluno().getAbsolutePath() +
-                "/" + diretorioAluno + ".txt");
+        String nomeAluno = aluno.getDiretorioAluno().getName();
+        File dirRelatorios = new File(PastaCorrecao.getInstancia().getDiretorio() +
+                "/relatorios/");
+        File arqAluno = new File(dirRelatorios.getAbsolutePath() +
+                "/" + nomeAluno + ".txt");
         String texto = Arquivos.getTextoArquivo(arqAluno) + "\n\n";
         texto += "----------> RELATÓRIO DA QUESTÃO " + ++nroQuestao + " <----------";
         texto += "\n\n" + mensagem;

@@ -1,6 +1,7 @@
 package dados;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Classe que guarda a saída e o relatório de um determinado arquivo fonte.
@@ -9,6 +10,7 @@ public class Saidas implements Serializable {
     
     private String relatorio = null;
     private String saida = null;
+    private ArrayList<String> linhasSaida = null;
     
     /**
      * Cria uma nova instância da classe Saidas.
@@ -16,6 +18,11 @@ public class Saidas implements Serializable {
     public Saidas(String saida, String relatorio) {
         this.saida = saida;
         this.relatorio = relatorio;
+        String[] linhas = saida.split("\n");
+        linhasSaida = new ArrayList<String>();
+        for (String linha : linhas) {
+            linhasSaida.add(linha);
+        }
     }
     
     /**
@@ -30,6 +37,10 @@ public class Saidas implements Serializable {
      */
     public String getSaida() {
         return saida;
+    }
+    
+    public ArrayList<String> getLinhasSaida() {
+        return linhasSaida;
     }
     
 }

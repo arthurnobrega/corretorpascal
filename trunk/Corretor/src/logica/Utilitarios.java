@@ -104,5 +104,33 @@ public abstract class Utilitarios {
         }
         return notas;
     }
+ 
+    /*
+    ->A String "532835" representa A Linha ou texto a ser preenchido
+    ->A String "0" representa A Letra ou Número que será inserido
+    ->O Integer 14 representa o tamanho total que a String a ser preenchida precisa ter
+    ->O Integer 1 informa ao método que a String "0" será preenchida a Esquerda 
+    OBS: 1 preenche a Esquerda, 2 preenche a direita ok.
+    */
+    public static String preencheCom(String linha_a_preencher, String letra, int tamanho, int direcao){
+        //Checa se Linha a preencher é nula ou branco
+        if (linha_a_preencher == null || linha_a_preencher.trim() == "" ) {linha_a_preencher = "";} 
+        //Enquanto Linha a preencher possuir 2 espaços em branco seguidos, substitui por 1 espaço apenas
+        while (linha_a_preencher.contains("  ")) {linha_a_preencher = linha_a_preencher.replaceAll("  "," ").trim();}
+        //Retira caracteres estranhos
+        linha_a_preencher = linha_a_preencher.replaceAll("[./-]","");
+        StringBuffer sb = new StringBuffer(linha_a_preencher);
+        if (direcao==1){ //a Esquerda
+            for (int i=sb.length() ; i<tamanho ; i++){
+                sb.insert(0,letra);
+            }
+        } else if (direcao==2) {//a Direita
+            for (int i=sb.length() ; i<tamanho ; i++){
+                sb.append(letra);
+            }
+        }
+        return sb.toString();
+    }
+
     
 }
