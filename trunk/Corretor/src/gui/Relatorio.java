@@ -199,7 +199,8 @@ public class Relatorio extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbTesteActionPerformed
 
     private void cmbQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbQuestaoActionPerformed
-        if (aluno.getFontes()[cmbQuestao.getSelectedIndex()].getErroCompilacao()) {
+        if (aluno.getFontes().length < cmbQuestao.getSelectedIndex() && 
+                aluno.getFontes()[cmbQuestao.getSelectedIndex()].getErroCompilacao()) {
             cmbQuestao.setSelectedIndex(0);
             JOptionPane.showMessageDialog(null, "Esta questão não foi corrigida pois houve \n" +
                     "um erro de compilação nesta questão deste aluno!", 
