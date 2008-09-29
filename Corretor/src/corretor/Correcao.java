@@ -115,20 +115,22 @@ public class Correcao {
             Saidas saida = saidas.get(i);
             for (int j = 0; j <= saida.getLinhasSaida().size() - 1; j++) {
                 String linhaSaida = saida.getLinhasSaida().get(j);
-                String[] linhasGabarito = testes.get(i).getLinhaGabarito(j).getLinhaString().split("\n");
-                String linhaGabarito = linhasGabarito[0];
-                if (linhaSaida.length() > 12) {
-                    linhaSaida = linhaSaida.substring(0, 11) + "...";
-                } else {
-                    linhaSaida = Utilitarios.preencheCom(linhaSaida, " ", 12, 2);
+                if (testes.get(i).getLinhasGabarito().size() > j) {
+                    String[] linhasGabarito = testes.get(i).getLinhaGabarito(j).getLinhaString().split("\n");
+                    String linhaGabarito = linhasGabarito[0];
+                    if (linhaSaida.length() > 12) {
+                        linhaSaida = linhaSaida.substring(0, 11) + "...";
+                    } else {
+                        linhaSaida = Utilitarios.preencheCom(linhaSaida, " ", 12, 2);
+                    }
+                    if (linhaGabarito.length() > 8) {
+                        linhaGabarito = linhaGabarito.substring(0, 7) + "...";
+                    } else {
+                        linhaGabarito =Utilitarios.preencheCom(linhaGabarito, " ", 8, 2);
+                    }
+                    double notaQuestao = aluno.getFontes()[nroQuestao].getPorcentagem(i);
+                    texto += (i + 1) + "\t\t" + linhaSaida + "\t" + linhaGabarito + "\t" + notaQuestao + "\n";
                 }
-                if (linhaGabarito.length() > 8) {
-                    linhaGabarito = linhaGabarito.substring(0, 7) + "...";
-                } else {
-                    linhaGabarito =Utilitarios.preencheCom(linhaGabarito, " ", 8, 2);
-                }
-                double notaQuestao = aluno.getFontes()[nroQuestao].getPorcentagem(i);
-                texto += (i + 1) + "\t\t" + linhaSaida + "\t" + linhaGabarito + "\t" + notaQuestao + "\n";
             }
         }
         Arquivos.salvarArquivo(arqAluno, texto);
