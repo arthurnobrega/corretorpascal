@@ -162,11 +162,11 @@ public class ArquivoFonte implements Serializable {
                     if (!Utilitarios.compararStrings(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
                         colunasErradas.add(new Integer(j));
                     }
-                } else if (tipo.equals("Inteiro")) { //Inteiro
-                    if (!Utilitarios.compararInteiros(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
-                        colunasErradas.add(new Integer(j));
-                    }
-                } else if (tipo.equals("Real")) { //Real
+//                } else if (tipo.equals("Inteiro")) { //Inteiro
+//                    if (!Utilitarios.compararInteiros(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
+//                        colunasErradas.add(new Integer(j));
+//                    }
+                } else if (tipo.equals("Número")) { //Real
                     if (!Utilitarios.compararReais(colunasLinha[j], linhasGabarito.get(i).getColuna(j))) {
                         colunasErradas.add(new Integer(j));
                     }

@@ -29,6 +29,7 @@ public class TabelasTeste extends javax.swing.JDialog {
 
     private int indiceTeste = 0;
     private Teste esteTeste = null;
+    private String nomeArquivoEntrada = null;
     
     /** Creates new form Testes */
     public TabelasTeste(java.awt.Frame parent, int indiceTeste) {
@@ -502,7 +503,6 @@ public class TabelasTeste extends javax.swing.JDialog {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         try {
-            String nomeArquivoEntrada = esteTeste.getNomeArquivoEntrada();
             esteTeste = new Teste();
             esteTeste.setNomeArquivoEntrada(nomeArquivoEntrada);
             ArrayList<LinhaEntrada> entradas = new ArrayList<LinhaEntrada>();
@@ -610,16 +610,16 @@ public class TabelasTeste extends javax.swing.JDialog {
     private void rdPadraoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdPadraoActionPerformed
         txtArquivo.setText("");
         txtArquivo.setEnabled(false);
-        esteTeste.setNomeArquivoEntrada(null);
+        nomeArquivoEntrada = null;
     }//GEN-LAST:event_rdPadraoActionPerformed
 
     private void rdArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdArquivoActionPerformed
         txtArquivo.setEnabled(true);
-        esteTeste.setNomeArquivoEntrada(txtArquivo.getText());
+        nomeArquivoEntrada = txtArquivo.getText();
     }//GEN-LAST:event_rdArquivoActionPerformed
 
     private void txtArquivoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtArquivoKeyReleased
-        esteTeste.setNomeArquivoEntrada(txtArquivo.getText());
+        nomeArquivoEntrada = txtArquivo.getText();
     }//GEN-LAST:event_txtArquivoKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
