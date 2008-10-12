@@ -83,7 +83,7 @@ public class Correcao {
         for (ArquivoFonte fonte : fontes) {
             if (fonte != null) {
                 File arquivo = fonte.getArquivo();
-                texto += "-----------------------" + "Questão " + cont + 
+                texto += "-----------------------" + "Questao " + cont + 
                         "-----------------------\n";
                 texto += Arquivos.getTextoArquivo(arquivo) + "\n\n";
             }
@@ -103,13 +103,13 @@ public class Correcao {
         File arqAluno = new File(dirRelatorios.getAbsolutePath() +
                 "/" + nomeAluno + ".txt");
         String texto = Arquivos.getTextoArquivo(arqAluno) + "\n\n";
-        String abertura = "----------> RELATÓRIO DA QUESTÃO " + (nroQuestao + 1) + " <----------";
+        String abertura = "----------> RELATORIO DA QUESTAO " + (nroQuestao + 1) + " <----------";
         if (texto.contains(abertura)) {
             int indice = texto.indexOf(abertura);
             texto = texto.substring(0, indice);
         }
         texto += abertura + "\n\n";
-        texto += "TESTE\tSAÍDA DO ALUNO\tGABARITO\tNOTA\n";
+        texto += "TESTE\tSAIDA DO PROGRAMA DO ALUNO\tGABARITO\tNOTA\n";
         ArrayList<Teste> testes = ListaQuestoes.getArrayListQuestoes().get(nroQuestao).getTestes();
         for (int i = 0; i <= saidas.size() - 1; i++) {
             Saidas saida = saidas.get(i);
@@ -118,10 +118,10 @@ public class Correcao {
                 if (testes.get(i).getLinhasGabarito().size() > j) {
                     String[] linhasGabarito = testes.get(i).getLinhaGabarito(j).getLinhaString().split("\n");
                     String linhaGabarito = linhasGabarito[0];
-                    if (linhaSaida.length() > 12) {
-                        linhaSaida = linhaSaida.substring(0, 11) + "...";
+                    if (linhaSaida.length() > 26) {
+                        linhaSaida = linhaSaida.substring(0, 23) + "...";
                     } else {
-                        linhaSaida = Utilitarios.preencheCom(linhaSaida, " ", 12, 2);
+                        linhaSaida = Utilitarios.preencheCom(linhaSaida, " ", 26, 2);
                     }
                     if (linhaGabarito.length() > 8) {
                         linhaGabarito = linhaGabarito.substring(0, 7) + "...";
@@ -143,7 +143,7 @@ public class Correcao {
         File arqAluno = new File(dirRelatorios.getAbsolutePath() +
                 "/" + nomeAluno + ".txt");
         String texto = Arquivos.getTextoArquivo(arqAluno) + "\n\n";
-        texto += "----------> RELATÓRIO DA QUESTÃO " + ++nroQuestao + " <----------";
+        texto += "----------> RELATORIO DA QUESTAO " + ++nroQuestao + " <----------";
         texto += "\n\n" + mensagem;
         Arquivos.salvarArquivo(arqAluno, texto);
     }

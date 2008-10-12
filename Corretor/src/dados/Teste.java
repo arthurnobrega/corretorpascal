@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Teste implements Serializable {
     
-    public static final String TIPOS[] = {"String", "Inteiro", "Real"};
+    public static final String TIPOS[] = {"String", "Número"};
     
     private ArrayList<LinhaEntrada> entradas = null;
     private ArrayList<LinhaGabarito> gabaritos = null;
