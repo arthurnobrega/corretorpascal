@@ -240,15 +240,15 @@ public class Correcao {
                         e.printStackTrace();
                 }
             } else {
-                if (arqFonte.getErroCompilacao()) {
+                if (arqFonte == null) {
                     try {
-                        adicionaRelatorioArquivoAluno(i, "Erro de Compilação nesta Questão!");
+                        adicionaRelatorioArquivoAluno(i, "O Aluno não fez esta Questão!");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else if (arqFonte == null) {
+                } else if (arqFonte.getErroCompilacao()) {
                     try {
-                        adicionaRelatorioArquivoAluno(i, "O Aluno não fez esta Questão!");
+                        adicionaRelatorioArquivoAluno(i, "Erro de Compilação nesta Questão!");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

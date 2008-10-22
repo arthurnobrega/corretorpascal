@@ -69,22 +69,35 @@ public class Executador {
                 out.write((entrada + "8\n8\n8\n8\n8\n8\n8\n8\n8\n8" +
                         "\n8\n8\n8\n8\n8\n8\n8\n8\n8\n8\n8\n8\n").getBytes());
                 out.close();
+                /*while (outputGobbler.isAlive()) {
+                    Thread.currentThread().sleep(1000);
+                    if (System.currentTimeMillis() - tempoInicial > 
+                            Constantes.getTempoMaximoExecucao()) {
+                        proc.destroy();
+                        String processo = args[2].substring(0, args[2].length() - 4);
+                        String[] argsD = new String[] { "cmd", "/C", "tskill", processo};
+                        Executador exec = new Executador(diretorio, argsD, null);
+                        exec.executar();
+                    }
+                }*/
+                
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            Thread.sleep(Constantes.getTempoMaximoExecucao());
+                            Thread.currentThread().sleep(Constantes.getTempoMaximoExecucao());
                         } catch (InterruptedException e) {
                             //ignorando
                         }
                         if (outputGobbler.isAlive()) {
                             proc.destroy();
-                            String processo = args[2].substring(0, args[2].length());
+                            String processo = args[2].substring(0, args[2].length() - 4);
                             String[] argsD = new String[] { "cmd", "/C", "tskill", processo};
                             Executador exec = new Executador(diretorio, argsD, null);
                             exec.executar();
                         }
                     } 
                 }).start();
+                
                 exitVal = proc.waitFor();
                 saida = outputGobbler.getSaida();
             } else {
