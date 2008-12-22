@@ -30,6 +30,7 @@ public class TabelasTeste extends javax.swing.JDialog {
     private int indiceTeste = 0;
     private Teste esteTeste = null;
     private String nomeArquivoEntrada = null;
+    private boolean saidaNormal = false;
     
     /** Creates new form Testes */
     public TabelasTeste(java.awt.Frame parent, int indiceTeste) {
@@ -58,6 +59,7 @@ public class TabelasTeste extends javax.swing.JDialog {
         if (esteTeste.getNomeArquivoEntrada() != null) {
             rdArquivo.setSelected(true);
             txtArquivo.setText(esteTeste.getNomeArquivoEntrada());
+            nomeArquivoEntrada = esteTeste.getNomeArquivoEntrada();
         } else {
             rdPadrao.setSelected(true);
             txtArquivo.setEnabled(false);
@@ -540,7 +542,8 @@ public class TabelasTeste extends javax.swing.JDialog {
             esteTeste.setLinhasEntrada(entradas);
             esteTeste.setLinhasGabarito(gabaritos);
             esteTeste.setModeloLinhaGabarito(new ModeloLinhaGabarito(colunas));
-
+            
+            saidaNormal = true;
             this.dispose();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Linhas do gabarito não podem " +
@@ -622,6 +625,10 @@ public class TabelasTeste extends javax.swing.JDialog {
         nomeArquivoEntrada = txtArquivo.getText();
     }//GEN-LAST:event_txtArquivoKeyReleased
 
+    public boolean getSaidaNormal() {
+        return saidaNormal;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;

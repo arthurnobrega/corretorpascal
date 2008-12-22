@@ -15,8 +15,10 @@ public abstract class Constantes {
     public static final String NARQ_LIS = "Questoes.ser";
     
     public static final String NARQ_QUE = "questao";
+
+    public static final long TAM_MAX_ARQ = 1048576;
     
-    public static long tempoMaximoExecucao = 4000;
+    public static long tempoMaximoExecucao = 6000;
     
     public static void setTempoMaximoExecucao(long tempo) {
         tempoMaximoExecucao = tempo;

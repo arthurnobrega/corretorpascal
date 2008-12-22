@@ -175,6 +175,9 @@
                   <StringArray count="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="listaTestesMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -242,7 +245,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="rdPadrao" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="rdArquivo" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtArquivo" alignment="1" pref="69" max="32767" attributes="0"/>
+                          <Component id="txtArquivo" alignment="1" pref="71" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

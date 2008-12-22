@@ -15,6 +15,7 @@ import logica.GerenciaSerializacao;
 import logica.GerenciaCorrecao;
 import logica.TestaConfiguracao;
 import dados.PastaCorrecao; 
+import dados.Preferencias;
 import java.awt.Toolkit;
 
 /**
@@ -108,7 +109,7 @@ public class Principal extends javax.swing.JFrame {
         itemSobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Corretor 1.76 Beta");
+        setTitle("Corretor 1.8");
 
         menuArquivo.setText("Arquivo");
 
@@ -313,7 +314,11 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("FileChooser.openDialogTitleText", "Nova Correção");
         File diretorio = null;
         
+        File dirPadrao = Preferencias.getInstancia().getDiretorioNavegacao();
         JFileChooser fc = new JFileChooser();
+        if (dirPadrao != null) {
+            fc.setCurrentDirectory(dirPadrao);
+        }
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
@@ -321,6 +326,7 @@ public class Principal extends javax.swing.JFrame {
             diretorio = null;
         } else {
             diretorio = fc.getSelectedFile();
+            Preferencias.getInstancia().setDiretorioNavegacao(diretorio);
             try {
                 TestaConfiguracao tc = new TestaConfiguracao();
                 tc.testarConfiguracao(diretorio);
@@ -339,7 +345,11 @@ public class Principal extends javax.swing.JFrame {
         UIManager.put("FileChooser.openDialogTitleText", "Importar Correção...");
         File diretorio = null;
         
+        File dirPadrao = Preferencias.getInstancia().getDiretorioNavegacao();
         JFileChooser fc = new JFileChooser();
+        if (dirPadrao != null) {
+            fc.setCurrentDirectory(dirPadrao);
+        }
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int resultado = fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
@@ -347,6 +357,7 @@ public class Principal extends javax.swing.JFrame {
             diretorio = null;
         } else {
             diretorio = fc.getSelectedFile();
+            Preferencias.getInstancia().setDiretorioNavegacao(diretorio);
             try {
                 GerenciaSerializacao gerSer = new GerenciaSerializacao();
                 gerSer.desserializar(diretorio);

@@ -30,15 +30,18 @@ public abstract class Arquivos {
      * @return O texto do arquivo em forma de String.
      */
     public static String getTextoArquivo(File arquivo) throws IOException {
-        StringBuffer buffer = new StringBuffer();
-        BufferedReader in = new BufferedReader (new InputStreamReader (
-                                new FileInputStream (arquivo), "UTF-8"));
-        String line;
-        while((line = in.readLine()) != null) {
-            buffer.append(line + "\n");
+        if (arquivo.length() < Constantes.TAM_MAX_ARQ) {
+            StringBuffer buffer = new StringBuffer();
+            BufferedReader in = new BufferedReader (new InputStreamReader (
+                                    new FileInputStream (arquivo), "UTF-8"));
+            String line;
+            while((line = in.readLine()) != null) {
+                buffer.append(line + "\n");
+            }
+            in.close();
+            return buffer.toString();
         }
-        in.close();
-        return buffer.toString();
+        return "";
     }
 
     /** 

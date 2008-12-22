@@ -160,7 +160,7 @@ public class Correcao {
                 File arqFonte = arquivoFonte.getArquivo();
 
                 Executador ex = new Executador(arqFonte.getParentFile(), new String[] {
-                    "cmd", "/C","fpc", arqFonte.getName()}, null);
+                    "cmd", "/C","fpc.exe", arqFonte.getName()}, null);
                 ex.executar();
                 if (ex.getValorSaida() != 0) {
                     arquivoFonte.setErroCompilacao(true);
@@ -204,11 +204,12 @@ public class Correcao {
                     Teste teste = testes.get(j);
                     String textoSaida = "";
                     String textoEntrada = "";
+                    File arqEntrada = null;
                     if (teste.getNomeArquivoEntrada() != null) {
                         try {
                             String caminhoArq = arqFonte.getArquivo().getParent();
-                            Arquivos.salvarArquivo(new File(caminhoArq + "/" + 
-                                    teste.getNomeArquivoEntrada()), teste.getEntradaConcatenada());
+                            arqEntrada = new File(caminhoArq + "/" + teste.getNomeArquivoEntrada());
+                            Arquivos.salvarArquivo(arqEntrada, teste.getEntradaConcatenada());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -216,6 +217,9 @@ public class Correcao {
                         textoEntrada = teste.getEntradaConcatenada();
                     }
                     textoSaida = arqFonte.corrigir(textoEntrada);
+                    if (arqEntrada != null) {
+                        arqEntrada.delete();
+                    }
                     if (questao.getNomeArquivoSaida() != null) {
                         File arqSaida = new File(arqFonte.getArquivo().getParent() + 
                                 "/" + questao.getNomeArquivoSaida());
@@ -226,6 +230,7 @@ public class Correcao {
                                     "arquivo de saída deste aluno não foi encontrado. " +
                                     Constantes.SEPARADOR_MENSAGEM_ERRO;
                         }
+                        arqSaida.delete();
                     }
                     String textoRelatorio = arqFonte.testarGabarito(teste, textoSaida);
                     Saidas saida = new Saidas(textoSaida, textoRelatorio);
