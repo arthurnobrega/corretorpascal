@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import logica.GerenciaTestes;
 import dados.ListaQuestoes;
+import dados.Preferencias;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFileChooser;
@@ -133,6 +134,11 @@ public class Testes extends javax.swing.JDialog {
         });
         jScrollPane4.setViewportView(listaQuestoes);
 
+        listaTestes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaTestesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listaTestes);
 
         jLabel3.setText("Número de Questões:");
@@ -205,7 +211,7 @@ public class Testes extends javax.swing.JDialog {
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(rdPadrao)
                     .add(rdArquivo)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, txtArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, txtArquivo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -318,7 +324,9 @@ public class Testes extends javax.swing.JDialog {
         Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
         TabelasTeste tab = new TabelasTeste(null, testeSelecionado, questao.getTeste(testeSelecionado));
         tab.setVisible(true);
-        questao.editarTeste(testeSelecionado, tab.getTeste());
+        if (tab.getSaidaNormal()) {
+            questao.editarTeste(testeSelecionado, tab.getTeste());
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -459,7 +467,12 @@ public class Testes extends javax.swing.JDialog {
         UIManager.put("FileChooser.openDialogTitleText", "Importar Lista de Questões...");
         File arquivo = null;
         
+        File dirPadrao = Preferencias.getInstancia().getDiretorioNavegacao();
         JFileChooser fc = new JFileChooser();
+        if (dirPadrao != null) {
+            fc.setCurrentDirectory(dirPadrao);
+        }
+        
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int resultado = fc.showOpenDialog(this);
         Janelas.alinharContainer(fc);
@@ -499,6 +512,18 @@ public class Testes extends javax.swing.JDialog {
         Questao questaoSelecionada = questoes.get(listaQuestoes.getSelectedIndex());
         questaoSelecionada.setNomeArquivoSaida(txtArquivo.getText());
     }//GEN-LAST:event_txtArquivoKeyReleased
+
+    private void listaTestesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaTestesMouseClicked
+        if (evt.getClickCount() > 1) {
+            int testeSelecionado = listaTestes.getSelectedIndex();
+            Questao questao = questoes.get(listaQuestoes.getSelectedIndex());
+            TabelasTeste tab = new TabelasTeste(null, testeSelecionado, questao.getTeste(testeSelecionado));
+            tab.setVisible(true);
+            if (tab.getSaidaNormal()) {
+                questao.editarTeste(testeSelecionado, tab.getTeste());
+            }
+        }
+    }//GEN-LAST:event_listaTestesMouseClicked
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;

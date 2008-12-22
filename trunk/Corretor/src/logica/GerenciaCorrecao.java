@@ -71,8 +71,8 @@ public class GerenciaCorrecao {
                 if (pastaQuestao.mkdir()) {
                     ArrayList<Teste> testes = questao.getTestes();
                     int j = 1;
-                    String gabarito = new String();
                     for (Teste teste : testes) {
+                        String gabarito = new String();
                         File arqTeste = new File(pastaQuestao.getAbsolutePath() +
                                 "/teste" + j + ".txt");
                         ArrayList<LinhaGabarito> linhasGabarito = teste.getLinhasGabarito();
