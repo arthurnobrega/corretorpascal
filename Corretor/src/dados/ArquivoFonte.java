@@ -107,7 +107,7 @@ public class ArquivoFonte implements Serializable {
      */
     public String corrigir(String entrada) {
         String saida = null;
-        String[] args = new String[] { "cmd", "/C",
+        String[] args = new String[] { "cmd.exe", "/C",
             arquivo.getName().substring(0, arquivo.getName().length() - 4) + ".exe" };
         Executador ex = new Executador(arquivo.getParentFile(), args, entrada);
         ex.executar();

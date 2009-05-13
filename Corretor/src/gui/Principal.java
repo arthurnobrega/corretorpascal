@@ -109,7 +109,7 @@ public class Principal extends javax.swing.JFrame {
         itemSobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Corretor 1.8");
+        setTitle("Corretor 1.8.3");
 
         menuArquivo.setText("Arquivo");
 

@@ -160,7 +160,7 @@ public class Correcao {
                 File arqFonte = arquivoFonte.getArquivo();
 
                 Executador ex = new Executador(arqFonte.getParentFile(), new String[] {
-                    "cmd", "/C","fpc.exe", arqFonte.getName()}, null);
+                    "cmd.exe", "/C","fpc.exe", arqFonte.getName()}, null);
                 ex.executar();
                 if (ex.getValorSaida() != 0) {
                     arquivoFonte.setErroCompilacao(true);
