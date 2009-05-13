@@ -69,17 +69,17 @@ public class Executador {
                 OutputStream out = proc.getOutputStream();
                 out.write((entrada).getBytes());
                 
-            while (outputGobbler.isAlive()) {
-                Thread.currentThread().sleep(100);
-                if (System.currentTimeMillis() - tempoInicial >
-                        Constantes.getTempoMaximoExecucao()) {
-                    proc.destroy();
-                    String processo = args[2].substring(0, args[2].length() - 4);
-                    String[] argsD = new String[] { "cmd", "/C", "tskill", processo};
-                    Executador exec = new Executador(diretorio, argsD, null);
-                    exec.executar();
+                while (outputGobbler.isAlive()) {
+                    Thread.currentThread().sleep(100);
+                    if (System.currentTimeMillis() - tempoInicial >
+                            Constantes.getTempoMaximoExecucao()) {
+                        proc.destroy();
+                        String processo = args[2].substring(0, args[2].length() - 4) + ".exe";
+                        String[] argsD = new String[] { "cmd.exe", "/C", "taskkill /f /im", processo};
+                        Executador exec = new Executador(diretorio, argsD, null);
+                        exec.executar();
+                    }
                 }
-            }
                 
 //                testarTravamento();
                 
@@ -92,8 +92,8 @@ public class Executador {
                     if (System.currentTimeMillis() - tempoInicial >
                             Constantes.getTempoMaximoExecucao()) {
                         proc.destroy();
-                        String processo = args[2].substring(0, args[2].length() - 4);
-                        String[] argsD = new String[] { "cmd", "/C", "tskill", processo};
+                        String processo = args[2].substring(0, args[2].length() - 4) + ".exe";
+                        String[] argsD = new String[] { "cmd.exe", "/C", "taskkill /f /im", processo};
                         Executador exec = new Executador(diretorio, argsD, null);
                         exec.executar();
                         outputGobbler.interrupt();
