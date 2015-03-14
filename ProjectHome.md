@@ -1,0 +1,1 @@
+Este software está sendo desenvolvido para a correção de programas em pascal por uso da linguagem java. Com ele poderemos  informar entradas para os programas e testar com saídas pré-definidas. Para isso todos os programas devem seguir determinados padrões pre-estabelecidos.
